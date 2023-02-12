@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float horizontalSpeed = 5f;
     [SerializeField] private float jumpMagnitude = 18f;
 
-    private const string JUMP_KEY = "up";
-    private const string CROUCH_KEY = "down";
+    private const string JUMP_KEY = "Jump";
+    private const string CROUCH_KEY = "Crouch";
+    private const string MOVE_AXIS = "Movement";
     private const string PUNCH_KEY = "z";
     private const string KICK_KEY = "x";
 
@@ -24,26 +26,69 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private float dirX = 0f;
+    private bool pressedJump = false;
     private bool isGrounded = false;    // start off the ground
+    private bool pressedCrouch = false;
     private bool isCrouching = false;
 
     private Animator anim;
+    private CharacterController controller;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
+
+    private InputActionAsset inputAsset;
+    private InputActionMap player;
+
+
+    private void Awake()
+    {
+        inputAsset = this.GetComponent<PlayerInput>().actions;
+        player = inputAsset.FindActionMap("Player");
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+    }
+
+    private void OnEnable()
+    {
+        player.FindAction("Jump").started += OnJump;
+        player.FindAction("Crouch").started += OnCrouch;
+        player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        player.FindAction("Jump").started -= OnJump;
+        player.FindAction("Crouch").started -= OnCrouch;
+        player.Disable();
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        dirX = context.ReadValue<float>();
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        pressedJump = context.action.triggered;
+    }
+
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        pressedCrouch = context.action.triggered;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Handle crouching
-        if (Input.GetKey(CROUCH_KEY) && isGrounded)
+        if (pressedCrouch && isGrounded)
         {
             isCrouching = true;
             rb.velocity = new Vector2(0f, 0f);
@@ -56,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         // Handle horizontal movement
         if (isGrounded && !isCrouching) // if in the air, horizontal momentum is locked
         {
-            dirX = Input.GetAxisRaw("Horizontal");
+            // dirX = Input.GetAxisRaw(MOVE_AXIS);
             rb.velocity = new Vector2(dirX * horizontalSpeed, rb.velocity.y);
         }
 
@@ -65,15 +110,13 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = true;
         }
-        if (Input.GetKeyDown(JUMP_KEY) && isGrounded)                    // jumping off ground
+        if (pressedJump && isGrounded)                    // jumping off ground
         {
             if (isCrouching)     // jumping from a crouch should maintain horizontal movement
             {
-                rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * horizontalSpeed, rb.velocity.y);
-                Debug.Log("Crouching = true");
+                rb.velocity = new Vector2(dirX * horizontalSpeed, rb.velocity.y);
             }
             rb.velocity = new Vector3(rb.velocity.x, jumpMagnitude, 0f);
-            Debug.Log("Velocity set");
             isGrounded = false;
         }
 
@@ -120,5 +163,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.SetInteger("State", (int)newState);
+    }
+
+    public void SetTurningPoint(float tp)
+    {
+        TURNING_POINT_X = tp;
     }
 }
