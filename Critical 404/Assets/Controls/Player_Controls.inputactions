@@ -42,9 +42,27 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Heavy Punch",
+                    "type": "Button",
+                    "id": "92b38b99-6c09-476b-97b0-0187bd7f5382",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Light Kick",
                     "type": "Button",
                     "id": "1ce950d4-0607-44ed-b058-33a1affc9d0d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Heavy Kick",
+                    "type": "Button",
+                    "id": "b213e394-8607-4b32-9ead-b40db2d05a8f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -165,7 +183,7 @@
                 {
                     "name": "",
                     "id": "865c0be0-cc67-4fb0-8dd0-04981f2a33b8",
-                    "path": "<Keyboard>/z",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -176,7 +194,7 @@
                 {
                     "name": "",
                     "id": "6f1ddbc0-3682-48af-b0ac-57190ae60f6c",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -187,7 +205,7 @@
                 {
                     "name": "",
                     "id": "9d6e5608-8b67-4dc6-bf6f-1f428d78726d",
-                    "path": "<Keyboard>/x",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -198,11 +216,55 @@
                 {
                     "name": "",
                     "id": "43372bbd-5c7f-469f-9e89-c737fabf88db",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
                     "action": "Light Kick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4226f3f-82ec-4f23-bcf6-98e7949e46a4",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Heavy Punch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2c0c81e-cc6d-4151-94e4-6134133fbf70",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Heavy Punch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e459b0ef-7de7-477c-a03d-2a81de3472ca",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Heavy Kick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "356fe4ad-b236-4dc7-b433-c4d1ad6dec6a",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Heavy Kick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
