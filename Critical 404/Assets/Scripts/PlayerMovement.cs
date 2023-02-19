@@ -12,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private const string CROUCH_KEY = "Crouch";
     private const string MOVE_AXIS = "Movement";
     private const string LIGHT_PUNCH_KEY = "Light Punch";
+    private const string HEAVY_PUNCH_KEY = "Heavy Punch";
     private const string LIGHT_KICK_KEY = "Light Kick";
+    private const string HEAVY_KICK_KEY = "Heavy Kick";
 
     private float TURNING_POINT_X = 0f;
 
@@ -65,7 +67,9 @@ public class PlayerMovement : MonoBehaviour
         player.FindAction("Jump").started += OnJump;
         player.FindAction("Crouch").started += OnCrouch;
         player.FindAction("Light Punch").started += OnLightPunch;
+        player.FindAction("Heavy Punch").started += OnHeavyPunch;
         player.FindAction("Light Kick").started += OnLightKick;
+        player.FindAction("Heavy Kick").started += OnHeavyKick;
         player.Enable();
     }
 
@@ -74,7 +78,9 @@ public class PlayerMovement : MonoBehaviour
         player.FindAction("Jump").started -= OnJump;
         player.FindAction("Crouch").started -= OnCrouch;
         player.FindAction("Light Punch").started -= OnLightPunch;
+        player.FindAction("Heavy Punch").started -= OnHeavyPunch;
         player.FindAction("Light Kick").started -= OnLightKick;
+        player.FindAction("Heavy Kick").started -= OnHeavyKick;
         player.Disable();
     }
 
@@ -93,9 +99,14 @@ public class PlayerMovement : MonoBehaviour
         pressedCrouch = context.action.triggered;
     }
 
+    // ========== ATTACKS ==========
+
+    // Light Punch
+
     public void OnLightPunch(InputAction.CallbackContext context)
     {
-        if (context.action.triggered && isGrounded && currentAttack == "")
+        // s.LP
+        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
         {
             rb.velocity = new Vector2(0f, 0f);
             currentAttack = LIGHT_PUNCH_KEY;
@@ -109,9 +120,31 @@ public class PlayerMovement : MonoBehaviour
         currentAttack = "";
     }
 
+    // Heavy Punch
+
+    public void OnHeavyPunch(InputAction.CallbackContext context)
+    {
+        // s.HP
+        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
+        {
+            rb.velocity = new Vector2(0f, 0f);
+            currentAttack = HEAVY_PUNCH_KEY;
+            StartCoroutine(StandingHeavyPunch());
+        }
+    }
+
+    private IEnumerator StandingHeavyPunch()
+    {
+        yield return new WaitForSeconds(19f / 60f);  // duration of s.HP
+        currentAttack = "";
+    }
+
+    // Light Kick
+
     public void OnLightKick(InputAction.CallbackContext context)
     {
-        if (context.action.triggered && isGrounded && currentAttack == "")
+        // s.LK
+        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
         {
             rb.velocity = new Vector2(0f, 0f);
             currentAttack = LIGHT_KICK_KEY;
@@ -124,6 +157,27 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(14f / 60f); // duration of s.LK
         currentAttack = "";
     }
+
+    // Heavy Kick
+
+    public void OnHeavyKick(InputAction.CallbackContext context)
+    {
+        // s.HK
+        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
+        {
+            rb.velocity = new Vector2(0f, 0f);
+            currentAttack = HEAVY_KICK_KEY;
+            StartCoroutine(StandingHeavyKick());
+        }
+    }
+
+    private IEnumerator StandingHeavyKick()
+    {
+        yield return new WaitForSeconds(21f / 60f);  // duration of s.HK
+        currentAttack = "";
+    }
+
+    // ========== UPDATING ==========
 
     // Update is called once per frame
     void Update()
@@ -216,6 +270,14 @@ public class PlayerMovement : MonoBehaviour
         else if (currentAttack == LIGHT_KICK_KEY)   // s.LK
         {
             newState = MovementState.lightKick;
+        }
+        else if (currentAttack == HEAVY_PUNCH_KEY)  // s.HP
+        {
+            newState = MovementState.heavyPunch;
+        }
+        else if (currentAttack == HEAVY_KICK_KEY)   // s.HK
+        {
+            newState = MovementState.heavyKick;
         }
 
         anim.SetInteger("State", (int)newState);
