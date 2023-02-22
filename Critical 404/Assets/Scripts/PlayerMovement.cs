@@ -43,6 +43,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
 
+    private GameObject fightManager;
+    private HitboxManager hbm;
+    private GameObject myHitboxesObject;
+
     private InputActionAsset inputAsset;
     private InputActionMap player;
 
@@ -51,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
     {
         inputAsset = this.GetComponent<PlayerInput>().actions;
         player = inputAsset.FindActionMap("Player");
+
+        myHitboxesObject = transform.Find("Hurtboxes").gameObject;
     }
 
     // Start is called before the first frame update
@@ -182,6 +188,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        hbm.CreateHurtbox(myHitboxesObject, new Vector2(0f, 0f), new Vector2(1f, 1f), 1);
+
         // Only do movement if not attacking
         if (currentAttack == "")
         {
@@ -286,5 +295,11 @@ public class PlayerMovement : MonoBehaviour
     public void SetTurningPoint(float tp)
     {
         TURNING_POINT_X = tp;
+    }
+
+    public void SetFightManager(GameObject fm)
+    {
+        fightManager = fm;
+        hbm = fightManager.GetComponent<FightManager>().GetHitboxManager();
     }
 }
