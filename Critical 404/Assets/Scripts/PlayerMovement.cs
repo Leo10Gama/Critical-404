@@ -16,6 +16,11 @@ public class PlayerMovement : MonoBehaviour
     private const string LIGHT_KICK_KEY = "Light Kick";
     private const string HEAVY_KICK_KEY = "Heavy Kick";
 
+    private const int SLP_DURATION = 15;
+    private const int SHP_DURATION = 19;
+    private const int SLK_DURATION = 14;
+    private const int SHK_DURATION = 21;
+
     private float TURNING_POINT_X = 0f;
 
     private enum MovementState { 
@@ -122,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingLightPunch()
     {
-        yield return new WaitForSeconds(15f / 60f); // duration of s.LP
+        yield return new WaitForSeconds(SLP_DURATION / 60f); // duration of s.LP
         currentAttack = "";
     }
 
@@ -141,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingHeavyPunch()
     {
-        yield return new WaitForSeconds(19f / 60f);  // duration of s.HP
+        yield return new WaitForSeconds(SHP_DURATION / 60f);  // duration of s.HP
         currentAttack = "";
     }
 
@@ -160,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingLightKick()
     {
-        yield return new WaitForSeconds(14f / 60f); // duration of s.LK
+        yield return new WaitForSeconds(SLK_DURATION / 60f); // duration of s.LK
         currentAttack = "";
     }
 
@@ -179,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingHeavyKick()
     {
-        yield return new WaitForSeconds(21f / 60f);  // duration of s.HK
+        yield return new WaitForSeconds(SHK_DURATION / 60f);  // duration of s.HK
         currentAttack = "";
     }
 
