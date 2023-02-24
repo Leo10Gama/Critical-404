@@ -23,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float TURNING_POINT_X = 0f;
 
-    private enum MovementState { 
+    private enum MovementState 
+    { 
         idle,               // 0
         movingForward,      // 1
         movingBackward,     // 2
@@ -195,9 +196,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        hbm.CreateHurtbox(myHurtboxesObject, new Vector2(0f, 0f), new Vector2(1f, 1f), 1);
-
         // Only do movement if not attacking
         if (currentAttack == "")
         {
@@ -302,34 +300,38 @@ public class PlayerMovement : MonoBehaviour
         UpdateHurtboxes(newState);
     }
 
+    private const int MAX_HURTBOXES = 10;
+
     // Handle updating hurtboxes
     private void UpdateHurtboxes(MovementState state)
     {
+        if (myHurtboxesObject.GetComponents<BoxCollider2D>().Length >= MAX_HURTBOXES) return;
+        Debug.Log(myHurtboxesObject.GetComponents<BoxCollider2D>().Length);
         switch (state)
         {
             case MovementState.idle:
-                hurtboxArtist.DrawIdle();
+                StartCoroutine(hurtboxArtist.DrawIdle());
                 return;
             case MovementState.movingForward:
-                hurtboxArtist.DrawMoveForward();
+                StartCoroutine(hurtboxArtist.DrawMoveForward());
                 return;
             case MovementState.movingBackward:
-                hurtboxArtist.DrawMoveBackward();
+                StartCoroutine(hurtboxArtist.DrawMoveBackward());
                 return;
             case MovementState.jumping:
-                hurtboxArtist.DrawJumpRise();
+                StartCoroutine(hurtboxArtist.DrawJumpRise());
                 return;
             case MovementState.falling:
-                hurtboxArtist.DrawJumpFall();
+                StartCoroutine(hurtboxArtist.DrawJumpFall());
                 return;
             case MovementState.crouching:
-                hurtboxArtist.DrawCrouch();
+                StartCoroutine(hurtboxArtist.DrawCrouch());
                 return;
             case MovementState.lightPunch:
                 if (isCrouching)        // c.LP
                     {/* TODO */}
                 else if (isGrounded)    // s.LP
-                    hurtboxArtist.DrawSLP();
+                    StartCoroutine(hurtboxArtist.DrawSLP());
                 else                    // j.LP
                     {/* TODO */}
                 return;
@@ -337,7 +339,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isCrouching)        // c.HP
                     {/* TODO */}
                 else if (isGrounded)    // s.HP
-                    hurtboxArtist.DrawSHP();
+                    StartCoroutine(hurtboxArtist.DrawSHP());
                 else                    // j.HP
                     {/* TODO */}
                 return;
@@ -345,7 +347,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isCrouching)        // c.LK
                     {/* TODO */}
                 else if (isGrounded)    // s.LK
-                    hurtboxArtist.DrawSLK();
+                    StartCoroutine(hurtboxArtist.DrawSLK());
                 else                    // j.LK
                     {/* TODO */}
                 return;
@@ -353,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isCrouching)        // c.HK
                     {/* TODO */}
                 else if (isGrounded)    // s.HK
-                    hurtboxArtist.DrawSHK();
+                    StartCoroutine(hurtboxArtist.DrawSHK());
                 else                    // j.HK
                     {/* TODO */}
                 return;
