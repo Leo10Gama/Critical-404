@@ -23,6 +23,7 @@ public class HitboxManager : MonoBehaviour
     public void CreateHurtbox(GameObject parent, Vector2 coords, Vector2 scale, int lifespan)
     {
         BoxCollider2D col = parent.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
         col.offset = coords;
         col.size = scale;
         StartCoroutine(DeleteColliderAfterLifespan(col, lifespan));

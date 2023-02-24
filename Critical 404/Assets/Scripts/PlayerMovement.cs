@@ -50,7 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject fightManager;
     private HitboxManager hbm;
-    private GameObject myHitboxesObject;
+    private GameObject myHurtboxesObject;
+    private PlayerHurtboxArtist hurtboxArtist;
 
     private InputActionAsset inputAsset;
     private InputActionMap player;
@@ -61,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         inputAsset = this.GetComponent<PlayerInput>().actions;
         player = inputAsset.FindActionMap("Player");
 
-        myHitboxesObject = transform.Find("Hurtboxes").gameObject;
+        myHurtboxesObject = transform.Find("Hurtboxes").gameObject;
     }
 
     // Start is called before the first frame update
@@ -71,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject);
     }
 
     private void OnEnable()
@@ -194,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        hbm.CreateHurtbox(myHitboxesObject, new Vector2(0f, 0f), new Vector2(1f, 1f), 1);
+        hbm.CreateHurtbox(myHurtboxesObject, new Vector2(0f, 0f), new Vector2(1f, 1f), 1);
 
         // Only do movement if not attacking
         if (currentAttack == "")
@@ -234,6 +236,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdateAnimations();
+        // UpdateHurtboxes();   // called in UpdateAnimations(), where it is given a MovementState
     }
 
     // Handle the updating of animations
@@ -295,6 +298,66 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.SetInteger("State", (int)newState);
+
+        UpdateHurtboxes(newState);
+    }
+
+    // Handle updating hurtboxes
+    private void UpdateHurtboxes(MovementState state)
+    {
+        switch (state)
+        {
+            case MovementState.idle:
+                hurtboxArtist.DrawIdle();
+                return;
+            case MovementState.movingForward:
+                hurtboxArtist.DrawMoveForward();
+                return;
+            case MovementState.movingBackward:
+                hurtboxArtist.DrawMoveBackward();
+                return;
+            case MovementState.jumping:
+                hurtboxArtist.DrawJumpRise();
+                return;
+            case MovementState.falling:
+                hurtboxArtist.DrawJumpFall();
+                return;
+            case MovementState.crouching:
+                hurtboxArtist.DrawCrouch();
+                return;
+            case MovementState.lightPunch:
+                if (isCrouching)        // c.LP
+                    {/* TODO */}
+                else if (isGrounded)    // s.LP
+                    hurtboxArtist.DrawSLP();
+                else                    // j.LP
+                    {/* TODO */}
+                return;
+            case MovementState.heavyPunch:
+                if (isCrouching)        // c.HP
+                    {/* TODO */}
+                else if (isGrounded)    // s.HP
+                    hurtboxArtist.DrawSHP();
+                else                    // j.HP
+                    {/* TODO */}
+                return;
+            case MovementState.lightKick:
+                if (isCrouching)        // c.LK
+                    {/* TODO */}
+                else if (isGrounded)    // s.LK
+                    hurtboxArtist.DrawSLK();
+                else                    // j.LK
+                    {/* TODO */}
+                return;
+            case MovementState.heavyKick:
+                if (isCrouching)        // c.HK
+                    {/* TODO */}
+                else if (isGrounded)    // s.HK
+                    hurtboxArtist.DrawSHK();
+                else                    // j.HK
+                    {/* TODO */}
+                return;
+        }
     }
 
     public void SetTurningPoint(float tp)
