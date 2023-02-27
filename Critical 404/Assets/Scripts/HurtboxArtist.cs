@@ -2,14 +2,14 @@ using System.Collections;
 
 public abstract class HurtboxArtist
 {
-    public abstract IEnumerator DrawIdle();
-    public abstract IEnumerator DrawCrouch();
-    public abstract IEnumerator DrawMoveForward();
-    public abstract IEnumerator DrawMoveBackward();
-    public abstract IEnumerator DrawJumpRise();
-    public abstract IEnumerator DrawJumpFall();
-    public abstract IEnumerator DrawSLP();
-    public abstract IEnumerator DrawSHP();
-    public abstract IEnumerator DrawSLK();
-    public abstract IEnumerator DrawSHK();
+    public abstract IEnumerator DrawIdle(bool facingLeft);
+    public abstract IEnumerator DrawCrouch(bool facingLeft);
+    public abstract IEnumerator DrawMoveForward(bool facingLeft);
+    public abstract IEnumerator DrawMoveBackward(bool facingLeft);
+    public abstract IEnumerator DrawJumpRise(bool facingLeft);
+    public abstract IEnumerator DrawJumpFall(bool facingLeft);
+    public abstract IEnumerator DrawSLP(bool facingLeft);
+    public abstract IEnumerator DrawSHP(bool facingLeft);
+    public abstract IEnumerator DrawSLK(bool facingLeft);
+    public abstract IEnumerator DrawSHK(bool facingLeft);
 }
