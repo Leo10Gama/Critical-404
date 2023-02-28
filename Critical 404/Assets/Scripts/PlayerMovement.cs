@@ -306,33 +306,33 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateHurtboxes(MovementState state)
     {
         if (myHurtboxesObject.GetComponents<BoxCollider2D>().Length >= MAX_HURTBOXES) return;
-        bool isFacingLeft = sprite.flipX;
+        bool isFacingRight = !sprite.flipX;
 
         switch (state)
         {
             case MovementState.idle:
-                StartCoroutine(hurtboxArtist.DrawIdle(isFacingLeft));
+                StartCoroutine(hurtboxArtist.DrawIdle(isFacingRight));
                 return;
             case MovementState.movingForward:
-                StartCoroutine(hurtboxArtist.DrawMoveForward(isFacingLeft));
+                StartCoroutine(hurtboxArtist.DrawMoveForward(isFacingRight));
                 return;
             case MovementState.movingBackward:
-                StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingLeft));
+                StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
                 return;
             case MovementState.jumping:
-                StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingLeft));
+                StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
                 return;
             case MovementState.falling:
-                StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingLeft));
+                StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
                 return;
             case MovementState.crouching:
-                StartCoroutine(hurtboxArtist.DrawCrouch(isFacingLeft));
+                StartCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
                 return;
             case MovementState.lightPunch:
                 if (isCrouching)        // c.LP
                     {/* TODO */}
                 else if (isGrounded)    // s.LP
-                    StartCoroutine(hurtboxArtist.DrawSLP(isFacingLeft));
+                    StartCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
                 else                    // j.LP
                     {/* TODO */}
                 return;
@@ -340,7 +340,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isCrouching)        // c.HP
                     {/* TODO */}
                 else if (isGrounded)    // s.HP
-                    StartCoroutine(hurtboxArtist.DrawSHP(isFacingLeft));
+                    StartCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
                 else                    // j.HP
                     {/* TODO */}
                 return;
@@ -348,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isCrouching)        // c.LK
                     {/* TODO */}
                 else if (isGrounded)    // s.LK
-                    StartCoroutine(hurtboxArtist.DrawSLK(isFacingLeft));
+                    StartCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
                 else                    // j.LK
                     {/* TODO */}
                 return;
@@ -356,7 +356,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isCrouching)        // c.HK
                     {/* TODO */}
                 else if (isGrounded)    // s.HK
-                    StartCoroutine(hurtboxArtist.DrawSHK(isFacingLeft));
+                    StartCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
                 else                    // j.HK
                     {/* TODO */}
                 return;
