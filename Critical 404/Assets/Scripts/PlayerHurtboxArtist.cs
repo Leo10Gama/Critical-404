@@ -180,50 +180,290 @@ public class PlayerHurtboxArtist : HurtboxArtist
 
     public override IEnumerator DrawSLP(bool facingLeft)
     {
+        int[] frameDurations = {
+            4,
+            15 - 4
+        };
+
         int flipMultiplier = facingLeft ? -1 : 1;
-        hbm.CreateHurtbox(
+        hbm.CreateHurtbox(  // head
             hurtboxObject,
-            new Vector2(0f, 0f),
-            new Vector2(1f, 1f), 
-            1
+            new Vector2(-0.3429761f * flipMultiplier, 0.6294634f),
+            new Vector2(1.201753f, 0.9031599f), 
+            frameDurations[0]
         );
-        yield return new WaitForSeconds(1f / 60f);
+        hbm.CreateHurtbox(  // chest
+            hurtboxObject,
+            new Vector2(-0.3913963f * flipMultiplier, -0.05245522f),
+            new Vector2(0.6368489f, 0.233346f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // back hand
+            hurtboxObject,
+            new Vector2(-0.7666535f * flipMultiplier, -0.367187f),
+            new Vector2(0.3059769f, 0.427027f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // gut
+            hurtboxObject,
+            new Vector2(-0.1049097f * flipMultiplier, -0.3631519f),
+            new Vector2(0.2414165f, 0.435097f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // legs
+            hurtboxObject,
+            new Vector2(-0.06859446f * flipMultiplier, -0.9199851f),
+            new Vector2(0.7982492f, 0.7094784f), 
+            frameDurations[0]
+        );
+        yield return new WaitForSeconds(frameDurations[0] / 60f);
+        hbm.CreateHurtbox(  // head
+            hurtboxObject,
+            new Vector2(-0.07666445f * flipMultiplier, 0.6940239f),
+            new Vector2(0.8466692f, 0.8708795f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // punching arm
+            hurtboxObject,
+            new Vector2(0.520519f * flipMultiplier, 0.1775411f),
+            new Vector2(0.7659688f, 0.2252761f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // back arm
+            hurtboxObject,
+            new Vector2(-0.3510458f * flipMultiplier, -0.0968405f),
+            new Vector2(0.4108863f, 0.7094789f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // body
+            hurtboxObject,
+            new Vector2(-0.01613879f * flipMultiplier, -0.1977161f),
+            new Vector2(0.2091355f, 0.91123f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // legs
+            hurtboxObject,
+            new Vector2(-0.048419f * flipMultiplier, -0.9361252f),
+            new Vector2(0.7094784f, 0.6771985f), 
+            frameDurations[1]
+        );
+        yield return new WaitForSeconds(frameDurations[1] / 60f);
     }
 
     public override IEnumerator DrawSHP(bool facingLeft)
     {
+        int[] frameDurations = {
+            8,
+            19 - 8
+        };
+
         int flipMultiplier = facingLeft ? -1 : 1;
-        hbm.CreateHurtbox(
+        hbm.CreateHurtbox(  // head
             hurtboxObject,
-            new Vector2(0f, 0f),
-            new Vector2(1f, 1f), 
-            1
+            new Vector2(-0.3429761f * flipMultiplier, 0.6294634f),
+            new Vector2(1.201753f, 0.9031599f), 
+            frameDurations[0]
         );
-        yield return new WaitForSeconds(1f / 60f);
+        hbm.CreateHurtbox(  // chest
+            hurtboxObject,
+            new Vector2(-0.3913963f * flipMultiplier, -0.05245522f),
+            new Vector2(0.6368489f, 0.233346f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // back hand
+            hurtboxObject,
+            new Vector2(-0.7666535f * flipMultiplier, -0.367187f),
+            new Vector2(0.3059769f, 0.427027f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // gut
+            hurtboxObject,
+            new Vector2(-0.1049097f * flipMultiplier, -0.3631519f),
+            new Vector2(0.2414165f, 0.435097f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // legs
+            hurtboxObject,
+            new Vector2(-0.06859446f * flipMultiplier, -0.9199851f),
+            new Vector2(0.7982492f, 0.7094784f), 
+            frameDurations[0]
+        );
+        yield return new WaitForSeconds(frameDurations[0] / 60f);
+        hbm.CreateHurtbox(  // head
+            hurtboxObject,
+            new Vector2(-0.07666445f * flipMultiplier, 0.6940239f),
+            new Vector2(0.8466692f, 0.8708795f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // punching arm
+            hurtboxObject,
+            new Vector2(0.520519f * flipMultiplier, 0.1775411f),
+            new Vector2(0.7659688f, 0.2252761f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // back arm
+            hurtboxObject,
+            new Vector2(-0.3510458f * flipMultiplier, -0.0968405f),
+            new Vector2(0.4108863f, 0.7094789f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // body
+            hurtboxObject,
+            new Vector2(-0.01613879f * flipMultiplier, -0.1977161f),
+            new Vector2(0.2091355f, 0.91123f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // legs
+            hurtboxObject,
+            new Vector2(-0.048419f * flipMultiplier, -0.9361252f),
+            new Vector2(0.7094784f, 0.6771985f), 
+            frameDurations[1]
+        );
+        yield return new WaitForSeconds(frameDurations[1] / 60f);
     }
 
     public override IEnumerator DrawSLK(bool facingLeft)
     {
+        int[] frameDurations = {
+            5,
+            14 - 5
+        };
+
         int flipMultiplier = facingLeft ? -1 : 1;
-        hbm.CreateHurtbox(
+        hbm.CreateHurtbox(  // head
             hurtboxObject,
-            new Vector2(0f, 0f),
-            new Vector2(1f, 1f), 
-            1
+            new Vector2(-0.0080688f * flipMultiplier, 0.6213933f),
+            new Vector2(0.9031596f, 0.8547394f), 
+            frameDurations[0]
         );
-        yield return new WaitForSeconds(1f / 60f);
+        hbm.CreateHurtbox(  // back arm and body
+            hurtboxObject,
+            new Vector2(-0.3187654f * flipMultiplier, -0.08877065f),
+            new Vector2(0.636848f, 0.5157977f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // front arm
+            hurtboxObject,
+            new Vector2(0.4317486f * flipMultiplier, -0.1250859f),
+            new Vector2(0.7336888f, 0.2333462f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // back leg
+            hurtboxObject,
+            new Vector2(-0.6012168f * flipMultiplier, -0.4438526f),
+            new Vector2(0.7982492f, 0.2736964f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // front leg
+            hurtboxObject,
+            new Vector2(-0.2420998f * flipMultiplier, -0.9119152f),
+            new Vector2(0.209136f, 0.7094788f), 
+            frameDurations[0]
+        );
+        yield return new WaitForSeconds(frameDurations[0] / 60f);
+        hbm.CreateHurtbox(  // head
+            hurtboxObject,
+            new Vector2(-0.008068562f * flipMultiplier, 0.7101637f),
+            new Vector2(0.7578993f, 0.8224596f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // front arm
+            hurtboxObject,
+            new Vector2(0.3671887f * flipMultiplier, -2.682209e-07f),
+            new Vector2(0.620708f, 0.4512376f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // back arm
+            hurtboxObject,
+            new Vector2(-0.3510456f * flipMultiplier, -0.1008758f),
+            new Vector2(0.3947468f, 0.6045684f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // body and standing leg
+            hurtboxObject,
+            new Vector2(-0.03631377f * flipMultiplier, -0.5124481f),
+            new Vector2(0.2172055f, 1.508413f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // kicking leg
+            hurtboxObject,
+            new Vector2(0.6375351f * flipMultiplier, -0.6940241f),
+            new Vector2(0.98386f, 0.2414165f), 
+            frameDurations[1]
+        );
+        yield return new WaitForSeconds(frameDurations[1] / 60f);
     }
 
     public override IEnumerator DrawSHK(bool facingLeft)
     {
+        int[] frameDurations = {
+            8,
+            21 - 8
+        };
+
         int flipMultiplier = facingLeft ? -1 : 1;
-        hbm.CreateHurtbox(
+        hbm.CreateHurtbox(  // head
             hurtboxObject,
-            new Vector2(0f, 0f),
-            new Vector2(1f, 1f), 
-            1
+            new Vector2(-0.0080688f * flipMultiplier, 0.6213933f),
+            new Vector2(0.9031596f, 0.8547394f), 
+            frameDurations[0]
         );
-        yield return new WaitForSeconds(1f / 60f);
+        hbm.CreateHurtbox(  // back arm and body
+            hurtboxObject,
+            new Vector2(-0.3187654f * flipMultiplier, -0.08877065f),
+            new Vector2(0.636848f, 0.5157977f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // front arm
+            hurtboxObject,
+            new Vector2(0.4317486f * flipMultiplier, -0.1250859f),
+            new Vector2(0.7336888f, 0.2333462f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // back leg
+            hurtboxObject,
+            new Vector2(-0.6012168f * flipMultiplier, -0.4438526f),
+            new Vector2(0.7982492f, 0.2736964f), 
+            frameDurations[0]
+        );
+        hbm.CreateHurtbox(  // front leg
+            hurtboxObject,
+            new Vector2(-0.2420998f * flipMultiplier, -0.9119152f),
+            new Vector2(0.209136f, 0.7094788f), 
+            frameDurations[0]
+        );
+        yield return new WaitForSeconds(frameDurations[0] / 60f);
+        hbm.CreateHurtbox(  // head
+            hurtboxObject,
+            new Vector2(-0.008068562f * flipMultiplier, 0.7101637f),
+            new Vector2(0.7578993f, 0.8224596f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // front arm
+            hurtboxObject,
+            new Vector2(0.3671887f * flipMultiplier, -2.682209e-07f),
+            new Vector2(0.620708f, 0.4512376f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // back arm
+            hurtboxObject,
+            new Vector2(-0.3510456f * flipMultiplier, -0.1008758f),
+            new Vector2(0.3947468f, 0.6045684f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // body and standing leg
+            hurtboxObject,
+            new Vector2(-0.03631377f * flipMultiplier, -0.5124481f),
+            new Vector2(0.2172055f, 1.508413f), 
+            frameDurations[1]
+        );
+        hbm.CreateHurtbox(  // kicking leg
+            hurtboxObject,
+            new Vector2(0.6375351f * flipMultiplier, -0.6940241f),
+            new Vector2(0.98386f, 0.2414165f), 
+            frameDurations[1]
+        );
+        yield return new WaitForSeconds(frameDurations[1] / 60f);
     }
 
 }
