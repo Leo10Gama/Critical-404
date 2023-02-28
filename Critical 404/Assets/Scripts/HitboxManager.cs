@@ -29,6 +29,19 @@ public class HitboxManager : MonoBehaviour
         StartCoroutine(DeleteColliderAfterLifespan(col, lifespan));
     }
 
+    /**
+     *  Create a hurtbox that belongs to a given GameObject given
+     *  it as a Hurtbox object.
+     */
+    public void CreateHurtbox(GameObject parent, Hurtbox hurtbox, int flipMultiplier, int lifespan)
+    {
+        BoxCollider2D col = parent.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
+        col.offset = new Vector2(hurtbox.offset.x * flipMultiplier, hurtbox.offset.y);
+        col.size = hurtbox.scale;
+        StartCoroutine(DeleteColliderAfterLifespan(col, lifespan));
+    }
+
     IEnumerator DeleteColliderAfterLifespan(BoxCollider2D collider, int lifespan)
     {
         yield return new WaitForSeconds(lifespan / 60f);
