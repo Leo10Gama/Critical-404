@@ -16,9 +16,15 @@ public class PlayerMovement : MonoBehaviour
     private const string LIGHT_KICK_KEY = "Light Kick";
     private const string HEAVY_KICK_KEY = "Heavy Kick";
 
+    private const int SLP_DURATION = 15;
+    private const int SHP_DURATION = 19;
+    private const int SLK_DURATION = 14;
+    private const int SHK_DURATION = 21;
+
     private float TURNING_POINT_X = 0f;
 
-    private enum MovementState { 
+    private enum MovementState 
+    { 
         idle,               // 0
         movingForward,      // 1
         movingBackward,     // 2
@@ -43,6 +49,11 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
 
+    private GameObject fightManager;
+    private HitboxManager hbm;
+    private GameObject myHurtboxesObject;
+    private PlayerHurtboxArtist hurtboxArtist;
+
     private InputActionAsset inputAsset;
     private InputActionMap player;
 
@@ -51,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
     {
         inputAsset = this.GetComponent<PlayerInput>().actions;
         player = inputAsset.FindActionMap("Player");
+
+        myHurtboxesObject = transform.Find("Hurtboxes").gameObject;
     }
 
     // Start is called before the first frame update
@@ -60,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject);
     }
 
     private void OnEnable()
@@ -116,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingLightPunch()
     {
-        yield return new WaitForSeconds(15f / 60f); // duration of s.LP
+        yield return new WaitForSeconds(SLP_DURATION / 60f); // duration of s.LP
         currentAttack = "";
     }
 
@@ -135,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingHeavyPunch()
     {
-        yield return new WaitForSeconds(19f / 60f);  // duration of s.HP
+        yield return new WaitForSeconds(SHP_DURATION / 60f);  // duration of s.HP
         currentAttack = "";
     }
 
@@ -154,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingLightKick()
     {
-        yield return new WaitForSeconds(14f / 60f); // duration of s.LK
+        yield return new WaitForSeconds(SLK_DURATION / 60f); // duration of s.LK
         currentAttack = "";
     }
 
@@ -173,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StandingHeavyKick()
     {
-        yield return new WaitForSeconds(21f / 60f);  // duration of s.HK
+        yield return new WaitForSeconds(SHK_DURATION / 60f);  // duration of s.HK
         currentAttack = "";
     }
 
@@ -220,6 +234,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdateAnimations();
+        // UpdateHurtboxes();   // called in UpdateAnimations(), where it is given a MovementState
     }
 
     // Handle the updating of animations
@@ -281,10 +296,81 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.SetInteger("State", (int)newState);
+
+        UpdateHurtboxes(newState);
+    }
+
+    private const int MAX_HURTBOXES = 10;
+
+    // Handle updating hurtboxes
+    private void UpdateHurtboxes(MovementState state)
+    {
+        if (myHurtboxesObject.GetComponents<BoxCollider2D>().Length >= MAX_HURTBOXES) return;
+        bool isFacingLeft = sprite.flipX;
+
+        switch (state)
+        {
+            case MovementState.idle:
+                StartCoroutine(hurtboxArtist.DrawIdle(isFacingLeft));
+                return;
+            case MovementState.movingForward:
+                StartCoroutine(hurtboxArtist.DrawMoveForward(isFacingLeft));
+                return;
+            case MovementState.movingBackward:
+                StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingLeft));
+                return;
+            case MovementState.jumping:
+                StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingLeft));
+                return;
+            case MovementState.falling:
+                StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingLeft));
+                return;
+            case MovementState.crouching:
+                StartCoroutine(hurtboxArtist.DrawCrouch(isFacingLeft));
+                return;
+            case MovementState.lightPunch:
+                if (isCrouching)        // c.LP
+                    {/* TODO */}
+                else if (isGrounded)    // s.LP
+                    StartCoroutine(hurtboxArtist.DrawSLP(isFacingLeft));
+                else                    // j.LP
+                    {/* TODO */}
+                return;
+            case MovementState.heavyPunch:
+                if (isCrouching)        // c.HP
+                    {/* TODO */}
+                else if (isGrounded)    // s.HP
+                    StartCoroutine(hurtboxArtist.DrawSHP(isFacingLeft));
+                else                    // j.HP
+                    {/* TODO */}
+                return;
+            case MovementState.lightKick:
+                if (isCrouching)        // c.LK
+                    {/* TODO */}
+                else if (isGrounded)    // s.LK
+                    StartCoroutine(hurtboxArtist.DrawSLK(isFacingLeft));
+                else                    // j.LK
+                    {/* TODO */}
+                return;
+            case MovementState.heavyKick:
+                if (isCrouching)        // c.HK
+                    {/* TODO */}
+                else if (isGrounded)    // s.HK
+                    StartCoroutine(hurtboxArtist.DrawSHK(isFacingLeft));
+                else                    // j.HK
+                    {/* TODO */}
+                return;
+        }
     }
 
     public void SetTurningPoint(float tp)
     {
         TURNING_POINT_X = tp;
+    }
+
+    public void SetFightManager(GameObject fm)
+    {
+        fightManager = fm;
+        hbm = fightManager.GetComponent<FightManager>().GetHitboxManager();
     }
 }
