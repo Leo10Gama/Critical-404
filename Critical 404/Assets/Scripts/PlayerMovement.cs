@@ -243,7 +243,10 @@ public class PlayerMovement : MonoBehaviour
         MovementState newState = MovementState.idle;
 
         // Determine flipping
-        if (isGrounded)     // only flip if on ground
+        MovementState currState = (MovementState)anim.GetInteger("State");
+        bool canFlip = currState == MovementState.idle || currState == MovementState.movingForward ||
+            currState == MovementState.movingBackward || currState == MovementState.crouching;
+        if (canFlip)     // only flip if idle, moving, or crouching (not in air or attacking)
         {
             sprite.flipX = rb.transform.position.x >= TURNING_POINT_X;
         }
