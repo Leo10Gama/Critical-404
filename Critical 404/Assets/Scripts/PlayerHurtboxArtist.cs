@@ -7,6 +7,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
 
     private HitboxManager hbm;
     private GameObject hurtboxObject;
+    private GameObject hitboxObject;
 
     // ########## MOVEMENT POSES ##########
     // === STANDING IDLE ===
@@ -159,12 +160,41 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(-0.048419f, -0.9361252f),
                     new Vector2(0.7094784f, 0.6771985f)
                 ),
-            })
+                new Hitbox(     // arm
+                    new Vector2(0.5999374f, 0.1714107f),
+                    new Vector2(1.039557f, 0.4725825f),
+                    20,
+                    10
+                )
+            }),
+            new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
+                new Hurtbox(    // head
+                    new Vector2(-0.07666445f, 0.6940239f),
+                    new Vector2(0.8466692f, 0.8708795f)
+                ),
+                new Hurtbox(    // punching arm
+                    new Vector2(0.520519f, 0.1775411f),
+                    new Vector2(0.7659688f, 0.2252761f)
+                ),
+                new Hurtbox(    // back arm
+                    new Vector2(-0.3510458f, -0.0968405f),
+                    new Vector2(0.4108863f, 0.7094789f)
+                ),
+                new Hurtbox(    // body
+                    new Vector2(-0.01613879f, -0.1977161f),
+                    new Vector2(0.2091355f, 0.91123f)
+                ),
+                new Hurtbox(    // legs
+                    new Vector2(-0.048419f, -0.9361252f),
+                    new Vector2(0.7094784f, 0.6771985f)
+                )
+            }),
         },
         new int[]
         {
             4,
-            15-4
+            6-4,
+            15-6
         }
     );
     // === STANDING HEAVY PUNCH ===
@@ -214,12 +244,41 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(-0.048419f, -0.9361252f),
                     new Vector2(0.7094784f, 0.6771985f)
                 ),
+                new Hitbox(     // arm
+                    new Vector2(0.5999374f, 0.1714107f),
+                    new Vector2(1.039557f, 0.4725825f),
+                    50,
+                    18
+                )
+            }),
+            new HurtboxFrame(new Hurtbox[] {    // ===== frame 1 =====
+                new Hurtbox(    // head
+                    new Vector2(-0.07666445f, 0.6940239f),
+                    new Vector2(0.8466692f, 0.8708795f)
+                ),
+                new Hurtbox(    // punching arm
+                    new Vector2(0.520519f, 0.1775411f),
+                    new Vector2(0.7659688f, 0.2252761f)
+                ),
+                new Hurtbox(    // back arm
+                    new Vector2(-0.3510458f, -0.0968405f),
+                    new Vector2(0.4108863f, 0.7094789f)
+                ),
+                new Hurtbox(    // body
+                    new Vector2(-0.01613879f, -0.1977161f),
+                    new Vector2(0.2091355f, 0.91123f)
+                ),
+                new Hurtbox(    // legs
+                    new Vector2(-0.048419f, -0.9361252f),
+                    new Vector2(0.7094784f, 0.6771985f)
+                )
             })
         },
         new int[]
         {
             8,
-            19-8
+            11-8,
+            19-10
         }
     );
     // === STANDING LIGHT KICK ===
@@ -268,13 +327,42 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hurtbox(    // kicking leg
                     new Vector2(0.6375351f, -0.6940241f),
                     new Vector2(0.98386f, 0.2414165f)
+                ),
+                new Hitbox(     // leg
+                    new Vector2(0.7120137f, -0.7186065f),
+                    new Vector2(1.184596f, 0.5121388f),
+                    25,
+                    12
+                )
+            }),
+            new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
+                new Hurtbox(    // head
+                    new Vector2(-0.008068562f, 0.7101637f),
+                    new Vector2(0.7578993f, 0.8224596f)
+                ),
+                new Hurtbox(    // front arm
+                    new Vector2(0.3671887f, -2.682209e-07f),
+                    new Vector2(0.620708f, 0.4512376f)
+                ),
+                new Hurtbox(    // back arm
+                    new Vector2(-0.3510456f, -0.1008758f),
+                    new Vector2(0.3947468f, 0.6045684f)
+                ),
+                new Hurtbox(    // body and standing leg
+                    new Vector2(-0.03631377f, -0.5124481f),
+                    new Vector2(0.2172055f, 1.508413f)
+                ),
+                new Hurtbox(    // kicking leg
+                    new Vector2(0.6375351f, -0.6940241f),
+                    new Vector2(0.98386f, 0.2414165f)
                 )
             })
         },
         new int[] 
         {
             5,
-            14-5
+            7-5,
+            14-7
         }
     );
     // === STANDING HEAVY KICK ===
@@ -323,20 +411,50 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hurtbox(    // kicking leg
                     new Vector2(0.6375351f, -0.6940241f),
                     new Vector2(0.98386f, 0.2414165f)
+                ),
+                new Hitbox(     // leg
+                    new Vector2(0.7120137f, -0.7186065f),
+                    new Vector2(1.184596f, 0.5121388f),
+                    48,
+                    22
+                )
+            }),
+            new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
+                new Hurtbox(    // head
+                    new Vector2(-0.008068562f, 0.7101637f),
+                    new Vector2(0.7578993f, 0.8224596f)
+                ),
+                new Hurtbox(    // front arm
+                    new Vector2(0.3671887f, -2.682209e-07f),
+                    new Vector2(0.620708f, 0.4512376f)
+                ),
+                new Hurtbox(    // back arm
+                    new Vector2(-0.3510456f, -0.1008758f),
+                    new Vector2(0.3947468f, 0.6045684f)
+                ),
+                new Hurtbox(    // body and standing leg
+                    new Vector2(-0.03631377f, -0.5124481f),
+                    new Vector2(0.2172055f, 1.508413f)
+                ),
+                new Hurtbox(    // kicking leg
+                    new Vector2(0.6375351f, -0.6940241f),
+                    new Vector2(0.98386f, 0.2414165f)
                 )
             })
         },
         new int[] 
         {
             8,
-            21-8
+            11-8,
+            21-11
         }
     );
 
-    public PlayerHurtboxArtist(HitboxManager hbm, GameObject hbo)
+    public PlayerHurtboxArtist(HitboxManager hbm, GameObject hurtboxObj, GameObject hitboxObj)
     {
         this.hbm = hbm;
-        this.hurtboxObject = hbo;
+        this.hurtboxObject = hurtboxObj;
+        this.hitboxObject = hitboxObj;
     }
 
     public override IEnumerator DrawIdle(bool facingRight)
@@ -397,7 +515,10 @@ public class PlayerHurtboxArtist : HurtboxArtist
             HurtboxFrame frame = anim.frames[i];
             foreach (Hurtbox hurtbox in frame.hurtboxes)
             {
-                hbm.CreateHurtbox(hurtboxObject, hurtbox, flipMultiplier, anim.frameDurations[i]);
+                if (hurtbox.GetType() == typeof(Hitbox))
+                    hbm.CreateHitbox(hitboxObject, (Hitbox)hurtbox, flipMultiplier, anim.frameDurations[i]);
+                else
+                    hbm.CreateHurtbox(hurtboxObject, hurtbox, flipMultiplier, anim.frameDurations[i]);
             }
             yield return new WaitForSeconds(anim.frameDurations[i] / 60f);
         }

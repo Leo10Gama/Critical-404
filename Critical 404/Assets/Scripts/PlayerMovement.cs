@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject fightManager;
     private HitboxManager hbm;
     private GameObject myHurtboxesObject;
+    private GameObject myHitboxesObject;
     private PlayerHurtboxArtist hurtboxArtist;
 
     private InputActionAsset inputAsset;
@@ -64,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         player = inputAsset.FindActionMap("Player");
 
         myHurtboxesObject = transform.Find("Hurtboxes").gameObject;
+        myHitboxesObject = transform.Find("Hitboxes").gameObject;
     }
 
     // Start is called before the first frame update
@@ -73,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject);
+        hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
     }
 
     private void OnEnable()
@@ -303,12 +305,15 @@ public class PlayerMovement : MonoBehaviour
         UpdateHurtboxes(newState);
     }
 
-    private const int MAX_HURTBOXES = 10;
+    private const int MAX_HITBOXES = 20;
 
     // Handle updating hurtboxes
     private void UpdateHurtboxes(MovementState state)
     {
-        if (myHurtboxesObject.GetComponents<BoxCollider2D>().Length >= MAX_HURTBOXES) return;
+        int totalBoxes = myHurtboxesObject.GetComponents<BoxCollider2D>().Length +
+            myHitboxesObject.GetComponents<BoxCollider2D>().Length;
+        if (totalBoxes >= MAX_HITBOXES) return;
+
         bool isFacingRight = !sprite.flipX;
 
         switch (state)
