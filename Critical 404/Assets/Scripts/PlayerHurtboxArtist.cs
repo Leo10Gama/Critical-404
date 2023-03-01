@@ -112,6 +112,25 @@ public class PlayerHurtboxArtist : HurtboxArtist
             new Vector2(0.5884295f, 0.6449184f)
         )
     }));
+    // === HIT ===
+    private readonly HurtboxAnimation HIT_FRAMES = new HurtboxAnimation(new HurtboxFrame(new Hurtbox[] {
+        new Hurtbox(    // head
+            new Vector2(-0.280998f, 0.796161f),
+            new Vector2(0.8876014f, 0.7939347f)
+        ),
+        new Hurtbox(    // arms
+            new Vector2(-0.3184643f, 0.2060652f),
+            new Vector2(1.299732f, 0.3256046f)
+        ),
+        new Hurtbox(    // body
+            new Vector2(-0.3933973f, -0.2622648f),
+            new Vector2(0.4005384f, 0.7752014f)
+        ),
+        new Hurtbox(    // legs
+            new Vector2(-0.1217659f, -0.9553933f),
+            new Vector2(0.7939363f, 0.6253358f)
+        )
+    }));
     // ########## ATTACKS ##########
     // === STANDING LIGHT PUNCH ===
     private readonly HurtboxAnimation SLP_FRAMES = new HurtboxAnimation(
@@ -505,6 +524,17 @@ public class PlayerHurtboxArtist : HurtboxArtist
     public override IEnumerator DrawSHK(bool facingRight)
     {
         yield return DrawHurtboxAnimation(SHK_FRAMES, facingRight);
+    }
+
+    public override IEnumerator DrawHitstun(bool facingRight)
+    {
+        yield return DrawHurtboxAnimation(HIT_FRAMES, facingRight);
+    }
+
+    public override void StopDrawingAll()
+    {
+        hbm.ClearAll(hurtboxObject);
+        hbm.ClearAll(hitboxObject);
     }
 
     private IEnumerator DrawHurtboxAnimation(HurtboxAnimation anim, bool facingRight)

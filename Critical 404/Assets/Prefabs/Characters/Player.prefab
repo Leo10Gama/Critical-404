@@ -173,6 +173,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 5
   jumpMagnitude: 18
+  playerId: 0
+  hp: 10000
+  hitstun: 0
 --- !u!95 &7513497409890082196
 Animator:
   serializedVersion: 5

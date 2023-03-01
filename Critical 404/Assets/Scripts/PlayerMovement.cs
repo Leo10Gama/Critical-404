@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float horizontalSpeed = 5f;
     [SerializeField] private float jumpMagnitude = 18f;
 
+    public int playerId = 0;
+    public int hp = 10000;
+    public int hitstun = 0;
+
     private const string JUMP_KEY = "Jump";
     private const string CROUCH_KEY = "Crouch";
     private const string MOVE_AXIS = "Movement";
@@ -34,7 +38,8 @@ public class PlayerMovement : MonoBehaviour
         lightPunch,         // 6
         heavyPunch,         // 7
         lightKick,          // 8
-        heavyKick           // 9
+        heavyKick,          // 9
+        hit                 // 10
     }
 
     private float dirX = 0f;
@@ -50,9 +55,9 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sprite;
 
     private GameObject fightManager;
-    private HitboxManager hbm;
     private GameObject myHurtboxesObject;
     private GameObject myHitboxesObject;
+    private HitboxManager hbm;
     private PlayerHurtboxArtist hurtboxArtist;
 
     private InputActionAsset inputAsset;
@@ -198,8 +203,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Only do movement if not attacking
-        if (currentAttack == "")
+        // Only do movement if not attacking and not in hitstun
+        if (currentAttack == "" && hitstun <= 0)
         {
             // Handle crouching
             if (pressedCrouch && isGrounded)
@@ -234,6 +239,9 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             }
         }
+
+        // Decrease hitstun timer
+        if (hitstun > 0) hitstun--;
 
         UpdateAnimations();
         // UpdateHurtboxes();   // called in UpdateAnimations(), where it is given a MovementState
@@ -298,6 +306,13 @@ public class PlayerMovement : MonoBehaviour
         else if (currentAttack == HEAVY_KICK_KEY)   // s.HK
         {
             newState = MovementState.heavyKick;
+        }
+
+        // TAKING DAMAGE (takes priority over other states)
+
+        if (hitstun > 0)
+        {
+            newState = MovementState.hit;
         }
 
         anim.SetInteger("State", (int)newState);
@@ -368,7 +383,29 @@ public class PlayerMovement : MonoBehaviour
                 else                    // j.HK
                     {/* TODO */}
                 return;
+            case MovementState.hit:
+                StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
+                return;
         }
+    }
+
+    // Colliding with hitboxes
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (this.playerId == 1) return; // debug: testing only player 1 rn
+        if (this.transform.parent != col.transform.parent && col.transform.parent.GetComponent<PlayerMovement>() != null)
+        {
+            // colliding with player; figure out if hitbox is hitbox
+            if (col.name == "Hitboxes")
+            {
+                Debug.Log("Ack! I'm hit!");
+            }
+        }
+    }
+
+    public void ClearHitboxes()
+    {
+        hbm.ClearAll(myHitboxesObject);
     }
 
     public void SetTurningPoint(float tp)

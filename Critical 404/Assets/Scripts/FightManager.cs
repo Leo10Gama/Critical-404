@@ -14,6 +14,7 @@ public class FightManager : MonoBehaviour
     private GameObject p2;
     private PlayerMovement p1script;
     private PlayerMovement p2script;
+
     private GameObject turningPoint = null;
 
     private GameObject hitboxManager;
@@ -24,10 +25,12 @@ public class FightManager : MonoBehaviour
 
         p1 = Instantiate(player1, new Vector3(-3f, 0f, 0f), Quaternion.identity);
         p2 = Instantiate(player2, new Vector3(3f, 0f, 0f), Quaternion.identity);
-        p1.GetComponent<PlayerMovement>().SetFightManager(this.gameObject);
-        p2.GetComponent<PlayerMovement>().SetFightManager(this.gameObject);
         p1script = p1.GetComponent<PlayerMovement>();
         p2script = p2.GetComponent<PlayerMovement>();
+        p1script.SetFightManager(this.gameObject);
+        p2script.SetFightManager(this.gameObject);
+        p1script.playerId = 1;
+        p2script.playerId = 2;
         turningPoint = transform.Find("TurningPoint").gameObject;
     }
 
@@ -54,6 +57,40 @@ public class FightManager : MonoBehaviour
         p1script.SetTurningPoint(newPos);
         p2script.SetTurningPoint(newPos);
         turningPoint.transform.position = new Vector3(newPos, 0f, 0f);
+    }
+
+    /**
+     *  Perform all necessary actions for when a player is hit. This function
+     *  takes in as parameter the ID of the player who landed the attack, as
+     *  well as the Hitbox that collided.
+     */
+    public void LandedHit(int attackerId, Hitbox hitbox)
+    {
+        // Assign players from their scripts
+        PlayerMovement attackingPlayer;
+        PlayerMovement hitPlayer;
+        if (attackerId != 1 || attackerId != 2)
+            throw new Exception("Unknown interaction: Players were not given proper ID!");
+        else if (attackerId == 1)
+        {
+            attackingPlayer = p1script;
+            hitPlayer = p2script;
+        }
+        else
+        {
+            attackingPlayer = p2script;
+            hitPlayer = p1script;
+        }
+        // Clear the attacking player's hitboxes (prevent double-hits)
+        attackingPlayer.ClearHitboxes();
+        // Set hit player into hitstun and apply damage
+        hitPlayer.hp -= hitbox.damage;
+        hitPlayer.hitstun = hitbox.hitstun;
+        // Screenshake and hitstop effects
+        // TODO
+        // Particle effects
+        // TODO
+
     }
 
     public HitboxManager GetHitboxManager()
