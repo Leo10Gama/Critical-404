@@ -69,8 +69,8 @@ public class FightManager : MonoBehaviour
         // Assign players from their scripts
         PlayerMovement attackingPlayer;
         PlayerMovement hitPlayer;
-        if (attackerId != 1 || attackerId != 2)
-            throw new Exception("Unknown interaction: Players were not given proper ID!");
+        if (attackerId != 1 && attackerId != 2)
+            throw new Exception(String.Format("Unknown interaction: Attacking player's ID set to '{0}'!", attackerId));
         else if (attackerId == 1)
         {
             attackingPlayer = p1script;
@@ -82,7 +82,7 @@ public class FightManager : MonoBehaviour
             hitPlayer = p1script;
         }
         // Clear the attacking player's hitboxes (prevent double-hits)
-        attackingPlayer.ClearHitboxes();
+        attackingPlayer.ClearHitboxesThisImage();
         // Set hit player into hitstun and apply damage
         hitPlayer.hp -= hitbox.damage;
         hitPlayer.hitstun = hitbox.hitstun;

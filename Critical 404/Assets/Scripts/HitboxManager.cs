@@ -79,10 +79,9 @@ public class HitboxManager : MonoBehaviour
      */
     public void ClearAll(GameObject parent)
     {
-        BoxCollider2D[] colliders = parent.GetComponents<BoxCollider2D>();
-        for (int i = 0; i < colliders.Length; i++)
+        foreach (Transform hitbox in parent.transform)
         {
-            Destroy(colliders[i]);
+            Destroy(hitbox.gameObject);
         }
     }
 }

@@ -9,6 +9,8 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private GameObject hurtboxObject;
     private GameObject hitboxObject;
 
+    private bool spawnHitboxesThisImage = true;
+
     // ########## MOVEMENT POSES ##########
     // === STANDING IDLE ===
     private readonly HurtboxAnimation IDLE_FRAMES = new HurtboxAnimation(new HurtboxFrame(new Hurtbox[] {
@@ -183,7 +185,8 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
                     20,
-                    10
+                    10,
+                    1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
@@ -267,7 +270,8 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
                     50,
-                    18
+                    18,
+                    1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== frame 1 =====
@@ -351,7 +355,8 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
                     25,
-                    12
+                    12,
+                    1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
@@ -435,7 +440,8 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
                     48,
-                    22
+                    21,
+                    1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
@@ -542,16 +548,22 @@ public class PlayerHurtboxArtist : HurtboxArtist
         int flipMultiplier = facingRight ? 1 : -1;
         for (int i = 0; i < anim.frames.Length; i++)
         {
+            if (!spawnHitboxesThisImage) spawnHitboxesThisImage = true; // reset once previous image is done
             HurtboxFrame frame = anim.frames[i];
             foreach (Hurtbox hurtbox in frame.hurtboxes)
             {
-                if (hurtbox.GetType() == typeof(Hitbox))
+                if (hurtbox.GetType() == typeof(Hitbox) && spawnHitboxesThisImage)
                     hbm.CreateHitbox(hitboxObject, (Hitbox)hurtbox, flipMultiplier, anim.frameDurations[i]);
                 else
                     hbm.CreateHurtbox(hurtboxObject, hurtbox, flipMultiplier, anim.frameDurations[i]);
             }
             yield return new WaitForSeconds(anim.frameDurations[i] / 60f);
         }
+    }
+
+    public void PreventHitboxesThisImage()
+    {
+        spawnHitboxesThisImage = false;
     }
 
 }

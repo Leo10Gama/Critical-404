@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded = false;    // start off the ground
     private bool pressedCrouch = false;
     private bool isCrouching = false;
+    private bool inHitstun = false;
     private string currentAttack = "";
 
     private Animator anim;
@@ -54,9 +55,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
 
-    private GameObject fightManager;
     private GameObject myHurtboxesObject;
     private GameObject myHitboxesObject;
+    private FightManager fightManager;
     private HitboxManager hbm;
     private PlayerHurtboxArtist hurtboxArtist;
 
@@ -241,7 +242,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Decrease hitstun timer
-        if (hitstun > 0) hitstun--;
+        if (hitstun > 0 && !inHitstun) 
+        {
+            inHitstun = true;
+            StartCoroutine(TickAwayHitstun()); 
+        }
 
         UpdateAnimations();
         // UpdateHurtboxes();   // called in UpdateAnimations(), where it is given a MovementState
@@ -392,20 +397,28 @@ public class PlayerMovement : MonoBehaviour
     // Colliding with hitboxes
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (this.playerId == 1) return; // debug: testing only player 1 rn
-        if (this.transform.parent != col.transform.parent && col.transform.parent.GetComponent<PlayerMovement>() != null)
+        if (this.transform.parent != col.transform.parent && col.transform.parent.name == "Hitboxes")
         {
-            // colliding with player; figure out if hitbox is hitbox
-            if (col.name == "Hitboxes")
-            {
-                Debug.Log("Ack! I'm hit!");
-            }
+            // colliding with other player's hitbox
+            Hitbox hitbox = col.GetComponent<HitboxComponent>().hitbox;
+            fightManager.LandedHit(col.transform.parent.transform.parent.GetComponent<PlayerMovement>().playerId, hitbox);
         }
     }
 
-    public void ClearHitboxes()
+    private IEnumerator TickAwayHitstun()
+    {
+        while (hitstun > 0)
+        {
+            hitstun--;
+            yield return new WaitForSeconds(1f / 60f);
+        }
+        inHitstun = false;
+    }
+
+    public void ClearHitboxesThisImage()
     {
         hbm.ClearAll(myHitboxesObject);
+        hurtboxArtist.PreventHitboxesThisImage();
     }
 
     public void SetTurningPoint(float tp)
@@ -415,7 +428,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetFightManager(GameObject fm)
     {
-        fightManager = fm;
-        hbm = fightManager.GetComponent<FightManager>().GetHitboxManager();
+        fightManager = fm.GetComponent<FightManager>();
+        hbm = fightManager.GetHitboxManager();
     }
 }

@@ -13,11 +13,19 @@ public class Hitbox : Hurtbox
     public int damage;
     public int hitstun;
 
-    public Hitbox(Vector2 offset, Vector2 scale, int damage, int hitstun) 
+    public int activeImage;
+
+    public Hitbox(Vector2 offset, Vector2 scale, int damage, int hitstun, int activeImage)
         : base(offset, scale)
     {
         this.damage = damage;
         this.hitstun = hitstun;
+        this.activeImage = activeImage;
+    }
+
+    public Hitbox(Vector2 offset, Vector2 scale, int damage, int hitstun) 
+        : this(offset, scale, damage, hitstun, 0)
+    {
     }
 
 }
