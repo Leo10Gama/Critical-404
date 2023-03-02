@@ -11,6 +11,17 @@ public class PlayerHurtboxArtist : HurtboxArtist
 
     private bool spawnHitboxesThisImage = true;
 
+    // ~~~~~ Fun values to tweak ~~~~~
+    private const int SLP_DAMAGE = 22;
+    private const int SLP_HITSTUN = 13;
+    private const int SHP_DAMAGE = 48;
+    private const int SHP_HITSTUN = 18;
+    private const int SLK_DAMAGE = 27;
+    private const int SLK_HITSTUN = 15;
+    private const int SHK_DAMAGE = 55;
+    private const int SHK_HITSTUN = 21;
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     // ########## MOVEMENT POSES ##########
     // === STANDING IDLE ===
     private readonly HurtboxAnimation IDLE_FRAMES = new HurtboxAnimation(new HurtboxFrame(new Hurtbox[] {
@@ -138,7 +149,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private readonly HurtboxAnimation SLP_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[] 
         {
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 0 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.LP frame 0 =====
                 new Hurtbox(    // head
                     new Vector2(-0.3429761f, 0.6294634f),
                     new Vector2(1.201753f, 0.9031599f)
@@ -160,7 +171,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.7982492f, 0.7094784f)
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 1 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.LP frame 1 =====
                 new Hurtbox(    // head
                     new Vector2(-0.07666445f, 0.6940239f),
                     new Vector2(0.8466692f, 0.8708795f)
@@ -184,12 +195,11 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    20,
-                    10,
+                    SLP_DAMAGE, SLP_HITSTUN,
                     1
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.LP frame 2 =====
                 new Hurtbox(    // head
                     new Vector2(-0.07666445f, 0.6940239f),
                     new Vector2(0.8466692f, 0.8708795f)
@@ -223,7 +233,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private readonly HurtboxAnimation SHP_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[] 
         {
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 0 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.HP frame 0 =====
                 new Hurtbox(    // head
                     new Vector2(-0.3429761f, 0.6294634f),
                     new Vector2(1.201753f, 0.9031599f)
@@ -245,7 +255,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.7982492f, 0.7094784f)
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 1 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.HP frame 1 =====
                 new Hurtbox(    // head
                     new Vector2(-0.07666445f, 0.6940239f),
                     new Vector2(0.8466692f, 0.8708795f)
@@ -269,12 +279,11 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    50,
-                    18,
+                    SHP_DAMAGE, SHP_HITSTUN,
                     1
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 1 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.HP frame 2 =====
                 new Hurtbox(    // head
                     new Vector2(-0.07666445f, 0.6940239f),
                     new Vector2(0.8466692f, 0.8708795f)
@@ -308,7 +317,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private readonly HurtboxAnimation SLK_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[]
         {
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 0 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.LK frame 0 =====
                 new Hurtbox(    // head
                     new Vector2(-0.0080688f, 0.6213933f),
                     new Vector2(0.9031596f, 0.8547394f)
@@ -330,7 +339,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.209136f, 0.7094788f)
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 1 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.LK frame 1 =====
                 new Hurtbox(    // head
                     new Vector2(-0.008068562f, 0.7101637f),
                     new Vector2(0.7578993f, 0.8224596f)
@@ -354,12 +363,11 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    25,
-                    12,
+                    SLK_DAMAGE, SLK_HITSTUN,
                     1
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.LK frame 2 =====
                 new Hurtbox(    // head
                     new Vector2(-0.008068562f, 0.7101637f),
                     new Vector2(0.7578993f, 0.8224596f)
@@ -393,7 +401,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private readonly HurtboxAnimation SHK_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[] 
         {
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 0 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.HK frame 0 =====
                 new Hurtbox(    // head
                     new Vector2(-0.0080688f, 0.6213933f),
                     new Vector2(0.9031596f, 0.8547394f)
@@ -415,7 +423,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.209136f, 0.7094788f)
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 1 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.HK frame 1 =====
                 new Hurtbox(    // head
                     new Vector2(-0.008068562f, 0.7101637f),
                     new Vector2(0.7578993f, 0.8224596f)
@@ -439,12 +447,11 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    48,
-                    21,
+                    SHK_DAMAGE, SHK_HITSTUN,
                     1
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ===== frame 2 =====
+            new HurtboxFrame(new Hurtbox[] {    // ===== s.HK frame 2 =====
                 new Hurtbox(    // head
                     new Vector2(-0.008068562f, 0.7101637f),
                     new Vector2(0.7578993f, 0.8224596f)
