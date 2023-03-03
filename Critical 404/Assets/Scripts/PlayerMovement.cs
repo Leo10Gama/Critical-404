@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     private bool pressedCrouch = false;
     private bool isCrouching = false;
     private bool inHitstun = false;
+    private bool triggeredCollider = false;
     private string currentAttack = "";
 
     private Animator anim;
@@ -325,14 +326,12 @@ public class PlayerMovement : MonoBehaviour
         UpdateHurtboxes(newState);
     }
 
-    private const int MAX_HITBOXES = 20;
-
     // Handle updating hurtboxes
     private void UpdateHurtboxes(MovementState state)
     {
         int totalBoxes = myHurtboxesObject.GetComponents<BoxCollider2D>().Length +
             myHitboxesObject.GetComponents<BoxCollider2D>().Length;
-        if (totalBoxes >= MAX_HITBOXES) return;
+        if (totalBoxes > 0) return;    // only draw once per frame
 
         bool isFacingRight = !sprite.flipX;
 
@@ -400,9 +399,20 @@ public class PlayerMovement : MonoBehaviour
         if (this.transform.parent != col.transform.parent && col.transform.parent.name == "Hitboxes")
         {
             // colliding with other player's hitbox
+            if (triggeredCollider) return;
+            triggeredCollider = true;
             Hitbox hitbox = col.GetComponent<HitboxComponent>().hitbox;
-            fightManager.LandedHit(col.transform.parent.transform.parent.GetComponent<PlayerMovement>().playerId, hitbox);
+            fightManager.LandedHit(playerId, hitbox);
+            StartCoroutine(FlipColliderTriggered(playerId));
         }
+    }
+
+    /// After a hit has landed, change the status of whether or not it
+    /// has landed to be false again.
+    IEnumerator FlipColliderTriggered(int playerId)
+    {
+        yield return new WaitForSeconds(1f / 60f);
+        triggeredCollider = false;
     }
 
     private IEnumerator TickAwayHitstun()

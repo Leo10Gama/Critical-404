@@ -15,6 +15,7 @@ public class FightManager : MonoBehaviour
     private PlayerMovement p1script;
     private PlayerMovement p2script;
 
+    private bool[] registeringHit = {false, false};
     private GameObject turningPoint = null;
 
     private GameObject hitboxManager;
@@ -64,14 +65,18 @@ public class FightManager : MonoBehaviour
      *  takes in as parameter the ID of the player who landed the attack, as
      *  well as the Hitbox that collided.
      */
-    public void LandedHit(int attackerId, Hitbox hitbox)
+    public void LandedHit(int attackedId, Hitbox hitbox)
     {
+        // Blocker
+        if (attackedId != 1 && attackedId != 2)
+            throw new Exception(String.Format("Unknown interaction: Attacked player's ID set to '{0}'!", attackedId));
+
+        int attackerId = attackedId == 1 ? 2 : 1;
+
         // Assign players from their scripts
         PlayerMovement attackingPlayer;
         PlayerMovement hitPlayer;
-        if (attackerId != 1 && attackerId != 2)
-            throw new Exception(String.Format("Unknown interaction: Attacking player's ID set to '{0}'!", attackerId));
-        else if (attackerId == 1)
+        if (attackerId == 1)
         {
             attackingPlayer = p1script;
             hitPlayer = p2script;
@@ -81,6 +86,7 @@ public class FightManager : MonoBehaviour
             attackingPlayer = p2script;
             hitPlayer = p1script;
         }
+
         // Clear the attacking player's hitboxes (prevent double-hits)
         attackingPlayer.ClearHitboxesThisImage();
         // Set hit player into hitstun and apply damage
@@ -90,7 +96,7 @@ public class FightManager : MonoBehaviour
         // TODO
         // Particle effects
         // TODO
-
+        Debug.Log("Hit!");
     }
 
     public HitboxManager GetHitboxManager()
