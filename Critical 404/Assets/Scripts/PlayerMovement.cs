@@ -8,11 +8,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float horizontalSpeed = 5f;
     [SerializeField] private float jumpMagnitude = 18f;
 
-    public int playerId = 0;
-    public int hp = 10000;
-    public int hitstun = 0;
-    public int blockstun = 0;
-    public bool canBlock = false;
+    [HideInInspector] public int playerId = 0;
+    [HideInInspector] public int hp = 10000;
+    [HideInInspector] public int hitstun = 0;
+    [HideInInspector] public int blockstun = 0;
+    [HideInInspector] public bool canBlock = false;
 
     private const string JUMP_KEY = "Jump";
     private const string CROUCH_KEY = "Crouch";
@@ -410,6 +410,9 @@ public class PlayerMovement : MonoBehaviour
                 return;
             case MovementState.hit:
                 StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
+                return;
+            case MovementState.block:
+                StartCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
                 return;
         }
     }
