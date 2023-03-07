@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float horizontalSpeed = 5f;
     [SerializeField] private float jumpMagnitude = 18f;
 
+    public int playerId = 0;
+    public int hp = 10000;
+    public int hitstun = 0;
+
     private const string JUMP_KEY = "Jump";
     private const string CROUCH_KEY = "Crouch";
     private const string MOVE_AXIS = "Movement";
@@ -34,7 +38,8 @@ public class PlayerMovement : MonoBehaviour
         lightPunch,         // 6
         heavyPunch,         // 7
         lightKick,          // 8
-        heavyKick           // 9
+        heavyKick,          // 9
+        hit                 // 10
     }
 
     private float dirX = 0f;
@@ -42,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded = false;    // start off the ground
     private bool pressedCrouch = false;
     private bool isCrouching = false;
+    private bool inHitstun = false;
     private string currentAttack = "";
 
     private Animator anim;
@@ -49,9 +55,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
 
-    private GameObject fightManager;
-    private HitboxManager hbm;
     private GameObject myHurtboxesObject;
+    private GameObject myHitboxesObject;
+    private FightManager fightManager;
+    private HitboxManager hbm;
     private PlayerHurtboxArtist hurtboxArtist;
 
     private InputActionAsset inputAsset;
@@ -64,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         player = inputAsset.FindActionMap("Player");
 
         myHurtboxesObject = transform.Find("Hurtboxes").gameObject;
+        myHitboxesObject = transform.Find("Hitboxes").gameObject;
     }
 
     // Start is called before the first frame update
@@ -73,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject);
+        hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
     }
 
     private void OnEnable()
@@ -196,8 +204,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Only do movement if not attacking
-        if (currentAttack == "")
+        // Only do movement if not attacking and not in hitstun
+        if (currentAttack == "" && hitstun <= 0)
         {
             // Handle crouching
             if (pressedCrouch && isGrounded)
@@ -233,6 +241,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        // Decrease hitstun timer
+        if (hitstun > 0 && !inHitstun) 
+        {
+            inHitstun = true;
+            StartCoroutine(TickAwayHitstun()); 
+        }
+
         UpdateAnimations();
         // UpdateHurtboxes();   // called in UpdateAnimations(), where it is given a MovementState
     }
@@ -243,7 +258,10 @@ public class PlayerMovement : MonoBehaviour
         MovementState newState = MovementState.idle;
 
         // Determine flipping
-        if (isGrounded)     // only flip if on ground
+        MovementState currState = (MovementState)anim.GetInteger("State");
+        bool canFlip = currState == MovementState.idle || currState == MovementState.movingForward ||
+            currState == MovementState.movingBackward || currState == MovementState.crouching;
+        if (canFlip)     // only flip if idle, moving, or crouching (not in air or attacking)
         {
             sprite.flipX = rb.transform.position.x >= TURNING_POINT_X;
         }
@@ -295,17 +313,27 @@ public class PlayerMovement : MonoBehaviour
             newState = MovementState.heavyKick;
         }
 
+        // TAKING DAMAGE (takes priority over other states)
+
+        if (hitstun > 0)
+        {
+            newState = MovementState.hit;
+        }
+
         anim.SetInteger("State", (int)newState);
 
         UpdateHurtboxes(newState);
     }
 
-    private const int MAX_HURTBOXES = 10;
+    private const int MAX_HITBOXES = 20;
 
     // Handle updating hurtboxes
     private void UpdateHurtboxes(MovementState state)
     {
-        if (myHurtboxesObject.GetComponents<BoxCollider2D>().Length >= MAX_HURTBOXES) return;
+        int totalBoxes = myHurtboxesObject.GetComponents<BoxCollider2D>().Length +
+            myHitboxesObject.GetComponents<BoxCollider2D>().Length;
+        if (totalBoxes >= MAX_HITBOXES) return;
+
         bool isFacingRight = !sprite.flipX;
 
         switch (state)
@@ -360,7 +388,37 @@ public class PlayerMovement : MonoBehaviour
                 else                    // j.HK
                     {/* TODO */}
                 return;
+            case MovementState.hit:
+                StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
+                return;
         }
+    }
+
+    // Colliding with hitboxes
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (this.transform.parent != col.transform.parent && col.transform.parent.name == "Hitboxes")
+        {
+            // colliding with other player's hitbox
+            Hitbox hitbox = col.GetComponent<HitboxComponent>().hitbox;
+            fightManager.LandedHit(col.transform.parent.transform.parent.GetComponent<PlayerMovement>().playerId, hitbox);
+        }
+    }
+
+    private IEnumerator TickAwayHitstun()
+    {
+        while (hitstun > 0)
+        {
+            hitstun--;
+            yield return new WaitForSeconds(1f / 60f);
+        }
+        inHitstun = false;
+    }
+
+    public void ClearHitboxesThisImage()
+    {
+        hbm.ClearAll(myHitboxesObject);
+        hurtboxArtist.PreventHitboxesThisImage();
     }
 
     public void SetTurningPoint(float tp)
@@ -370,7 +428,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetFightManager(GameObject fm)
     {
-        fightManager = fm;
-        hbm = fightManager.GetComponent<FightManager>().GetHitboxManager();
+        fightManager = fm.GetComponent<FightManager>();
+        hbm = fightManager.GetHitboxManager();
     }
 }

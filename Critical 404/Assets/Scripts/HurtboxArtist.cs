@@ -12,4 +12,8 @@ public abstract class HurtboxArtist
     public abstract IEnumerator DrawSHP(bool facingRight);
     public abstract IEnumerator DrawSLK(bool facingRight);
     public abstract IEnumerator DrawSHK(bool facingRight);
+
+    public abstract IEnumerator DrawHitstun(bool facingRight);
+
+    public abstract void StopDrawingAll();
 }
