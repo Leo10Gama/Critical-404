@@ -14,6 +14,16 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    public void Mainmenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void setting()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene("SampleScene");
