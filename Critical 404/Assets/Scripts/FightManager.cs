@@ -10,14 +10,20 @@ public class FightManager : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
 
+    public GameObject hitEffect;
+    public GameObject blockEffect;
+
     private GameObject p1;
     private GameObject p2;
     private PlayerMovement p1script;
     private PlayerMovement p2script;
 
+    private bool[] registeringHit = {false, false};
     private GameObject turningPoint = null;
 
     private GameObject hitboxManager;
+
+    private System.Random rng = new System.Random();
 
     void Awake()
     {
@@ -64,14 +70,18 @@ public class FightManager : MonoBehaviour
      *  takes in as parameter the ID of the player who landed the attack, as
      *  well as the Hitbox that collided.
      */
-    public void LandedHit(int attackerId, Hitbox hitbox)
+    public void LandedHit(int attackedId, Hitbox hitbox)
     {
+        // Blocker
+        if (attackedId != 1 && attackedId != 2)
+            throw new Exception(String.Format("Unknown interaction: Attacked player's ID set to '{0}'!", attackedId));
+
+        int attackerId = attackedId == 1 ? 2 : 1;
+
         // Assign players from their scripts
         PlayerMovement attackingPlayer;
         PlayerMovement hitPlayer;
-        if (attackerId != 1 && attackerId != 2)
-            throw new Exception(String.Format("Unknown interaction: Attacking player's ID set to '{0}'!", attackerId));
-        else if (attackerId == 1)
+        if (attackerId == 1)
         {
             attackingPlayer = p1script;
             hitPlayer = p2script;
@@ -81,20 +91,69 @@ public class FightManager : MonoBehaviour
             attackingPlayer = p2script;
             hitPlayer = p1script;
         }
+
         // Clear the attacking player's hitboxes (prevent double-hits)
         attackingPlayer.ClearHitboxesThisImage();
+
+        // Generate position for particle effect
+        System.Random rng = new System.Random();
+        float rand = (float)(rng.NextDouble() * 0.5f) - 0.25f;
+        bool hitPlayerFacingLeft = hitPlayer.GetComponent<SpriteRenderer>().flipX;
+        Vector3 particlePos = new Vector3(   // put particle some distance near where the hitbox is
+            attackingPlayer.transform.position.x +  // x pos
+                (1.5f * (hitPlayerFacingLeft ? hitbox.offset.x : -hitbox.offset.x)) +
+                NextSymmetricFloat(0.1f),
+            attackingPlayer.transform.position.y +  // y pos
+                (1.5f * hitbox.offset.y) +
+                NextSymmetricFloat(0.1f),
+            -1  // appear above characters
+        );
+        // Check if player is blocking
+        if (hitPlayer.canBlock)
+        {
+            hitPlayer.blockstun = hitbox.blockstun; // apply blockstun from attack
+            GameObject blockParticle = Instantiate(
+                blockEffect, 
+                particlePos,
+                Quaternion.identity
+            );
+            blockParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
+            StartCoroutine(DoHitstop(3));
+            return;
+        }
+
         // Set hit player into hitstun and apply damage
         hitPlayer.hp -= hitbox.damage;
         hitPlayer.hitstun = hitbox.hitstun;
         // Screenshake and hitstop effects
         // TODO
         // Particle effects
-        // TODO
-
+        GameObject hitParticle = Instantiate(
+            hitEffect, 
+            particlePos,
+            Quaternion.Euler(0, 0, NextSymmetricFloat(50))
+        );
+        hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
+        StartCoroutine(DoHitstop(5));
+        Debug.Log("Player " + hitPlayer.playerId + " takes " + hitbox.damage + " damage!");
     }
 
     public HitboxManager GetHitboxManager()
     {
         return hitboxManager.GetComponent<HitboxManager>();
+    }
+
+    /// Get a random float value between [-range, range]
+    public float NextSymmetricFloat(float range)
+    {
+        return (float)(rng.NextDouble() * range) - (2 * range);
+    }
+
+    IEnumerator DoHitstop(float time)
+    {
+        float currTimescale = Time.timeScale;
+        Time.timeScale = 0.0f;
+        yield return new WaitForSecondsRealtime(time / 60f);
+        Time.timeScale = currTimescale;
     }
 }
