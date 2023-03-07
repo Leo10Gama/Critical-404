@@ -14,12 +14,16 @@ public class PlayerHurtboxArtist : HurtboxArtist
     // ~~~~~ Fun values to tweak ~~~~~
     private const int SLP_DAMAGE = 22;
     private const int SLP_HITSTUN = 13;
+    private const int SLP_BLOCKSTUN = 6;
     private const int SHP_DAMAGE = 48;
     private const int SHP_HITSTUN = 18;
+    private const int SHP_BLOCKSTUN = 9;
     private const int SLK_DAMAGE = 27;
     private const int SLK_HITSTUN = 15;
+    private const int SLK_BLOCKSTUN = 7;
     private const int SHK_DAMAGE = 55;
     private const int SHK_HITSTUN = 21;
+    private const int SHK_BLOCKSTUN = 10;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // ########## MOVEMENT POSES ##########
@@ -214,7 +218,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    SLP_DAMAGE, SLP_HITSTUN,
+                    SLP_DAMAGE, SLP_HITSTUN, SLP_BLOCKSTUN,
                     1
                 )
             }),
@@ -298,7 +302,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    SHP_DAMAGE, SHP_HITSTUN,
+                    SHP_DAMAGE, SHP_HITSTUN, SHP_BLOCKSTUN,
                     1
                 )
             }),
@@ -382,7 +386,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    SLK_DAMAGE, SLK_HITSTUN,
+                    SLK_DAMAGE, SLK_HITSTUN, SLK_BLOCKSTUN,
                     1
                 )
             }),
@@ -466,7 +470,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    SHK_DAMAGE, SHK_HITSTUN,
+                    SHK_DAMAGE, SHK_HITSTUN, SHK_BLOCKSTUN,
                     1
                 )
             }),

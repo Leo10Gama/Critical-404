@@ -93,7 +93,7 @@ public class FightManager : MonoBehaviour
         // Check if player is blocking
         if (hitPlayer.canBlock)
         {
-            hitPlayer.blockstun = 10;
+            hitPlayer.blockstun = hitbox.blockstun;
             return;
         }
 
