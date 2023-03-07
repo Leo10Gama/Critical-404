@@ -8,6 +8,9 @@ public abstract class HurtboxArtist
     public abstract IEnumerator DrawMoveBackward(bool facingRight);
     public abstract IEnumerator DrawJumpRise(bool facingRight);
     public abstract IEnumerator DrawJumpFall(bool facingRight);
+
+    public abstract IEnumerator DrawStandingBlock(bool facingRight);
+
     public abstract IEnumerator DrawSLP(bool facingRight);
     public abstract IEnumerator DrawSHP(bool facingRight);
     public abstract IEnumerator DrawSLK(bool facingRight);

@@ -89,6 +89,14 @@ public class FightManager : MonoBehaviour
 
         // Clear the attacking player's hitboxes (prevent double-hits)
         attackingPlayer.ClearHitboxesThisImage();
+
+        // Check if player is blocking
+        if (hitPlayer.canBlock)
+        {
+            hitPlayer.blockstun = 10;
+            return;
+        }
+
         // Set hit player into hitstun and apply damage
         hitPlayer.hp -= hitbox.damage;
         hitPlayer.hitstun = hitbox.hitstun;
@@ -96,7 +104,7 @@ public class FightManager : MonoBehaviour
         // TODO
         // Particle effects
         // TODO
-        Debug.Log("Hit!");
+        Debug.Log("Player " + hitPlayer.playerId + " takes " + hitbox.damage + " damage!");
     }
 
     public HitboxManager GetHitboxManager()

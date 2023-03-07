@@ -125,6 +125,25 @@ public class PlayerHurtboxArtist : HurtboxArtist
             new Vector2(0.5884295f, 0.6449184f)
         )
     }));
+    // === STANDING BLOCK ===
+    private readonly HurtboxAnimation BLOCKING_FRAMES = new HurtboxAnimation(new HurtboxFrame( new Hurtbox[] {
+        new Hurtbox(    // head
+            new Vector2(-0.09479785f, 0.8531797f),
+            new Vector2(0.8815026f, 0.8341038f)
+        ),
+        new Hurtbox(    // arms
+            new Vector2(0.08887291f, 0.4858385f),
+            new Vector2(1.035549f, 0.7867051f)
+        ),
+        new Hurtbox(    // body
+            new Vector2(-0.01184988f, -0.242919f),
+            new Vector2(0.2416182f, 0.6800576f)
+        ),
+        new Hurtbox(    // legs
+            new Vector2(-0.05332398f, -0.9361274f),
+            new Vector2(0.7511563f, 0.6682078f)
+        )
+    }));
     // === HIT ===
     private readonly HurtboxAnimation HIT_FRAMES = new HurtboxAnimation(new HurtboxFrame(new Hurtbox[] {
         new Hurtbox(    // head
@@ -517,6 +536,11 @@ public class PlayerHurtboxArtist : HurtboxArtist
     public override IEnumerator DrawJumpFall(bool facingRight)
     {
         yield return DrawHurtboxAnimation(FALLING_FRAMES, facingRight);
+    }
+
+    public override IEnumerator DrawStandingBlock(bool facingRight)
+    {
+        yield return DrawHurtboxAnimation(BLOCKING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSLP(bool facingRight)

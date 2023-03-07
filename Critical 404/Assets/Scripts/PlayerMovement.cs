@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public int playerId = 0;
     public int hp = 10000;
     public int hitstun = 0;
+    public int blockstun = 0;
+    public bool canBlock = false;
 
     private const string JUMP_KEY = "Jump";
     private const string CROUCH_KEY = "Crouch";
@@ -39,15 +41,17 @@ public class PlayerMovement : MonoBehaviour
         heavyPunch,         // 7
         lightKick,          // 8
         heavyKick,          // 9
-        hit                 // 10
+        hit,                // 10
+        block               // 11
     }
 
     private float dirX = 0f;
     private bool pressedJump = false;
-    private bool isGrounded = false;    // start off the ground
     private bool pressedCrouch = false;
+    private bool isGrounded = false;    // start off the ground
     private bool isCrouching = false;
     private bool inHitstun = false;
+    private bool inBlockstun = false;
     private bool triggeredCollider = false;
     private string currentAttack = "";
 
@@ -206,8 +210,12 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // Only do movement if not attacking and not in hitstun
-        if (currentAttack == "" && hitstun <= 0)
+        if (currentAttack == "" && hitstun <= 0 && blockstun <= 0)
         {
+            // Handle whether we can block
+            // (presumably in this section, we can do actions freely)
+            canBlock = sprite.flipX ? dirX > 0.01f : dirX < -0.01f;
+
             // Handle crouching
             if (pressedCrouch && isGrounded)
             {
@@ -222,7 +230,6 @@ public class PlayerMovement : MonoBehaviour
             // Handle horizontal movement
             if (isGrounded && !isCrouching) // if in the air, horizontal momentum is locked
             {
-                // dirX = Input.GetAxisRaw(MOVE_AXIS);
                 rb.velocity = new Vector2(dirX * horizontalSpeed, rb.velocity.y);
             }
 
@@ -247,6 +254,14 @@ public class PlayerMovement : MonoBehaviour
         {
             inHitstun = true;
             StartCoroutine(TickAwayHitstun()); 
+        }
+        // Decreate blockstun timer
+        if (blockstun > 0 && !inBlockstun)
+        {
+            inBlockstun = true;
+            if (!isGrounded) rb.velocity /= 2f;
+            rb.velocity = new Vector2(0f, 0f);
+            StartCoroutine(TickAwayBlockstun());
         }
 
         UpdateAnimations();
@@ -312,6 +327,12 @@ public class PlayerMovement : MonoBehaviour
         else if (currentAttack == HEAVY_KICK_KEY)   // s.HK
         {
             newState = MovementState.heavyKick;
+        }
+
+        // IS BLOCKING (takes some priority)
+        if (blockstun > 0)
+        {
+            newState = MovementState.block;
         }
 
         // TAKING DAMAGE (takes priority over other states)
@@ -423,6 +444,16 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(1f / 60f);
         }
         inHitstun = false;
+    }
+
+    private IEnumerator TickAwayBlockstun()
+    {
+        while (blockstun > 0)
+        {
+            blockstun--;
+            yield return new WaitForSeconds(1f / 60f);
+        }
+        inBlockstun = false;
     }
 
     public void ClearHitboxesThisImage()
