@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 5
   jumpMagnitude: 18
+  playerName: 
   playerId: 0
   hp: 10000
   hitstun: 0
@@ -188,7 +189,7 @@ Animator:
   m_GameObject: {fileID: 7513497409890082206}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 9c6fa5b403adfff4e959eecf9b17f416, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8d3bb972f461241468229b2ff882cc07, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

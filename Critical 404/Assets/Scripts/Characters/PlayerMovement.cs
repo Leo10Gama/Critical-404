@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float horizontalSpeed = 5f;
     [SerializeField] private float jumpMagnitude = 18f;
+    [SerializeField] public string playerName = "";
 
     [HideInInspector] public int playerId = 0;
     [HideInInspector] public int hp = 10000;
@@ -22,10 +23,19 @@ public class PlayerMovement : MonoBehaviour
     private const string LIGHT_KICK_KEY = "Light Kick";
     private const string HEAVY_KICK_KEY = "Heavy Kick";
 
+    // VALUES TO OVERWRITE FOR ACTUAL CHARACTERS
     private const int SLP_DURATION = 15;
     private const int SHP_DURATION = 19;
     private const int SLK_DURATION = 14;
     private const int SHK_DURATION = 21;
+    private const int CLP_DURATION = 13;
+    private const int CHP_DURATION = 16;
+    private const int CLK_DURATION = 15;
+    private const int CHK_DURATION = 19;
+    private const int JLP_DURATION = 16;
+    private const int JHP_DURATION = 21;
+    private const int JLK_DURATION = 18;
+    private const int JHK_DURATION = 26;
 
     private float TURNING_POINT_X = 0f;
 
@@ -86,7 +96,12 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+        switch (playerName)
+        {
+            default:
+                hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+                break;
+        }
     }
 
     private void OnEnable()
@@ -132,12 +147,25 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnLightPunch(InputAction.CallbackContext context)
     {
-        // s.LP
-        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
+        // make sure we are free to attack
+        if (!context.action.triggered || currentAttack != "")
+            return;
+        
+        if (isGrounded && !isCrouching) // s.LP
         {
-            rb.velocity = new Vector2(0f, 0f);
+            rb.velocity = Vector2.zero;
             currentAttack = LIGHT_PUNCH_KEY;
             StartCoroutine(StandingLightPunch());
+        }
+        else if (isCrouching)           // c.LP
+        {
+            currentAttack = LIGHT_PUNCH_KEY;
+            StartCoroutine(CrouchingLightPunch());
+        }
+        else                            // j.LP
+        {
+            currentAttack = LIGHT_PUNCH_KEY;
+            StartCoroutine(JumpingLightPunch());
         }
     }
 
@@ -147,16 +175,41 @@ public class PlayerMovement : MonoBehaviour
         currentAttack = "";
     }
 
+    private IEnumerator CrouchingLightPunch()
+    {
+        yield return new WaitForSeconds(CLP_DURATION / 60f); // duration of c.LP
+        currentAttack = "";
+    }
+
+    private IEnumerator JumpingLightPunch()
+    {
+        yield return new WaitForSeconds(JLP_DURATION / 60f); // duration of j.LP
+        currentAttack = "";
+    }
+
     // Heavy Punch
 
     public void OnHeavyPunch(InputAction.CallbackContext context)
     {
-        // s.HP
-        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
+        // make sure we are free to attack
+        if (!context.action.triggered || currentAttack != "")
+            return;
+        
+        if (isGrounded && !isCrouching) // s.HP
         {
-            rb.velocity = new Vector2(0f, 0f);
+            rb.velocity = Vector2.zero;
             currentAttack = HEAVY_PUNCH_KEY;
             StartCoroutine(StandingHeavyPunch());
+        }
+        else if (isCrouching)           // c.HP
+        {
+            currentAttack = HEAVY_PUNCH_KEY;
+            StartCoroutine(CrouchingHeavyPunch());
+        }
+        else                            // j.HP
+        {
+            currentAttack = HEAVY_PUNCH_KEY;
+            StartCoroutine(JumpingHeavyPunch());
         }
     }
 
@@ -166,16 +219,41 @@ public class PlayerMovement : MonoBehaviour
         currentAttack = "";
     }
 
+    private IEnumerator CrouchingHeavyPunch()
+    {
+        yield return new WaitForSeconds(CHP_DURATION / 60f);  // duration of c.HP
+        currentAttack = "";
+    }
+
+    private IEnumerator JumpingHeavyPunch()
+    {
+        yield return new WaitForSeconds(JHP_DURATION / 60f);  // duration of c.HP
+        currentAttack = "";
+    }
+
     // Light Kick
 
     public void OnLightKick(InputAction.CallbackContext context)
     {
-        // s.LK
-        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
+        // make sure we are free to attack
+        if (!context.action.triggered || currentAttack != "")
+            return;
+        
+        if (isGrounded && !isCrouching) // s.LK
         {
-            rb.velocity = new Vector2(0f, 0f);
+            rb.velocity = Vector2.zero;
             currentAttack = LIGHT_KICK_KEY;
             StartCoroutine(StandingLightKick());
+        }
+        else if (isCrouching)           // c.LK
+        {
+            currentAttack = LIGHT_KICK_KEY;
+            StartCoroutine(CrouchingLightKick());
+        }
+        else                            // j.LK
+        {
+            currentAttack = LIGHT_KICK_KEY;
+            StartCoroutine(JumpingLightKick());
         }
     }
 
@@ -185,16 +263,41 @@ public class PlayerMovement : MonoBehaviour
         currentAttack = "";
     }
 
+    private IEnumerator CrouchingLightKick()
+    {
+        yield return new WaitForSeconds(CLK_DURATION / 60f); // duration of c.LK
+        currentAttack = "";
+    }
+
+    private IEnumerator JumpingLightKick()
+    {
+        yield return new WaitForSeconds(JLK_DURATION / 60f); // duration of j.LK
+        currentAttack = "";
+    }
+
     // Heavy Kick
 
     public void OnHeavyKick(InputAction.CallbackContext context)
     {
-        // s.HK
-        if (context.action.triggered && isGrounded && !isCrouching && currentAttack == "")
+        // make sure we are free to attack
+        if (!context.action.triggered || currentAttack != "")
+            return;
+        
+        if (isGrounded && !isCrouching) // s.HK
         {
-            rb.velocity = new Vector2(0f, 0f);
+            rb.velocity = Vector2.zero;
             currentAttack = HEAVY_KICK_KEY;
             StartCoroutine(StandingHeavyKick());
+        }
+        else if (isCrouching)           // c.LK
+        {
+            currentAttack = HEAVY_KICK_KEY;
+            StartCoroutine(CrouchingHeavyKick());
+        }
+        else                            // j.HK
+        {
+            currentAttack = HEAVY_KICK_KEY;
+            StartCoroutine(JumpingHeavyKick());
         }
     }
 
@@ -204,13 +307,25 @@ public class PlayerMovement : MonoBehaviour
         currentAttack = "";
     }
 
+    private IEnumerator CrouchingHeavyKick()
+    {
+        yield return new WaitForSeconds(CHK_DURATION / 60f);  // duration of c.HK
+        currentAttack = "";
+    }
+
+    private IEnumerator JumpingHeavyKick()
+    {
+        yield return new WaitForSeconds(JHK_DURATION / 60f);  // duration of j.HK
+        currentAttack = "";
+    }
+
     // ========== UPDATING ==========
 
     // Update is called once per frame
     void Update()
     {
         // Only do movement if not attacking and not in hitstun
-        if (currentAttack == "" && hitstun <= 0 && blockstun <= 0)
+        if ((currentAttack == "" || !isGrounded) && hitstun <= 0 && blockstun <= 0)
         {
             // Handle whether we can block
             // (presumably in this section, we can do actions freely)
@@ -220,7 +335,7 @@ public class PlayerMovement : MonoBehaviour
             if (pressedCrouch && isGrounded)
             {
                 isCrouching = true;
-                rb.velocity = new Vector2(0f, 0f);
+                rb.velocity = Vector2.zero;
             }
             else
             {
@@ -237,6 +352,29 @@ public class PlayerMovement : MonoBehaviour
             if (rb.velocity.y < 0.01f && rb.velocity.y > -0.01f && !isGrounded) // landing
             {
                 isGrounded = true;
+                int state = anim.GetInteger("State");
+                if (6 <= state && state <= 9)    // we landed mid-attack
+                {
+                    hurtboxArtist.StopCurrentRoutine();
+                    hurtboxArtist.StopDrawingAll();
+                    // stop doing whatever coroutine was running with the attack
+                    switch (state)
+                    {
+                        case (int)MovementState.lightPunch:
+                            StopCoroutine(JumpingLightPunch());
+                            break;
+                        case (int)MovementState.heavyPunch:
+                            StopCoroutine(JumpingHeavyPunch());
+                            break;
+                        case (int)MovementState.lightKick:
+                            StopCoroutine(JumpingLightKick());
+                            break;
+                        case (int)MovementState.heavyKick:
+                            // StopCoroutine(JumpingHeavyKick());
+                            break;
+                    }
+                    currentAttack = "";
+                }
             }
             if (pressedJump && isGrounded)                    // jumping off ground
             {
@@ -252,15 +390,27 @@ public class PlayerMovement : MonoBehaviour
         // Decrease hitstun timer
         if (hitstun > 0 && !inHitstun) 
         {
+            // stop everything
+            StopAllMyCoroutines();
+            hurtboxArtist.StopCurrentRoutine();
+            hurtboxArtist.StopDrawingAll();
+            currentAttack = "";
+            // switch to be now in hitstun
             inHitstun = true;
             StartCoroutine(TickAwayHitstun()); 
         }
         // Decreate blockstun timer
         if (blockstun > 0 && !inBlockstun)
         {
+            // stop everything
+            StopAllMyCoroutines();
+            hurtboxArtist.StopCurrentRoutine();
+            hurtboxArtist.StopDrawingAll();
+            currentAttack = "";
+            // switch to be now in blockstun
             inBlockstun = true;
             if (!isGrounded) rb.velocity /= 2f;
-            rb.velocity = new Vector2(0f, 0f);
+            rb.velocity = Vector2.zero;
             StartCoroutine(TickAwayBlockstun());
         }
 
@@ -333,6 +483,7 @@ public class PlayerMovement : MonoBehaviour
         if (blockstun > 0)
         {
             newState = MovementState.block;
+            currentAttack = "";
         }
 
         // TAKING DAMAGE (takes priority over other states)
@@ -340,6 +491,7 @@ public class PlayerMovement : MonoBehaviour
         if (hitstun > 0)
         {
             newState = MovementState.hit;
+            currentAttack = "";
         }
 
         anim.SetInteger("State", (int)newState);
@@ -378,41 +530,46 @@ public class PlayerMovement : MonoBehaviour
                 return;
             case MovementState.lightPunch:
                 if (isCrouching)        // c.LP
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawCLP(isFacingRight));
                 else if (isGrounded)    // s.LP
                     StartCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
                 else                    // j.LP
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawJLP(isFacingRight));
                 return;
             case MovementState.heavyPunch:
                 if (isCrouching)        // c.HP
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawCHP(isFacingRight));
                 else if (isGrounded)    // s.HP
                     StartCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
                 else                    // j.HP
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawJHP(isFacingRight));
                 return;
             case MovementState.lightKick:
                 if (isCrouching)        // c.LK
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawCLK(isFacingRight));
                 else if (isGrounded)    // s.LK
                     StartCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
                 else                    // j.LK
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawJLK(isFacingRight));
                 return;
             case MovementState.heavyKick:
                 if (isCrouching)        // c.HK
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawCHK(isFacingRight));
                 else if (isGrounded)    // s.HK
                     StartCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
                 else                    // j.HK
-                    {/* TODO */}
+                    StartCoroutine(hurtboxArtist.DrawJHK(isFacingRight));
                 return;
             case MovementState.hit:
                 StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
                 return;
             case MovementState.block:
-                StartCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
+                if (isCrouching)        // crouch block
+                    StartCoroutine(hurtboxArtist.DrawCrouchingBlock(isFacingRight));
+                else if (isGrounded)    // standing block
+                    StartCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
+                else                    // jumping block
+                    StartCoroutine(hurtboxArtist.DrawJumpingBlock(isFacingRight));
                 return;
         }
     }
@@ -457,6 +614,50 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(1f / 60f);
         }
         inBlockstun = false;
+    }
+
+    public void StopAllMyCoroutines()
+    {
+        StopCoroutine(StandingLightPunch());
+        StopCoroutine(StandingHeavyPunch());
+        StopCoroutine(StandingLightKick());
+        StopCoroutine(StandingHeavyKick());
+        StopCoroutine(CrouchingLightPunch());
+        StopCoroutine(CrouchingHeavyPunch());
+        StopCoroutine(CrouchingLightKick());
+        StopCoroutine(CrouchingHeavyKick());
+        StopCoroutine(JumpingLightPunch());
+        // StopCoroutine(JumpingHeavyPunch());
+        // StopCoroutine(JumpingLightKick());
+        // StopCoroutine(JumpingHeavyKick());
+        bool isFacingRight = !sprite.flipX;
+        StopCoroutine(hurtboxArtist.DrawIdle(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawMoveForward(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawCLP(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawJLP(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawCHP(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
+        // StopCoroutine(hurtboxArtist.DrawJHP(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawCLK(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
+        // StopCoroutine(hurtboxArtist.DrawJLK(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawCHK(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
+        // StopCoroutine(hurtboxArtist.DrawJHK(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawCrouchingBlock(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
+        StopCoroutine(hurtboxArtist.DrawJumpingBlock(isFacingRight));
+    }
+
+    public void SetVelocity(Vector2 velocity)
+    {
+        rb.velocity = velocity;
     }
 
     public void ClearHitboxesThisImage()
