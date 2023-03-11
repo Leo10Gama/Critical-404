@@ -134,7 +134,7 @@ public class FightManager : MonoBehaviour
             Quaternion.Euler(0, 0, NextSymmetricFloat(50))
         );
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
-        StartCoroutine(DoHitstop(5));
+        StartCoroutine(DoHitstop(3));
         Debug.Log("Player " + hitPlayer.playerId + " takes " + hitbox.damage + " damage!");
     }
 
