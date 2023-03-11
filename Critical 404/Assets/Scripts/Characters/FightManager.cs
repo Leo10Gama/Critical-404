@@ -108,6 +108,7 @@ public class FightManager : MonoBehaviour
                 NextSymmetricFloat(0.1f),
             -1  // appear above characters
         );
+
         // Check if player is blocking
         if (hitPlayer.canBlock)
         {
@@ -122,9 +123,11 @@ public class FightManager : MonoBehaviour
             return;
         }
 
-        // Set hit player into hitstun and apply damage
+        // Set hit player into hitstun and apply damage and other properties
         hitPlayer.hp -= hitbox.damage;
         hitPlayer.hitstun = hitbox.hitstun;
+        hitPlayer.SetVelocity(Vector2.zero);
+        hitPlayer.StopAllMyCoroutines();
         // Screenshake and hitstop effects
         // TODO
         // Particle effects
