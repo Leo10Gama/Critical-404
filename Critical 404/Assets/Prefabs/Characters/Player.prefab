@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 5
   jumpMagnitude: 18
+  playerName: 
   playerId: 0
   hp: 10000
   hitstun: 0
