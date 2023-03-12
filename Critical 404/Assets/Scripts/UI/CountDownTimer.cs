@@ -9,7 +9,7 @@ public class CountDownTimer : MonoBehaviour
 {
     
     float currentTime = 0f;
-    float startingTime = 15f; //starting time
+    float startingTime = 40f; //starting time
 
     public TMP_Text countdownText;
 
