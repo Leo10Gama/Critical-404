@@ -1108,7 +1108,7 @@ GameObject:
   - component: {fileID: 827316214}
   - component: {fileID: 827316216}
   m_Layer: 5
-  m_Name: player_2_hp
+  m_Name: P2Healthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 912166311}
-  healthAmount: 1000
+  player: {fileID: 0}
 --- !u!1 &833436538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,7 +1813,7 @@ GameObject:
   - component: {fileID: 1600415195}
   - component: {fileID: 1600415197}
   m_Layer: 5
-  m_Name: player_1_hp
+  m_Name: P1Healthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1891,7 +1891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1925221645}
-  healthAmount: 1000
+  player: {fileID: 0}
 --- !u!1 &1925221643
 GameObject:
   m_ObjectHideFlags: 0
