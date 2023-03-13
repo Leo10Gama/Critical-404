@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using UnityEngine.UI;
+using TMPro;
+
 public class FightManager : MonoBehaviour
 {
 
@@ -25,6 +28,8 @@ public class FightManager : MonoBehaviour
     private GameObject hitboxManager;
 
     private System.Random rng = new System.Random();
+
+    public TMP_Text WhoWon;
 
     void Awake()
     {
@@ -77,6 +82,8 @@ public class FightManager : MonoBehaviour
         p1script.SetTurningPoint(newPos);
         p2script.SetTurningPoint(newPos);
         turningPoint.transform.position = new Vector3(newPos, 0f, 0f);
+
+     
     }
 
     /**
@@ -159,13 +166,15 @@ public class FightManager : MonoBehaviour
         if (hitPlayer.hp <= 0)
         {
             PlayerHasWon(attackerId);
+            
+            SceneManager.LoadScene("PlayAgain");
         }        
     }
 
     public void PlayerHasWon(int winningPlayerId)
     {
         // TODO: Win condition stuff
-        Debug.Log("Player " + winningPlayerId + " wins!");  // temp
+        Debug.Log("Player " + winningPlayerId + " wins!");
     }
 
     public HitboxManager GetHitboxManager()

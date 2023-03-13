@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
@@ -18,7 +19,8 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-        
+
+
     }
 
     public void SetMaxHealth(int maxHealth)
