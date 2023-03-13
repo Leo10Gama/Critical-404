@@ -17,6 +17,7 @@ public class FightManager : MonoBehaviour
     private GameObject p2;
     private PlayerMovement p1script;
     private PlayerMovement p2script;
+    private HealthBar[] healthbars;
 
     private bool[] registeringHit = {false, false};
     private GameObject turningPoint = null;
@@ -29,6 +30,7 @@ public class FightManager : MonoBehaviour
     {
         hitboxManager = transform.Find("HitboxManager").gameObject;
 
+        // Initialize local player references
         p1 = Instantiate(player1, new Vector3(-3f, 0f, 0f), Quaternion.identity);
         p2 = Instantiate(player2, new Vector3(3f, 0f, 0f), Quaternion.identity);
         p1script = p1.GetComponent<PlayerMovement>();
@@ -37,6 +39,18 @@ public class FightManager : MonoBehaviour
         p2script.SetFightManager(this.gameObject);
         p1script.playerId = 1;
         p2script.playerId = 2;
+
+        // Initialize health bars
+        healthbars = new HealthBar[] {
+            GameObject.Find("Canvas/P1Healthbar").GetComponent<HealthBar>(),
+            GameObject.Find("Canvas/P2Healthbar").GetComponent<HealthBar>()
+        };
+        healthbars[0].player = p1script;
+        healthbars[1].player = p2script;
+        healthbars[0].SetMaxHealth(p1script.hp);
+        healthbars[1].SetMaxHealth(p2script.hp);
+
+        // Initialize the "turning point" (point where characters flip around)
         turningPoint = transform.Find("TurningPoint").gameObject;
     }
 
@@ -125,6 +139,7 @@ public class FightManager : MonoBehaviour
 
         // Set hit player into hitstun and apply damage and other properties
         hitPlayer.hp -= hitbox.damage;
+        healthbars[attackedId - 1].UpdateHealth();
         hitPlayer.hitstun = hitbox.hitstun;
         hitPlayer.SetVelocity(Vector2.zero);
         hitPlayer.StopAllMyCoroutines();
@@ -139,6 +154,18 @@ public class FightManager : MonoBehaviour
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
         StartCoroutine(DoHitstop(3));
         Debug.Log("Player " + hitPlayer.playerId + " takes " + hitbox.damage + " damage!");
+
+        // Check win condition
+        if (hitPlayer.hp <= 0)
+        {
+            PlayerHasWon(attackerId);
+        }        
+    }
+
+    public void PlayerHasWon(int winningPlayerId)
+    {
+        // TODO: Win condition stuff
+        Debug.Log("Player " + winningPlayerId + " wins!");  // temp
     }
 
     public HitboxManager GetHitboxManager()

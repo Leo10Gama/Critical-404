@@ -175,7 +175,7 @@ MonoBehaviour:
   jumpMagnitude: 18
   playerName: 
   playerId: 0
-  hp: 10000
+  hp: 1000
   hitstun: 0
   blockstun: 0
   canBlock: 0

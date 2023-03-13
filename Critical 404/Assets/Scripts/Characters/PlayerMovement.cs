@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public string playerName = "";
 
     [HideInInspector] public int playerId = 0;
-    [HideInInspector] public int hp = 10000;
+    [HideInInspector] public int hp = 1000;
     [HideInInspector] public int hitstun = 0;
     [HideInInspector] public int blockstun = 0;
     [HideInInspector] public bool canBlock = false;
