@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public int hitstun = 0;
     [HideInInspector] public int blockstun = 0;
     [HideInInspector] public bool canBlock = false;
+    [HideInInspector] public bool canMove = true;
 
     private const string JUMP_KEY = "Jump";
     private const string CROUCH_KEY = "Crouch";
@@ -324,6 +325,15 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Do absolutely nothing if cannot move (game ended)
+        if (!canMove) 
+        {
+            currentAttack = "";
+            StopAllMyCoroutines();
+            UpdateAnimations();
+            return;
+        }
+
         // Only do movement if not attacking and not in hitstun
         if ((currentAttack == "" || !isGrounded) && hitstun <= 0 && blockstun <= 0)
         {

@@ -6,11 +6,11 @@ using TMPro;
 
 public class TitleScreen : MonoBehaviour
 {
-    //public TextMeshProUGUI startText;
+    public TextMeshProUGUI startText;
 
     void Start()
     {
-        //startText = GameObject.Find("Canvas/MainMenu/StartButtonText").GetComponent<TextMeshProUGUI>();
+        startText = GameObject.Find("Canvas/MainMenu/StartButtonText").GetComponent<TextMeshProUGUI>();
     }
 
     void Update()
@@ -33,7 +33,7 @@ public class TitleScreen : MonoBehaviour
 
     public void PlayGame()
     {
-        //startText.text = "Loading...";
+        startText.text = "Loading...";
         SceneManager.LoadScene("SampleScene");
     }
 

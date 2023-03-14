@@ -168,10 +168,6 @@ public class FightManager : MonoBehaviour
         if (hitPlayer.hp <= 0)
         {
             PlayerHasWon(attackerId);
-
-            Task.Delay(2000);
-
-            SceneManager.LoadScene("PlayAgain");
         }        
     }
 
@@ -181,8 +177,17 @@ public class FightManager : MonoBehaviour
         Debug.Log("Player " + winningPlayerId + " wins!");
 
         Whowon.text = ("Player ") + winningPlayerId + (" wins!");
+        StartCoroutine(EndGame());
     }
 
+    public IEnumerator EndGame()
+    {
+        p1script.canMove = false;
+        p2script.canMove = false;
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("PlayAgain");
+
+    }
 
     public HitboxManager GetHitboxManager()
     {
