@@ -136,6 +136,7 @@ public class FightManager : MonoBehaviour
         if (hitPlayer.canBlock)
         {
             hitPlayer.blockstun = hitbox.blockstun; // apply blockstun from attack
+            hitPlayer.SetVelocity(hitbox.knockback * (hitPlayerFacingLeft ? Vector2.right : Vector2.left));
             GameObject blockParticle = Instantiate(
                 blockEffect, 
                 particlePos,
@@ -150,7 +151,10 @@ public class FightManager : MonoBehaviour
         hitPlayer.hp -= hitbox.damage;
         healthbars[attackedId - 1].UpdateHealth();
         hitPlayer.hitstun = hitbox.hitstun;
-        hitPlayer.SetVelocity(Vector2.zero);
+        hitPlayer.SetVelocity(new Vector2(
+            hitPlayerFacingLeft ? hitbox.knockback.x : -hitbox.knockback.x,
+            hitbox.knockback.y
+        ));
         hitPlayer.StopAllMyCoroutines();
         // Screenshake and hitstop effects
         // TODO
@@ -203,6 +207,7 @@ public class FightManager : MonoBehaviour
     IEnumerator DoHitstop(float time)
     {
         float currTimescale = Time.timeScale;
+        if (currTimescale == 0.0f) yield break;
         Time.timeScale = 0.0f;
         yield return new WaitForSecondsRealtime(time / 60f);
         Time.timeScale = currTimescale;
