@@ -203,6 +203,7 @@ public class FightManager : MonoBehaviour
     IEnumerator DoHitstop(float time)
     {
         float currTimescale = Time.timeScale;
+        if (currTimescale == 0.0f) yield break;
         Time.timeScale = 0.0f;
         yield return new WaitForSecondsRealtime(time / 60f);
         Time.timeScale = currTimescale;

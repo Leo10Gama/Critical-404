@@ -14,40 +14,40 @@ public class PlayerHurtboxArtist : HurtboxArtist
 
     // ~~~~~ Fun values to tweak ~~~~~
     private const int SLP_DAMAGE = 22;
-    private const int SLP_HITSTUN = 13;
+    private const int SLP_HITSTUN = 13/2;
     private const int SLP_BLOCKSTUN = 6;
     private const int SHP_DAMAGE = 48;
-    private const int SHP_HITSTUN = 18;
+    private const int SHP_HITSTUN = 18/2;
     private const int SHP_BLOCKSTUN = 9;
     private const int SLK_DAMAGE = 27;
-    private const int SLK_HITSTUN = 15;
+    private const int SLK_HITSTUN = 15/2;
     private const int SLK_BLOCKSTUN = 7;
     private const int SHK_DAMAGE = 55;
-    private const int SHK_HITSTUN = 21;
+    private const int SHK_HITSTUN = 21/2;
     private const int SHK_BLOCKSTUN = 10;
     private const int CLP_DAMAGE = 20;
-    private const int CLP_HITSTUN = 13;
+    private const int CLP_HITSTUN = 13/2;
     private const int CLP_BLOCKSTUN = 6;
     private const int CHP_DAMAGE = 33;
-    private const int CHP_HITSTUN = 15;
+    private const int CHP_HITSTUN = 15/2;
     private const int CHP_BLOCKSTUN = 8;
     private const int CLK_DAMAGE = 25;
-    private const int CLK_HITSTUN = 17;
+    private const int CLK_HITSTUN = 17/2;
     private const int CLK_BLOCKSTUN = 8;
     private const int CHK_DAMAGE = 52;
-    private const int CHK_HITSTUN = 22;
+    private const int CHK_HITSTUN = 22/2;
     private const int CHK_BLOCKSTUN = 11;
     private const int JLP_DAMAGE = 11;
-    private const int JLP_HITSTUN = 13;
+    private const int JLP_HITSTUN = 13/2;
     private const int JLP_BLOCKSTUN = 5;
     private const int JHP_DAMAGE = 29;
-    private const int JHP_HITSTUN = 17;
+    private const int JHP_HITSTUN = 17/2;
     private const int JHP_BLOCKSTUN = 8;
     private const int JLK_DAMAGE = 18;
-    private const int JLK_HITSTUN = 15;
+    private const int JLK_HITSTUN = 15/2;
     private const int JLK_BLOCKSTUN = 7;
     private const int JHK_DAMAGE = 43;
-    private const int JHK_HITSTUN = 24;
+    private const int JHK_HITSTUN = 24/2;
     private const int JHK_BLOCKSTUN = 13;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
