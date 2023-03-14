@@ -30,4 +30,14 @@ public class Hitbox : Hurtbox
     {
     }
 
+    public Hitbox(Vector2 offset, Vector2 scale, AttackData attackData)
+        : this(offset, scale, attackData.damage, attackData.hitstun, attackData.blockstun, 0)
+    {
+    }
+
+    public Hitbox(Vector2 offset, Vector2 scale, AttackData attackData, int activeImage)
+        : this(offset, scale, attackData.damage, attackData.hitstun, attackData.blockstun, activeImage)
+    {
+    }
+
 }

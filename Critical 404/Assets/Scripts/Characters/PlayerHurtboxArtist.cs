@@ -13,42 +13,45 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private bool stopThisRoutine = false;
 
     // ~~~~~ Fun values to tweak ~~~~~
-    private const int SLP_DAMAGE = 22;
-    private const int SLP_HITSTUN = 13/2;
-    private const int SLP_BLOCKSTUN = 6;
-    private const int SHP_DAMAGE = 48;
-    private const int SHP_HITSTUN = 18/2;
-    private const int SHP_BLOCKSTUN = 9;
-    private const int SLK_DAMAGE = 27;
-    private const int SLK_HITSTUN = 15/2;
-    private const int SLK_BLOCKSTUN = 7;
-    private const int SHK_DAMAGE = 55;
-    private const int SHK_HITSTUN = 21/2;
-    private const int SHK_BLOCKSTUN = 10;
-    private const int CLP_DAMAGE = 20;
-    private const int CLP_HITSTUN = 13/2;
-    private const int CLP_BLOCKSTUN = 6;
-    private const int CHP_DAMAGE = 33;
-    private const int CHP_HITSTUN = 15/2;
-    private const int CHP_BLOCKSTUN = 8;
-    private const int CLK_DAMAGE = 25;
-    private const int CLK_HITSTUN = 17/2;
-    private const int CLK_BLOCKSTUN = 8;
-    private const int CHK_DAMAGE = 52;
-    private const int CHK_HITSTUN = 22/2;
-    private const int CHK_BLOCKSTUN = 11;
-    private const int JLP_DAMAGE = 11;
-    private const int JLP_HITSTUN = 13/2;
-    private const int JLP_BLOCKSTUN = 5;
-    private const int JHP_DAMAGE = 29;
-    private const int JHP_HITSTUN = 17/2;
-    private const int JHP_BLOCKSTUN = 8;
-    private const int JLK_DAMAGE = 18;
-    private const int JLK_HITSTUN = 15/2;
-    private const int JLK_BLOCKSTUN = 7;
-    private const int JHK_DAMAGE = 43;
-    private const int JHK_HITSTUN = 24/2;
-    private const int JHK_BLOCKSTUN = 13;
+    /* ATTACK DATA TAKES THESE PARAMS:
+     * Damage, Hitstun, Blockstun
+     */
+    private static readonly AttackData SLP_DATA = new AttackData(
+        22, 6, 4
+    );
+    private static readonly AttackData SHP_DATA = new AttackData(
+        48, 9, 6
+    );
+    private static readonly AttackData SLK_DATA = new AttackData(
+        27, 8, 6
+    );
+    private static readonly AttackData SHK_DATA = new AttackData(
+        55, 10, 7
+    );
+    private static readonly AttackData CLP_DATA = new AttackData(
+        20, 6, 4
+    );
+    private static readonly AttackData CHP_DATA = new AttackData(
+        36, 8, 5
+    );
+    private static readonly AttackData CLK_DATA = new AttackData(
+        25, 9, 7
+    );
+    private static readonly AttackData CHK_DATA = new AttackData(
+        52, 11, 8
+    );
+    private static readonly AttackData JLP_DATA = new AttackData(
+        11, 6, 3
+    );
+    private static readonly AttackData JHP_DATA = new AttackData(
+        29, 8, 4
+    );
+    private static readonly AttackData JLK_DATA = new AttackData(
+        18, 7, 5
+    );
+    private static readonly AttackData JHK_DATA = new AttackData(
+        43, 10, 6
+    );
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // ########## MOVEMENT POSES ##########
@@ -277,8 +280,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    SLP_DAMAGE, SLP_HITSTUN, SLP_BLOCKSTUN,
-                    1
+                    SLP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.LP frame 2 =====
@@ -361,8 +363,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    SHP_DAMAGE, SHP_HITSTUN, SHP_BLOCKSTUN,
-                    1
+                    SHP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.HP frame 2 =====
@@ -445,8 +446,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    SLK_DAMAGE, SLK_HITSTUN, SLK_BLOCKSTUN,
-                    1
+                    SLK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.LK frame 2 =====
@@ -529,8 +529,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    SHK_DAMAGE, SHK_HITSTUN, SHK_BLOCKSTUN,
-                    1
+                    SHK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.HK frame 2 =====
@@ -601,8 +600,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.4868078f, -0.2816531f),
                     new Vector2(0.8748207f, 0.3393322f),
-                    CLP_DAMAGE, CLP_HITSTUN, CLP_BLOCKSTUN,
-                    1
+                    CLP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 2 ====
@@ -669,8 +667,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.4868078f, -0.2816531f),
                     new Vector2(0.8748207f, 0.3393322f),
-                    CHP_DAMAGE, CHP_HITSTUN, CHP_BLOCKSTUN,
-                    1
+                    CHP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 2 ====
@@ -729,8 +726,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.331454f, -0.9755297f),
                     new Vector2(0.9397349f, 0.495286f),
-                    CLK_DAMAGE, CLK_HITSTUN, CLK_BLOCKSTUN,
-                    1
+                    CLK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== c.LK frame 2 ====
@@ -789,8 +785,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.331454f, -0.9755297f),
                     new Vector2(0.9397349f, 0.495286f),
-                    CHK_DAMAGE, CHK_HITSTUN, CHK_BLOCKSTUN,
-                    1
+                    CHK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== c.LK frame 2 ====
@@ -853,8 +848,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // punching arm
                     new Vector2(0.4444499f, -0.0715639f),
                     new Vector2(0.8945379f, 0.6308806f),
-                    JLP_DAMAGE, JLP_HITSTUN, JLP_BLOCKSTUN,
-                    1
+                    JLP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.LP frame 2 ====
@@ -913,8 +907,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // punching arm
                     new Vector2(0.4444499f, -0.0715639f),
                     new Vector2(0.8945379f, 0.6308806f),
-                    JHP_DAMAGE, JHP_HITSTUN, JHP_BLOCKSTUN,
-                    1
+                    JHP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HP frame 2 ====
@@ -981,8 +974,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.4896481f, -0.2711897f),
                     new Vector2(1.346522f, 0.3672238f),
-                    JLK_DAMAGE, JLK_HITSTUN, JLK_BLOCKSTUN,
-                    1
+                    JLK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.LK frame 2 ====
@@ -1053,8 +1045,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.4896481f, -0.2711897f),
                     new Vector2(1.346522f, 0.3672238f),
-                    JHK_DAMAGE, JHK_HITSTUN, JHK_BLOCKSTUN,
-                    1
+                    JHK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 2 ====
