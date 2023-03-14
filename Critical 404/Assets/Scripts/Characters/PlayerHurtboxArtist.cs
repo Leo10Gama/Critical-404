@@ -14,43 +14,43 @@ public class PlayerHurtboxArtist : HurtboxArtist
 
     // ~~~~~ Fun values to tweak ~~~~~
     /* ATTACK DATA TAKES THESE PARAMS:
-     * Damage, Hitstun, Blockstun
+     * Damage, Hitstun, Blockstun, Knockback
      */
     private static readonly AttackData SLP_DATA = new AttackData(
-        22, 6, 4
+        22, 6, 4, new Vector2(1, 0)
     );
     private static readonly AttackData SHP_DATA = new AttackData(
-        48, 9, 6
+        48, 9, 6, new Vector2(5, 0)
     );
     private static readonly AttackData SLK_DATA = new AttackData(
-        27, 8, 6
+        27, 8, 6, new Vector2(2, 1)
     );
     private static readonly AttackData SHK_DATA = new AttackData(
-        55, 10, 7
+        55, 10, 7, new Vector2(3, 20)
     );
     private static readonly AttackData CLP_DATA = new AttackData(
-        20, 6, 4
+        20, 6, 4, new Vector2(1, 0)
     );
     private static readonly AttackData CHP_DATA = new AttackData(
-        36, 8, 5
+        36, 8, 5, new Vector2(3, 0)
     );
     private static readonly AttackData CLK_DATA = new AttackData(
-        25, 9, 7
+        25, 9, 7, new Vector2(1, 4)
     );
     private static readonly AttackData CHK_DATA = new AttackData(
-        52, 11, 8
+        52, 11, 8, new Vector2(7, 5)
     );
     private static readonly AttackData JLP_DATA = new AttackData(
-        11, 6, 3
+        11, 6, 3, new Vector2(1, -1)
     );
     private static readonly AttackData JHP_DATA = new AttackData(
-        29, 8, 4
+        29, 8, 4, new Vector2(3, -3)
     );
     private static readonly AttackData JLK_DATA = new AttackData(
-        18, 7, 5
+        18, 7, 5, new Vector2(3, 0)
     );
     private static readonly AttackData JHK_DATA = new AttackData(
-        43, 10, 6
+        43, 10, 6, new Vector2(10, 5)
     );
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

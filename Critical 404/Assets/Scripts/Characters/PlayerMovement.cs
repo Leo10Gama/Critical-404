@@ -352,6 +352,12 @@ public class PlayerMovement : MonoBehaviour
                 isCrouching = false;
             }
 
+            // Launched into the air, set whether we're grounded
+            if (rb.velocity.y > 0.1f || rb.velocity.y < -0.1f && isGrounded)
+            {
+                isGrounded = false;
+            }
+
             // Handle horizontal movement
             if (isGrounded && !isCrouching) // if in the air, horizontal momentum is locked
             {
@@ -380,7 +386,7 @@ public class PlayerMovement : MonoBehaviour
                             StopCoroutine(JumpingLightKick());
                             break;
                         case (int)MovementState.heavyKick:
-                            // StopCoroutine(JumpingHeavyKick());
+                            StopCoroutine(JumpingHeavyKick());
                             break;
                     }
                     currentAttack = "";
