@@ -95,6 +95,9 @@ public class FightManager : MonoBehaviour
      */
     public void LandedHit(int attackedId, Hitbox hitbox)
     {
+        // init
+        AttackData attack = hitbox.attackData;
+
         // Blocker
         if (attackedId != 1 && attackedId != 2)
             throw new Exception(String.Format("Unknown interaction: Attacked player's ID set to '{0}'!", attackedId));
@@ -132,11 +135,11 @@ public class FightManager : MonoBehaviour
             -1  // appear above characters
         );
 
-        // Check if player is blocking
-        if (hitPlayer.canBlock)
+        // Check if player can block the attack
+        if (hitPlayer.canBlock && hitPlayer.IsBlockingAgainst(attack.hitsAt))
         {
-            hitPlayer.blockstun = hitbox.blockstun; // apply blockstun from attack
-            hitPlayer.SetVelocity(hitbox.knockback * (hitPlayerFacingLeft ? Vector2.right : Vector2.left));
+            hitPlayer.blockstun = attack.blockstun; // apply blockstun from attack
+            hitPlayer.SetVelocity(attack.knockback * (hitPlayerFacingLeft ? Vector2.right : Vector2.left));
             GameObject blockParticle = Instantiate(
                 blockEffect, 
                 particlePos,
@@ -148,12 +151,12 @@ public class FightManager : MonoBehaviour
         }
 
         // Set hit player into hitstun and apply damage and other properties
-        hitPlayer.hp -= hitbox.damage;
+        hitPlayer.hp -= attack.damage;
         healthbars[attackedId - 1].UpdateHealth();
-        hitPlayer.hitstun = hitbox.hitstun;
+        hitPlayer.hitstun = attack.hitstun;
         hitPlayer.SetVelocity(new Vector2(
-            hitPlayerFacingLeft ? hitbox.knockback.x : -hitbox.knockback.x,
-            hitbox.knockback.y
+            hitPlayerFacingLeft ? attack.knockback.x : -attack.knockback.x,
+            attack.knockback.y
         ));
         hitPlayer.StopCurrentCoroutines();
         // Particle effects
@@ -166,7 +169,7 @@ public class FightManager : MonoBehaviour
         // Screenshake and hitstop effects
         // TODO: screenshake
         StartCoroutine(DoHitstop(3));
-        Debug.Log("Player " + hitPlayer.playerId + " takes " + hitbox.damage + " damage!");
+        Debug.Log("Player " + hitPlayer.playerId + " takes " + attack.damage + " damage!");
 
         // Check win condition
         if (hitPlayer.hp <= 0)

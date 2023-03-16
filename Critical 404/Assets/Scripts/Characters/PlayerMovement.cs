@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum BlockState
+{
+    low,    // 0
+    mid,    // 1
+    high    // 2
+}
+
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float horizontalSpeed = 5f;
@@ -64,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private bool inHitstun = false;
     private bool inBlockstun = false;
     private bool triggeredCollider = false;
+    private bool[] blockState = new bool[] {false, false, false};
     private string currentAttack = "";
     private Coroutine currentAttackCoroutine = null;
     private Coroutine currentHitboxCoroutine = null;
@@ -388,6 +396,35 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpMagnitude, 0f);
                 isGrounded = false;
             }
+
+            // If we're blocking, determine how much we're blocking
+            if (canBlock)
+            {
+                if (isCrouching)        // crouch block: block low and mid
+                {
+                    blockState[(int)BlockState.low] = true;
+                    blockState[(int)BlockState.mid] = true;
+                    blockState[(int)BlockState.high] = false;
+                }
+                else if (isGrounded)    // standing block: block mid and high
+                {
+                    blockState[(int)BlockState.low] = false;
+                    blockState[(int)BlockState.mid] = true;
+                    blockState[(int)BlockState.high] = true;
+                }
+                else                    // aerial block: block all
+                {
+                    blockState[(int)BlockState.low] = true;
+                    blockState[(int)BlockState.mid] = true;
+                    blockState[(int)BlockState.high] = true;
+                }
+            }
+            else    // not blocking at the moment
+            {
+                blockState[(int)BlockState.low] = false;
+                blockState[(int)BlockState.mid] = false;
+                blockState[(int)BlockState.high] = false;
+            }
         }
 
         // Decrease hitstun timer
@@ -425,6 +462,7 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimations()
     {
         MovementState newState = MovementState.idle;
+        MovementState newPositionalState = MovementState.idle;
 
         // Determine flipping
         MovementState currState = (MovementState)anim.GetInteger("State");
@@ -451,16 +489,19 @@ public class PlayerMovement : MonoBehaviour
         if (isCrouching)
         {
             newState = MovementState.crouching;
+            newPositionalState = MovementState.crouching;
         }
 
         // Handle vertical movement
         if (rb.velocity.y > 0.1f)       // rising
         {
             newState = MovementState.jumping;
+            newPositionalState = MovementState.jumping;
         }
         else if (rb.velocity.y < -0.1f)  // falling
         {
             newState = MovementState.falling;
+            newPositionalState = MovementState.jumping;
         }
 
         // ATTACKS
@@ -498,6 +539,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.SetInteger("State", (int)newState);
+        anim.SetInteger("Positional State", (int)newPositionalState);
 
         UpdateHurtboxes(newState);
     }
@@ -628,6 +670,12 @@ public class PlayerMovement : MonoBehaviour
     public void SetVelocity(Vector2 velocity)
     {
         rb.velocity = velocity;
+    }
+
+    /// Tell whether or not the player is currently blocking against a type of attack
+    public bool IsBlockingAgainst(BlockState hit)
+    {
+        return blockState[(int)hit];
     }
 
     public void ClearHitboxesThisImage()

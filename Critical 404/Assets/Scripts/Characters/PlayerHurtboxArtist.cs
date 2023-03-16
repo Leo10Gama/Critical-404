@@ -35,16 +35,16 @@ public class PlayerHurtboxArtist : HurtboxArtist
         36, 8, 5, new Vector2(3, 0)
     );
     private static readonly AttackData CLK_DATA = new AttackData(
-        25, 9, 7, new Vector2(1, 4)
+        25, 9, 7, new Vector2(1, 4), BlockState.low
     );
     private static readonly AttackData CHK_DATA = new AttackData(
-        52, 11, 8, new Vector2(7, 5)
+        52, 11, 8, new Vector2(7, 5), BlockState.low
     );
     private static readonly AttackData JLP_DATA = new AttackData(
-        11, 6, 3, new Vector2(1, -1)
+        11, 6, 3, new Vector2(1, -1), BlockState.high
     );
     private static readonly AttackData JHP_DATA = new AttackData(
-        29, 8, 4, new Vector2(3, -3)
+        29, 8, 4, new Vector2(3, -3), BlockState.high
     );
     private static readonly AttackData JLK_DATA = new AttackData(
         18, 7, 5, new Vector2(3, 0)
@@ -633,7 +633,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private readonly HurtboxAnimation CHP_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[]
         {
-            new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 0 ====
+            new HurtboxFrame(new Hurtbox[] {    // ==== c.HP frame 0 ====
                 new Hurtbox(    // head and windup arm
                     new Vector2(-0.003477097f, 0.09388435f),
                     new Vector2(0.770505f, 0.8122313f)
@@ -647,7 +647,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.8539577f, 0.5479641f)
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 1 ====
+            new HurtboxFrame(new Hurtbox[] {    // ==== c.HP frame 1 ====
                 new Hurtbox(    // head
                     new Vector2(0.04520369f, 0.04520363f),
                     new Vector2(0.6731434f, 0.8539574f)
@@ -670,7 +670,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     CHP_DATA, 1
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 2 ====
+            new HurtboxFrame(new Hurtbox[] {    // ==== c.HP frame 2 ====
                 new Hurtbox(    // head
                     new Vector2(0.04520369f, 0.04520363f),
                     new Vector2(0.6731434f, 0.8539574f)
@@ -691,9 +691,9 @@ public class PlayerHurtboxArtist : HurtboxArtist
         },
         new int[]
         {
-            4,
-            6-4,
-            14-6
+            6,
+            10-6,
+            16-10
         }
     );
     // === CROUCHING LIGHT KICK ===
