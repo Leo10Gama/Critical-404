@@ -425,6 +425,7 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimations()
     {
         MovementState newState = MovementState.idle;
+        MovementState newPositionalState = MovementState.idle;
 
         // Determine flipping
         MovementState currState = (MovementState)anim.GetInteger("State");
@@ -451,16 +452,19 @@ public class PlayerMovement : MonoBehaviour
         if (isCrouching)
         {
             newState = MovementState.crouching;
+            newPositionalState = MovementState.crouching;
         }
 
         // Handle vertical movement
         if (rb.velocity.y > 0.1f)       // rising
         {
             newState = MovementState.jumping;
+            newPositionalState = MovementState.jumping;
         }
         else if (rb.velocity.y < -0.1f)  // falling
         {
             newState = MovementState.falling;
+            newPositionalState = MovementState.jumping;
         }
 
         // ATTACKS
@@ -498,6 +502,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.SetInteger("State", (int)newState);
+        anim.SetInteger("Positional State", (int)newPositionalState);
 
         UpdateHurtboxes(newState);
     }
