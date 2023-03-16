@@ -393,7 +393,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
         {
             8,
             11-8,
-            19-10
+            19-11
         }
     );
     // === STANDING LIGHT KICK ===
@@ -691,9 +691,9 @@ public class PlayerHurtboxArtist : HurtboxArtist
         },
         new int[]
         {
-            6,
-            9-6,
-            16-9
+            4,
+            6-4,
+            14-6
         }
     );
     // === CROUCHING LIGHT KICK ===
@@ -1071,7 +1071,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
         {
             11,
             18-11,
-            16-18
+            26-18
         }
     );
 
@@ -1204,14 +1204,15 @@ public class PlayerHurtboxArtist : HurtboxArtist
         for (int i = 0; i < anim.frames.Length; i++)
         {
             if (!spawnHitboxesThisImage) spawnHitboxesThisImage = true; // reset once previous image is done
+            if (stopThisRoutine)
+            {
+                stopThisRoutine = false;
+                yield break;
+            }
+            // Draw each hitbox per frame
             HurtboxFrame frame = anim.frames[i];
             foreach (Hurtbox hurtbox in frame.hurtboxes)
             {
-                if (stopThisRoutine)
-                {
-                    stopThisRoutine = false;
-                    yield break;
-                }
                 if (hurtbox.GetType() == typeof(Hitbox) && spawnHitboxesThisImage)
                     hbm.CreateHitbox(hitboxObject, (Hitbox)hurtbox, flipMultiplier, anim.frameDurations[i]);
                 else

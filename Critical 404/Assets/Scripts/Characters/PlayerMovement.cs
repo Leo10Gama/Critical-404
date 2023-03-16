@@ -65,6 +65,8 @@ public class PlayerMovement : MonoBehaviour
     private bool inBlockstun = false;
     private bool triggeredCollider = false;
     private string currentAttack = "";
+    private Coroutine currentAttackCoroutine = null;
+    private Coroutine currentHitboxCoroutine = null;
 
     private Animator anim;
     private CharacterController controller;
@@ -156,17 +158,17 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             currentAttack = LIGHT_PUNCH_KEY;
-            StartCoroutine(StandingLightPunch());
+            currentAttackCoroutine = StartCoroutine(StandingLightPunch());
         }
         else if (isCrouching)           // c.LP
         {
             currentAttack = LIGHT_PUNCH_KEY;
-            StartCoroutine(CrouchingLightPunch());
+            currentAttackCoroutine = StartCoroutine(CrouchingLightPunch());
         }
         else                            // j.LP
         {
             currentAttack = LIGHT_PUNCH_KEY;
-            StartCoroutine(JumpingLightPunch());
+            currentAttackCoroutine = StartCoroutine(JumpingLightPunch());
         }
     }
 
@@ -200,17 +202,17 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             currentAttack = HEAVY_PUNCH_KEY;
-            StartCoroutine(StandingHeavyPunch());
+            currentAttackCoroutine = StartCoroutine(StandingHeavyPunch());
         }
         else if (isCrouching)           // c.HP
         {
             currentAttack = HEAVY_PUNCH_KEY;
-            StartCoroutine(CrouchingHeavyPunch());
+            currentAttackCoroutine = StartCoroutine(CrouchingHeavyPunch());
         }
         else                            // j.HP
         {
             currentAttack = HEAVY_PUNCH_KEY;
-            StartCoroutine(JumpingHeavyPunch());
+            currentAttackCoroutine = StartCoroutine(JumpingHeavyPunch());
         }
     }
 
@@ -244,17 +246,17 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             currentAttack = LIGHT_KICK_KEY;
-            StartCoroutine(StandingLightKick());
+            currentAttackCoroutine = StartCoroutine(StandingLightKick());
         }
         else if (isCrouching)           // c.LK
         {
             currentAttack = LIGHT_KICK_KEY;
-            StartCoroutine(CrouchingLightKick());
+            currentAttackCoroutine = StartCoroutine(CrouchingLightKick());
         }
         else                            // j.LK
         {
             currentAttack = LIGHT_KICK_KEY;
-            StartCoroutine(JumpingLightKick());
+            currentAttackCoroutine = StartCoroutine(JumpingLightKick());
         }
     }
 
@@ -288,17 +290,17 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             currentAttack = HEAVY_KICK_KEY;
-            StartCoroutine(StandingHeavyKick());
+            currentAttackCoroutine = StartCoroutine(StandingHeavyKick());
         }
         else if (isCrouching)           // c.LK
         {
             currentAttack = HEAVY_KICK_KEY;
-            StartCoroutine(CrouchingHeavyKick());
+            currentAttackCoroutine = StartCoroutine(CrouchingHeavyKick());
         }
         else                            // j.HK
         {
             currentAttack = HEAVY_KICK_KEY;
-            StartCoroutine(JumpingHeavyKick());
+            currentAttackCoroutine = StartCoroutine(JumpingHeavyKick());
         }
     }
 
@@ -329,7 +331,7 @@ public class PlayerMovement : MonoBehaviour
         if (!canMove) 
         {
             currentAttack = "";
-            StopAllMyCoroutines();
+            StopCurrentCoroutines();
             UpdateAnimations();
             return;
         }
@@ -339,7 +341,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Handle whether we can block
             // (presumably in this section, we can do actions freely)
-            canBlock = sprite.flipX ? dirX > 0.01f : dirX < -0.01f;
+            canBlock = (sprite.flipX ? dirX > 0.01f : dirX < -0.01f) && currentAttack == "";
 
             // Handle crouching
             if (pressedCrouch && isGrounded)
@@ -369,26 +371,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 isGrounded = true;
                 int state = anim.GetInteger("State");
-                if (6 <= state && state <= 9)    // we landed mid-attack
+                if (6 <= state && state <= 9)   // landed mid-attack, cancel it
                 {
+                    StopCurrentCoroutines();
                     hurtboxArtist.StopCurrentRoutine();
                     hurtboxArtist.StopDrawingAll();
-                    // stop doing whatever coroutine was running with the attack
-                    switch (state)
-                    {
-                        case (int)MovementState.lightPunch:
-                            StopCoroutine(JumpingLightPunch());
-                            break;
-                        case (int)MovementState.heavyPunch:
-                            StopCoroutine(JumpingHeavyPunch());
-                            break;
-                        case (int)MovementState.lightKick:
-                            StopCoroutine(JumpingLightKick());
-                            break;
-                        case (int)MovementState.heavyKick:
-                            StopCoroutine(JumpingHeavyKick());
-                            break;
-                    }
                     currentAttack = "";
                 }
             }
@@ -407,7 +394,7 @@ public class PlayerMovement : MonoBehaviour
         if (hitstun > 0 && !inHitstun) 
         {
             // stop everything
-            StopAllMyCoroutines();
+            StopCurrentCoroutines();
             hurtboxArtist.StopCurrentRoutine();
             hurtboxArtist.StopDrawingAll();
             currentAttack = "";
@@ -419,7 +406,7 @@ public class PlayerMovement : MonoBehaviour
         if (blockstun > 0 && !inBlockstun)
         {
             // stop everything
-            StopAllMyCoroutines();
+            StopCurrentCoroutines();
             hurtboxArtist.StopCurrentRoutine();
             hurtboxArtist.StopDrawingAll();
             currentAttack = "";
@@ -527,65 +514,65 @@ public class PlayerMovement : MonoBehaviour
         switch (state)
         {
             case MovementState.idle:
-                StartCoroutine(hurtboxArtist.DrawIdle(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawIdle(isFacingRight));
                 return;
             case MovementState.movingForward:
-                StartCoroutine(hurtboxArtist.DrawMoveForward(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawMoveForward(isFacingRight));
                 return;
             case MovementState.movingBackward:
-                StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
                 return;
             case MovementState.jumping:
-                StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
                 return;
             case MovementState.falling:
-                StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
                 return;
             case MovementState.crouching:
-                StartCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
                 return;
             case MovementState.lightPunch:
                 if (isCrouching)        // c.LP
-                    StartCoroutine(hurtboxArtist.DrawCLP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCLP(isFacingRight));
                 else if (isGrounded)    // s.LP
-                    StartCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
                 else                    // j.LP
-                    StartCoroutine(hurtboxArtist.DrawJLP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJLP(isFacingRight));
                 return;
             case MovementState.heavyPunch:
                 if (isCrouching)        // c.HP
-                    StartCoroutine(hurtboxArtist.DrawCHP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCHP(isFacingRight));
                 else if (isGrounded)    // s.HP
-                    StartCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
                 else                    // j.HP
-                    StartCoroutine(hurtboxArtist.DrawJHP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJHP(isFacingRight));
                 return;
             case MovementState.lightKick:
                 if (isCrouching)        // c.LK
-                    StartCoroutine(hurtboxArtist.DrawCLK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCLK(isFacingRight));
                 else if (isGrounded)    // s.LK
-                    StartCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
                 else                    // j.LK
-                    StartCoroutine(hurtboxArtist.DrawJLK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJLK(isFacingRight));
                 return;
             case MovementState.heavyKick:
                 if (isCrouching)        // c.HK
-                    StartCoroutine(hurtboxArtist.DrawCHK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCHK(isFacingRight));
                 else if (isGrounded)    // s.HK
-                    StartCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
                 else                    // j.HK
-                    StartCoroutine(hurtboxArtist.DrawJHK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJHK(isFacingRight));
                 return;
             case MovementState.hit:
-                StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
                 return;
             case MovementState.block:
                 if (isCrouching)        // crouch block
-                    StartCoroutine(hurtboxArtist.DrawCrouchingBlock(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCrouchingBlock(isFacingRight));
                 else if (isGrounded)    // standing block
-                    StartCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
                 else                    // jumping block
-                    StartCoroutine(hurtboxArtist.DrawJumpingBlock(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpingBlock(isFacingRight));
                 return;
         }
     }
@@ -632,43 +619,10 @@ public class PlayerMovement : MonoBehaviour
         inBlockstun = false;
     }
 
-    public void StopAllMyCoroutines()
+    public void StopCurrentCoroutines()
     {
-        StopCoroutine(StandingLightPunch());
-        StopCoroutine(StandingHeavyPunch());
-        StopCoroutine(StandingLightKick());
-        StopCoroutine(StandingHeavyKick());
-        StopCoroutine(CrouchingLightPunch());
-        StopCoroutine(CrouchingHeavyPunch());
-        StopCoroutine(CrouchingLightKick());
-        StopCoroutine(CrouchingHeavyKick());
-        StopCoroutine(JumpingLightPunch());
-        // StopCoroutine(JumpingHeavyPunch());
-        // StopCoroutine(JumpingLightKick());
-        // StopCoroutine(JumpingHeavyKick());
-        bool isFacingRight = !sprite.flipX;
-        StopCoroutine(hurtboxArtist.DrawIdle(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawMoveForward(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawCLP(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawJLP(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawCHP(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
-        // StopCoroutine(hurtboxArtist.DrawJHP(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawCLK(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
-        // StopCoroutine(hurtboxArtist.DrawJLK(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawCHK(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
-        // StopCoroutine(hurtboxArtist.DrawJHK(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawCrouchingBlock(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
-        StopCoroutine(hurtboxArtist.DrawJumpingBlock(isFacingRight));
+        if (currentAttackCoroutine != null) StopCoroutine(currentAttackCoroutine);
+        if (currentHitboxCoroutine != null) StopCoroutine(currentHitboxCoroutine);
     }
 
     public void SetVelocity(Vector2 velocity)

@@ -155,9 +155,7 @@ public class FightManager : MonoBehaviour
             hitPlayerFacingLeft ? hitbox.knockback.x : -hitbox.knockback.x,
             hitbox.knockback.y
         ));
-        hitPlayer.StopAllMyCoroutines();
-        // Screenshake and hitstop effects
-        // TODO
+        hitPlayer.StopCurrentCoroutines();
         // Particle effects
         GameObject hitParticle = Instantiate(
             hitEffect, 
@@ -165,6 +163,8 @@ public class FightManager : MonoBehaviour
             Quaternion.Euler(0, 0, NextSymmetricFloat(50))
         );
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
+        // Screenshake and hitstop effects
+        // TODO: screenshake
         StartCoroutine(DoHitstop(3));
         Debug.Log("Player " + hitPlayer.playerId + " takes " + hitbox.damage + " damage!");
 
