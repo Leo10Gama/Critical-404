@@ -185,266 +185,195 @@ public class PlayerMovement : MonoBehaviour
         pressedCrouch = context.action.triggered;
     }
 
+    // ========== ATTACK HELPER METHODS ==========
+
+    private void AttackButtonPressed(
+        bool actionTriggered,
+        AttackState attack,
+        string attackButtonName,
+        IEnumerator standingRoutine,
+        IEnumerator crouchingRoutine,
+        IEnumerator jumpingRoutine
+    ){
+        // Blockers
+        bool freeToAttack = !actionTriggered || (currentAttack != "" && currentAttackState == AttackState.none);    // we can freely attack (not interrupting)
+        bool nextAttackHasLowerPriority = (int)currentAttackState >= (int)attack;   // only do another attack it it's higher priority
+        if (freeToAttack || nextAttackHasLowerPriority || !canCancelAttack)
+            return;
+        
+        // Reset player status and set local parameters
+        ResetPlayerToIdle(false);
+        canCancelAttack = false;
+        currentAttack = attackButtonName;
+        SetAttackState();
+
+        // Decide which attack we're doing
+        if (isGrounded && !pressedCrouch)       // standing attack
+        {
+            rb.velocity = Vector2.zero;
+            isCrouching = false;
+            StartCoroutine(standingRoutine);
+        }
+        else if (isGrounded && pressedCrouch)   // crouching attack
+        {
+            isCrouching = true;
+            StartCoroutine(crouchingRoutine);
+        }
+        else                                    // jumping attack
+        {
+            StartCoroutine(jumpingRoutine);
+        }
+    }
+
+    private IEnumerator ReturnToIdleAfterFrames(int framesToWait)
+    {
+        yield return new WaitForSeconds(framesToWait / 60f);    // duration of some move
+        currentAttack = "";
+        SetAttackState();
+        canCancelAttack = true;
+    }
+
+    private void ResetPlayerToIdle(bool resetAttack = true)
+    {
+        StopCurrentCoroutines();
+        hurtboxArtist.StopCurrentRoutine();
+        hurtboxArtist.StopDrawingAll();
+        if (resetAttack)
+        {
+            currentAttack = "";
+            currentAttackState = AttackState.none;
+            canCancelAttack = true;
+        }
+    }
+
     // ========== ATTACKS ==========
 
     // Light Punch
 
     public void OnLightPunch(InputAction.CallbackContext context)
     {
-        // make sure we are free to attack
-        if (!context.action.triggered || (currentAttack != "" && currentAttackState == AttackState.none))
-            return;
-
-        // only do another attack if it's of higher rank than previous
-        if ((int)currentAttackState > (int)AttackState.lp)
-            return;
-
-        // make sure we're can actually cancel into the attack
-        if (!canCancelAttack)
-            return;
-        
-        canCancelAttack = false;
-        StopCurrentCoroutines();
-        hurtboxArtist.StopCurrentRoutine();
-        hurtboxArtist.StopDrawingAll();
-        currentAttackState = AttackState.lp;
-        if (isGrounded && !pressedCrouch) // s.LP
-        {
-            rb.velocity = Vector2.zero;
-            isCrouching = false;
-            currentAttack = LIGHT_PUNCH_KEY;
-            currentAttackCoroutine = StartCoroutine(StandingLightPunch());
-        }
-        else if (pressedCrouch)           // c.LP
-        {
-            isCrouching = true;
-            currentAttack = LIGHT_PUNCH_KEY;
-            currentAttackCoroutine = StartCoroutine(CrouchingLightPunch());
-        }
-        else                            // j.LP
-        {
-            currentAttack = LIGHT_PUNCH_KEY;
-            currentAttackCoroutine = StartCoroutine(JumpingLightPunch());
-        }
+        AttackButtonPressed(
+            context.action.triggered,
+            AttackState.lp,
+            LIGHT_PUNCH_KEY,
+            StandingLightPunch(),
+            CrouchingLightPunch(),
+            JumpingLightPunch()
+        );
     }
 
     private IEnumerator StandingLightPunch()
     {
-        yield return new WaitForSeconds(SLP_DURATION / 60f); // duration of s.LP
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(SLP_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator CrouchingLightPunch()
     {
-        yield return new WaitForSeconds(CLP_DURATION / 60f); // duration of c.LP
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(CLP_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator JumpingLightPunch()
     {
-        yield return new WaitForSeconds(JLP_DURATION / 60f); // duration of j.LP
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(JLP_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     // Heavy Punch
 
     public void OnHeavyPunch(InputAction.CallbackContext context)
     {
-        // make sure we are free to attack
-        if (!context.action.triggered || (currentAttack != "" && currentAttackState == AttackState.none))
-            return;
-
-        // only do another attack if it's of higher rank than previous
-        if ((int)currentAttackState > (int)AttackState.hp)
-            return;
-        
-        // make sure we're can actually cancel into the attack
-        if (!canCancelAttack)
-            return;
-        
-        canCancelAttack = false;
-        StopCurrentCoroutines();
-        hurtboxArtist.StopCurrentRoutine();
-        hurtboxArtist.StopDrawingAll();
-        currentAttackState = AttackState.hp;
-        if (isGrounded && !pressedCrouch) // s.HP
-        {
-            rb.velocity = Vector2.zero;
-            isCrouching = false;
-            currentAttack = HEAVY_PUNCH_KEY;
-            currentAttackCoroutine = StartCoroutine(StandingHeavyPunch());
-        }
-        else if (pressedCrouch)           // c.HP
-        {
-            isCrouching = true;
-            currentAttack = HEAVY_PUNCH_KEY;
-            currentAttackCoroutine = StartCoroutine(CrouchingHeavyPunch());
-        }
-        else                            // j.HP
-        {
-            currentAttack = HEAVY_PUNCH_KEY;
-            currentAttackCoroutine = StartCoroutine(JumpingHeavyPunch());
-        }
+        AttackButtonPressed(
+            context.action.triggered,
+            AttackState.hp,
+            HEAVY_PUNCH_KEY,
+            StandingHeavyPunch(),
+            CrouchingHeavyPunch(),
+            JumpingHeavyPunch()
+        );
     }
 
     private IEnumerator StandingHeavyPunch()
     {
-        yield return new WaitForSeconds(SHP_DURATION / 60f);  // duration of s.HP
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(SHP_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator CrouchingHeavyPunch()
     {
-        yield return new WaitForSeconds(CHP_DURATION / 60f);  // duration of c.HP
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(CHP_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator JumpingHeavyPunch()
     {
-        yield return new WaitForSeconds(JHP_DURATION / 60f);  // duration of c.HP
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(JHP_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     // Light Kick
 
     public void OnLightKick(InputAction.CallbackContext context)
     {
-        // make sure we are free to attack
-        if (!context.action.triggered || (currentAttack != "" && currentAttackState == AttackState.none))
-            return;
-
-        // only do another attack if it's of higher rank than previous
-        if ((int)currentAttackState > (int)AttackState.lk)
-            return;
-        
-        // make sure we're can actually cancel into the attack
-        if (!canCancelAttack)
-            return;
-        
-        canCancelAttack = false;
-        StopCurrentCoroutines();
-        hurtboxArtist.StopCurrentRoutine();
-        hurtboxArtist.StopDrawingAll();
-        currentAttackState = AttackState.lk;
-        if (isGrounded && !pressedCrouch) // s.LK
-        {
-            rb.velocity = Vector2.zero;
-            isCrouching = false;
-            currentAttack = LIGHT_KICK_KEY;
-            currentAttackCoroutine = StartCoroutine(StandingLightKick());
-        }
-        else if (pressedCrouch)           // c.LK
-        {
-            isCrouching = true;
-            currentAttack = LIGHT_KICK_KEY;
-            currentAttackCoroutine = StartCoroutine(CrouchingLightKick());
-        }
-        else                            // j.LK
-        {
-            currentAttack = LIGHT_KICK_KEY;
-            currentAttackCoroutine = StartCoroutine(JumpingLightKick());
-        }
+        AttackButtonPressed(
+            context.action.triggered,
+            AttackState.lk,
+            LIGHT_KICK_KEY,
+            StandingLightKick(),
+            CrouchingLightKick(),
+            JumpingLightKick()
+        );
     }
 
     private IEnumerator StandingLightKick()
     {
-        yield return new WaitForSeconds(SLK_DURATION / 60f); // duration of s.LK
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(SLK_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator CrouchingLightKick()
     {
-        yield return new WaitForSeconds(CLK_DURATION / 60f); // duration of c.LK
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(CLK_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator JumpingLightKick()
     {
-        yield return new WaitForSeconds(JLK_DURATION / 60f); // duration of j.LK
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(JLK_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     // Heavy Kick
 
     public void OnHeavyKick(InputAction.CallbackContext context)
     {
-        // make sure we are free to attack
-        if (!context.action.triggered || (currentAttack != "" && currentAttackState == AttackState.none))
-            return;
-        
-        // only do another attack if it's of higher rank than previous
-        if ((int)currentAttackState > (int)AttackState.hk)
-            return;
-
-        // make sure we're can actually cancel into the attack
-        if (!canCancelAttack)
-            return;
-        
-        canCancelAttack = false;
-        StopCurrentCoroutines();
-        hurtboxArtist.StopCurrentRoutine();
-        hurtboxArtist.StopDrawingAll();
-        currentAttackState = AttackState.hk;
-        if (isGrounded && !pressedCrouch) // s.HK
-        {
-            rb.velocity = Vector2.zero;
-            isCrouching = false;
-            currentAttack = HEAVY_KICK_KEY;
-            currentAttackCoroutine = StartCoroutine(StandingHeavyKick());
-        }
-        else if (pressedCrouch)           // c.HK
-        {
-            isCrouching = true;
-            currentAttack = HEAVY_KICK_KEY;
-            currentAttackCoroutine = StartCoroutine(CrouchingHeavyKick());
-        }
-        else                            // j.HK
-        {
-            currentAttack = HEAVY_KICK_KEY;
-            currentAttackCoroutine = StartCoroutine(JumpingHeavyKick());
-        }
+        AttackButtonPressed(
+            context.action.triggered,
+            AttackState.hk,
+            HEAVY_KICK_KEY,
+            StandingHeavyKick(),
+            CrouchingHeavyKick(),
+            JumpingHeavyKick()
+        );
     }
 
     private IEnumerator StandingHeavyKick()
     {
-        yield return new WaitForSeconds(SHK_DURATION / 60f);  // duration of s.HK
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(SHK_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator CrouchingHeavyKick()
     {
-        yield return new WaitForSeconds(CHK_DURATION / 60f);  // duration of c.HK
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(CHK_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     private IEnumerator JumpingHeavyKick()
     {
-        yield return new WaitForSeconds(JHK_DURATION / 60f);  // duration of j.HK
-        currentAttack = "";
-        SetAttackState();
-        canCancelAttack = true;
+        currentAttackCoroutine = StartCoroutine(ReturnToIdleAfterFrames(JHK_DURATION));
+        yield return currentAttackCoroutine;
     }
 
     // ========== UPDATING ==========
@@ -455,8 +384,7 @@ public class PlayerMovement : MonoBehaviour
         // Do absolutely nothing if cannot move (game ended)
         if (!canMove) 
         {
-            currentAttack = "";
-            StopCurrentCoroutines();
+            ResetPlayerToIdle();
             UpdateAnimations();
             return;
         }
@@ -498,19 +426,12 @@ public class PlayerMovement : MonoBehaviour
                 int state = anim.GetInteger("State");
                 if (6 <= state && state <= 9)   // landed mid-attack, cancel it
                 {
-                    StopCurrentCoroutines();
-                    hurtboxArtist.StopCurrentRoutine();
-                    hurtboxArtist.StopDrawingAll();
-                    currentAttack = "";
-                    SetAttackState();
-                    canCancelAttack = true;
+                    ResetPlayerToIdle();
                 }
             }
             if (pressedJump && isGrounded && canCancelAttack)                   // jumping off ground
             {
-                StopCurrentCoroutines();
-                hurtboxArtist.StopCurrentRoutine();
-                hurtboxArtist.StopDrawingAll();
+                ResetPlayerToIdle(false);
                 currentAttack = "";
                 SetAttackState();
                 if (isCrouching)     // jumping from a crouch should maintain horizontal movement
@@ -555,9 +476,7 @@ public class PlayerMovement : MonoBehaviour
         if (hitstun > 0 && !inHitstun) 
         {
             // stop everything
-            StopCurrentCoroutines();
-            hurtboxArtist.StopCurrentRoutine();
-            hurtboxArtist.StopDrawingAll();
+            ResetPlayerToIdle(false);
             currentAttack = "";
             canCancelAttack = false;
             // switch to be now in hitstun
@@ -569,9 +488,7 @@ public class PlayerMovement : MonoBehaviour
         if (blockstun > 0 && !inBlockstun)
         {
             // stop everything
-            StopCurrentCoroutines();
-            hurtboxArtist.StopCurrentRoutine();
-            hurtboxArtist.StopDrawingAll();
+            ResetPlayerToIdle(false);
             currentAttack = "";
             canCancelAttack = false;
             // switch to be now in blockstun
