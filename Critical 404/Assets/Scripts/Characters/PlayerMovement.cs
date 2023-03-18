@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -78,11 +79,16 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator anim;
     private CharacterController controller;
+    private CapsuleCollider2D collisionBox;
+    private CapsuleCollider2D pushBox;
+    private float originalCBx;
+    private float originalPBx;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
 
     private GameObject myHurtboxesObject;
     private GameObject myHitboxesObject;
+    private GameObject myPushboxesObject;
     private FightManager fightManager;
     private HitboxManager hbm;
     private PlayerHurtboxArtist hurtboxArtist;
@@ -98,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
 
         myHurtboxesObject = transform.Find("Hurtboxes").gameObject;
         myHitboxesObject = transform.Find("Hitboxes").gameObject;
+        myPushboxesObject = transform.Find("Pushboxes").gameObject;
     }
 
     // Start is called before the first frame update
@@ -107,6 +114,22 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+
+        CapsuleCollider2D[] capsuleColliders = myPushboxesObject.GetComponents<CapsuleCollider2D>(); // should be 2; collision and pushbox
+        if (capsuleColliders[0].isTrigger)
+        {
+            pushBox = capsuleColliders[0];
+            collisionBox = capsuleColliders[1];
+        }
+        else
+        {
+            pushBox = capsuleColliders[1];
+            collisionBox = capsuleColliders[0];
+        }
+        originalCBx = collisionBox.offset.x;
+        originalPBx = pushBox.offset.x;
+
+        // Use the proper hurtbox artist depending on the character selected
         switch (playerName)
         {
             default:
@@ -471,6 +494,14 @@ public class PlayerMovement : MonoBehaviour
         if (canFlip)     // only flip if idle, moving, or crouching (not in air or attacking)
         {
             sprite.flipX = rb.transform.position.x >= TURNING_POINT_X;
+            collisionBox.offset = new Vector2(
+                sprite.flipX ? -originalCBx : originalCBx,
+                collisionBox.offset.y
+            );
+            pushBox.offset = new Vector2(
+                sprite.flipX ? -originalPBx : originalPBx,
+                pushBox.offset.y
+            );
         }
         MovementState forward = sprite.flipX ? MovementState.movingBackward : MovementState.movingForward;
         MovementState backward = sprite.flipX ? MovementState.movingForward : MovementState.movingBackward;
@@ -622,14 +653,28 @@ public class PlayerMovement : MonoBehaviour
     // Colliding with hitboxes
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (this.transform.parent != col.transform.parent && col.transform.parent.name == "Hitboxes")
+        if (this.transform.parent == col.transform.parent) return;  // colliding with ourself; do nothing
+        if (col.transform.parent.name == "Grid") return;    // colliding with map; do nothing
+
+        // Colliding with the other player's hitbox
+        if (col.transform.parent.name == "Hitboxes")
         {
-            // colliding with other player's hitbox
             if (triggeredCollider) return;
             triggeredCollider = true;
             Hitbox hitbox = col.GetComponent<HitboxComponent>().hitbox;
             fightManager.LandedHit(playerId, hitbox);
             StartCoroutine(FlipColliderTriggered(playerId));
+        }
+        else    // colliding with pushbox, push out of the way opposite other player
+        {
+            if (rb.velocity.y < 0.5f)   // only push back if falling
+            {
+                float pushScaling = 0.2f;
+                float maxPushSpeed = 1.0f;
+                float newXSpeed = Math.Min(Math.Abs(rb.velocity.x) + pushScaling, maxPushSpeed) * 
+                    (TURNING_POINT_X >= rb.transform.position.x ? -0.1f : 0.1f);
+                rb.velocity = new Vector2(rb.velocity.x + newXSpeed, rb.velocity.y + 0.001f);
+            }
         }
     }
 
