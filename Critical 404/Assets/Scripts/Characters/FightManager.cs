@@ -83,9 +83,6 @@ public class FightManager : MonoBehaviour
         p1script.SetTurningPoint(newPos);
         p2script.SetTurningPoint(newPos);
         turningPoint.transform.position = new Vector3(newPos, 0f, 0f);
-
-        
-
     }
 
     /**
@@ -121,6 +118,9 @@ public class FightManager : MonoBehaviour
         // Clear the attacking player's hitboxes (prevent double-hits)
         attackingPlayer.ClearHitboxesThisImage();
 
+        // Allow attacking player to cancel into another attack
+        attackingPlayer.SetCanCancelAttack(true);
+
         // Generate position for particle effect
         System.Random rng = new System.Random();
         float rand = (float)(rng.NextDouble() * 0.5f) - 0.25f;
@@ -135,7 +135,7 @@ public class FightManager : MonoBehaviour
             -1  // appear above characters
         );
 
-        // Check if player can block the attack
+        // Check if player can block (and is blocking) the attack
         if (hitPlayer.canBlock && hitPlayer.IsBlockingAgainst(attack.hitsAt))
         {
             hitPlayer.blockstun = attack.blockstun; // apply blockstun from attack
