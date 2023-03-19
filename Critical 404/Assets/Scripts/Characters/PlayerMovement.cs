@@ -80,12 +80,14 @@ public class PlayerMovement : MonoBehaviour
     private bool inHitstun = false;
     private bool inBlockstun = false;
     private bool triggeredCollider = false;
+    private bool gotInputThisFrame = false;
     private bool canCancelAttack = true;
     private bool[] blockState = new bool[] {false, false, false};
     private string currentAttack = "";
     private AttackState currentAttackState = AttackState.none;
     private Coroutine currentAttackCoroutine = null;
     private Coroutine currentHitboxCoroutine = null;
+    private Queue<AttackInput> attackQueue = new Queue<AttackInput>();
 
     private Animator anim;
     private CharacterController controller;
@@ -177,7 +179,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        pressedJump = context.action.triggered;
+        pressedJump = context.action.triggered && context.action.ReadValue<float>() != 0;
+        if (gotInputThisFrame || !pressedJump) return;  // prevent multi-input
+        attackQueue.Enqueue(new AttackInput(BufferableInput.jump));
+        StartCoroutine(ReceivedInputThisFrame());
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
@@ -196,33 +201,83 @@ public class PlayerMovement : MonoBehaviour
         IEnumerator jumpingRoutine
     ){
         // Blockers
-        bool freeToAttack = !actionTriggered || (currentAttack != "" && currentAttackState == AttackState.none);    // we can freely attack (not interrupting)
-        bool nextAttackHasLowerPriority = (int)currentAttackState >= (int)attack;   // only do another attack it it's higher priority
-        if (freeToAttack || nextAttackHasLowerPriority || !canCancelAttack)
-            return;
-        
-        // Reset player status and set local parameters
-        ResetPlayerToIdle(false);
-        canCancelAttack = false;
-        currentAttack = attackButtonName;
-        SetAttackState();
+        if (gotInputThisFrame) return;  // don't get multiple inputs of the same button
 
         // Decide which attack we're doing
-        if (isGrounded && !pressedCrouch)       // standing attack
+        AttackInput newAttack = null;
+        if (!pressedCrouch) // standing attack
         {
-            rb.velocity = Vector2.zero;
-            isCrouching = false;
-            StartCoroutine(standingRoutine);
+            newAttack = new AttackInput(
+                (BufferableInput)((int)attack - 1),
+                attackButtonName,
+                standingRoutine,
+                jumpingRoutine
+            );
         }
-        else if (isGrounded && pressedCrouch)   // crouching attack
+        else                // crouching attack
         {
-            isCrouching = true;
-            StartCoroutine(crouchingRoutine);
+            newAttack = new AttackInput(
+                (BufferableInput)((int)attack + 3),
+                attackButtonName,
+                crouchingRoutine,
+                jumpingRoutine
+            );
         }
-        else                                    // jumping attack
+        StartCoroutine(newAttack.PassTime());
+        attackQueue.Enqueue(newAttack);
+        StartCoroutine(ReceivedInputThisFrame());
+    }
+
+    private void CheckAttackQueue()
+    {
+        if (attackQueue.Count <= 0) return; // queue empty
+        if (!canCancelAttack) return;   // cannot do an attack
+
+        do
         {
-            StartCoroutine(jumpingRoutine);
-        }
+            // Pull from queue
+            AttackInput input = attackQueue.Dequeue();
+            if (!input.IsAlive()) continue; // input is stale; go to the next one
+
+            // Special case: process jumping input
+            if (input.input == BufferableInput.jump)
+            {
+                if (isGrounded)
+                {
+                    ResetPlayerToIdle();
+                    if (isCrouching)     // jumping from a crouch should maintain horizontal movement
+                    {
+                        rb.velocity = new Vector2(dirX * horizontalSpeed, rb.velocity.y);
+                    }
+                    rb.velocity = new Vector3(rb.velocity.x, jumpMagnitude, 0f);
+                    isGrounded = false;
+                }
+                return;
+            }
+
+            // Cancelling attack into another attack: make sure it's higher priority
+            if ((int)currentAttackState >= ((int)input.input % 4) + 1) return;
+
+            // Reset player status and set local parameters
+            ResetPlayerToIdle(false);
+            canCancelAttack = false;
+            currentAttack = input.attackButtonName;
+            SetAttackState();
+
+            // Process attack input
+            if (isGrounded) // grounded attack (standing or crouching)
+            {
+                rb.velocity = Vector2.zero;
+                isCrouching = (int)BufferableInput.clp <= (int)input.input &&
+                    (int)input.input <= (int)BufferableInput.chk;
+                StartCoroutine(input.regularRoutine);
+            }
+            else            // jumping attack
+            {
+                StartCoroutine(input.jumpingRoutine);
+            }
+            return;
+        } while (attackQueue.Count > 0);
     }
 
     private IEnumerator ReturnToIdleAfterFrames(int framesToWait)
@@ -236,8 +291,8 @@ public class PlayerMovement : MonoBehaviour
     private void ResetPlayerToIdle(bool resetAttack = true)
     {
         StopCurrentCoroutines();
-        hurtboxArtist.StopCurrentRoutine();
         hurtboxArtist.StopDrawingAll();
+        hurtboxArtist.StopCurrentRoutine();
         if (resetAttack)
         {
             currentAttack = "";
@@ -246,12 +301,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private IEnumerator ReceivedInputThisFrame()
+    {
+        gotInputThisFrame = true;
+        yield return new WaitForSeconds(1f / 60f);
+        gotInputThisFrame = false;
+    }
+
     // ========== ATTACKS ==========
 
     // Light Punch
 
     public void OnLightPunch(InputAction.CallbackContext context)
     {
+        if (context.action.ReadValue<float>() == 0) return; // button up
         AttackButtonPressed(
             context.action.triggered,
             AttackState.lp,
@@ -284,6 +347,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnHeavyPunch(InputAction.CallbackContext context)
     {
+        if (context.action.ReadValue<float>() == 0) return; // button up
         AttackButtonPressed(
             context.action.triggered,
             AttackState.hp,
@@ -316,6 +380,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnLightKick(InputAction.CallbackContext context)
     {
+        if (context.action.ReadValue<float>() == 0) return; // button up
         AttackButtonPressed(
             context.action.triggered,
             AttackState.lk,
@@ -348,6 +413,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnHeavyKick(InputAction.CallbackContext context)
     {
+        if (context.action.ReadValue<float>() == 0) return; // button up
         AttackButtonPressed(
             context.action.triggered,
             AttackState.hk,
@@ -428,19 +494,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     ResetPlayerToIdle();
                 }
-            }
-            if (pressedJump && isGrounded && canCancelAttack)                   // jumping off ground
-            {
-                ResetPlayerToIdle(false);
-                currentAttack = "";
-                SetAttackState();
-                if (isCrouching)     // jumping from a crouch should maintain horizontal movement
-                {
-                    rb.velocity = new Vector2(dirX * horizontalSpeed, rb.velocity.y);
-                }
-                rb.velocity = new Vector3(rb.velocity.x, jumpMagnitude, 0f);
-                isGrounded = false;
-            }
+            } // *NOTE* : logic for actually jumping => CheckAttackQueue()
 
             // If we're blocking, determine how much we're blocking
             if (canBlock)
@@ -498,6 +552,8 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(TickAwayBlockstun());
             canCancelAttack = true;
         }
+
+        if (canCancelAttack) CheckAttackQueue();
 
         UpdateAnimations();
         // UpdateHurtboxes();   // called in UpdateAnimations(), where it is given a MovementState
@@ -743,7 +799,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ClearHitboxesThisImage()
     {
-        hbm.ClearAll(myHitboxesObject);
+        hbm.ClearHitboxes();
         hurtboxArtist.PreventHitboxesThisImage();
     }
 
