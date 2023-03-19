@@ -1084,112 +1084,112 @@ public class PlayerHurtboxArtist : HurtboxArtist
 
     public override IEnumerator DrawIdle(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(IDLE_FRAMES, facingRight);
+        return DrawHurtboxAnimation(IDLE_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCrouch(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CROUCH_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CROUCH_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawMoveForward(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(FORWARD_FRAMES, facingRight);
+        return DrawHurtboxAnimation(FORWARD_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawMoveBackward(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(BACKWARD_FRAMES, facingRight);
+        return DrawHurtboxAnimation(BACKWARD_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJumpRise(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(RISING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(RISING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJumpFall(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(FALLING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(FALLING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawStandingBlock(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SBLOCKING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SBLOCKING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCrouchingBlock(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CBLOCKING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CBLOCKING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJumpingBlock(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JBLOCKING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JBLOCKING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSLP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SLP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SLP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSHP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SHP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SHP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSLK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SLK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SLK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSHK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SHK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SHK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCLP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CLP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CLP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCHP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CHP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CHP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCLK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CLK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CLK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCHK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CHK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CHK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJLP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JLP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JLP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJHP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JHP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JHP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJLK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JLK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JLK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJHK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JHK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JHK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawHitstun(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(HIT_FRAMES, facingRight);
+        return DrawHurtboxAnimation(HIT_FRAMES, facingRight);
     }
 
     public override void StopDrawingAll()
@@ -1225,6 +1225,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
     public void PreventHitboxesThisImage()
     {
         spawnHitboxesThisImage = false;
+        hbm.ClearHitboxes();
     }
 
     public void StopCurrentRoutine()

@@ -244,9 +244,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (isGrounded)
                 {
-                    ResetPlayerToIdle(false);
-                    currentAttack = "";
-                    SetAttackState();
+                    ResetPlayerToIdle();
                     if (isCrouching)     // jumping from a crouch should maintain horizontal movement
                     {
                         rb.velocity = new Vector2(dirX * horizontalSpeed, rb.velocity.y);
@@ -293,8 +291,8 @@ public class PlayerMovement : MonoBehaviour
     private void ResetPlayerToIdle(bool resetAttack = true)
     {
         StopCurrentCoroutines();
-        hurtboxArtist.StopCurrentRoutine();
         hurtboxArtist.StopDrawingAll();
+        hurtboxArtist.StopCurrentRoutine();
         if (resetAttack)
         {
             currentAttack = "";
@@ -801,7 +799,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ClearHitboxesThisImage()
     {
-        hbm.ClearAll(myHitboxesObject);
+        hbm.ClearHitboxes();
         hurtboxArtist.PreventHitboxesThisImage();
     }
 
