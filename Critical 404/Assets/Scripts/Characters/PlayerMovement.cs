@@ -75,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
     private float dirX = 0f;
     private bool pressedJump = false;
     private bool pressedCrouch = false;
+    private bool hasJumped = false;
     private bool isGrounded = false;    // start off the ground
     private bool isCrouching = false;
     private bool inHitstun = false;
@@ -176,12 +177,12 @@ public class PlayerMovement : MonoBehaviour
         // Use the proper hurtbox artist depending on the character selected
         switch (playerName)
         {
-            case "TAKER":
-                // hurtboxArtist = new TakerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
-                break;
-            case "MILA":
-                // hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
-                break;
+            // case "SPREAD":
+            //     // hurtboxArtist = new SpreadHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+            //     break;
+            // case "MILA":
+            //     // hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+            //     break;
             default:
                 hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
                 break;
@@ -527,6 +528,7 @@ public class PlayerMovement : MonoBehaviour
             if (rb.velocity.y < 0.01f && rb.velocity.y > -0.01f && !isGrounded) // landing
             {
                 isGrounded = true;
+                hasJumped = false;
                 int state = anim.GetInteger("State");
                 if (6 <= state && state <= 9)   // landed mid-attack, cancel it
                 {
@@ -713,10 +715,19 @@ public class PlayerMovement : MonoBehaviour
                 currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
                 return;
             case MovementState.jumping:
-                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
+                if (hasJumped)
+                {
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
+                }
+                else
+                {
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJump(isFacingRight));
+                    hasJumped = true;
+                }
                 return;
             case MovementState.falling:
                 currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
+                hasJumped = false;
                 return;
             case MovementState.crouching:
                 currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));

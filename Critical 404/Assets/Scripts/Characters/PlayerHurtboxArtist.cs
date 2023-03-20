@@ -1094,6 +1094,11 @@ public class PlayerHurtboxArtist : HurtboxArtist
         return DrawHurtboxAnimation(BACKWARD_FRAMES, facingRight);
     }
 
+    public override IEnumerator DrawJump(bool facingRight)
+    {
+        return DrawHurtboxAnimation(RISING_FRAMES, facingRight);
+    }
+
     public override IEnumerator DrawJumpRise(bool facingRight)
     {
         return DrawHurtboxAnimation(RISING_FRAMES, facingRight);
@@ -1182,12 +1187,6 @@ public class PlayerHurtboxArtist : HurtboxArtist
     public override IEnumerator DrawHitstun(bool facingRight)
     {
         return DrawHurtboxAnimation(HIT_FRAMES, facingRight);
-    }
-
-    public override void StopDrawingAll()
-    {
-        hbm.ClearAll(hurtboxObject);
-        hbm.ClearAll(hitboxObject);
     }
 
 }
