@@ -33,18 +33,18 @@ public class PlayerMovement : MonoBehaviour
     private const string HEAVY_KICK_KEY = "Heavy Kick";
 
     // VALUES TO OVERWRITE FOR ACTUAL CHARACTERS
-    private const int SLP_DURATION = 15;
-    private const int SHP_DURATION = 19;
-    private const int SLK_DURATION = 14;
-    private const int SHK_DURATION = 21;
-    private const int CLP_DURATION = 13;
-    private const int CHP_DURATION = 16;
-    private const int CLK_DURATION = 15;
-    private const int CHK_DURATION = 19;
-    private const int JLP_DURATION = 16;
-    private const int JHP_DURATION = 21;
-    private const int JLK_DURATION = 18;
-    private const int JHK_DURATION = 26;
+    private int SLP_DURATION;
+    private int SHP_DURATION;
+    private int SLK_DURATION;
+    private int SHK_DURATION;
+    private int CLP_DURATION;
+    private int CHP_DURATION;
+    private int CLK_DURATION;
+    private int CHK_DURATION;
+    private int JLP_DURATION;
+    private int JHP_DURATION;
+    private int JLK_DURATION;
+    private int JHK_DURATION;
 
     private float TURNING_POINT_X = 0f;
 
@@ -126,6 +126,38 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+
+        // Iterate through each anim clip to set timing
+        foreach (AnimationClip ac in anim.runtimeAnimatorController.animationClips)
+        {
+            string name = ac.name;
+            int clilpLength = (int)(ac.length * 60) - 1;
+            if (name.Contains("_LightPunch")) {
+                SLP_DURATION = clilpLength;
+            } else if (name.Contains("_LightKick")) {
+                SLK_DURATION = clilpLength;
+            } else if (name.Contains("_HeavyPunch")) {
+                SHP_DURATION = clilpLength;
+            } else if (name.Contains("_HeavyKick")) {
+                SHK_DURATION = clilpLength;
+            } else if (name.Contains("_CrouchingLightPunch")) {
+                CLP_DURATION = clilpLength;
+            } else if (name.Contains("_CrouchingLightKick")) {
+                CLK_DURATION = clilpLength;
+            } else if (name.Contains("_CrouchingHeavyPunch")) {
+                CHP_DURATION = clilpLength;
+            } else if (name.Contains("_CrouchingHeavyKick")) {
+                CHK_DURATION = clilpLength;
+            } else if (name.Contains("_JumpingLightPunch")) {
+                JLP_DURATION = clilpLength;
+            } else if (name.Contains("_JumpingLightKick")) {
+                JLK_DURATION = clilpLength;
+            } else if (name.Contains("_JumpingHeavyPunch")) {
+                JHP_DURATION = clilpLength;
+            } else if (name.Contains("_JumpingHeavyKick")) {
+                JHK_DURATION = clilpLength;
+            }
+        }
 
         CapsuleCollider2D[] capsuleColliders = myPushboxesObject.GetComponents<CapsuleCollider2D>(); // should be 2; collision and pushbox
         if (capsuleColliders[0].isTrigger)
