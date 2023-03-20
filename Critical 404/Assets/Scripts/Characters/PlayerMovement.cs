@@ -176,6 +176,12 @@ public class PlayerMovement : MonoBehaviour
         // Use the proper hurtbox artist depending on the character selected
         switch (playerName)
         {
+            case "TAKER":
+                // hurtboxArtist = new TakerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+                break;
+            case "MILA":
+                // hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+                break;
             default:
                 hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
                 break;

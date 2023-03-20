@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class PlayerHurtboxArtist : HurtboxArtist
 {
-
-    private HitboxManager hbm;
-    private GameObject hurtboxObject;
-    private GameObject hitboxObject;
-
-    private bool spawnHitboxesThisImage = true;
-    private bool stopThisRoutine = false;
-
     // ~~~~~ Fun values to tweak ~~~~~
     /* ATTACK DATA TAKES THESE PARAMS:
      * Damage, Hitstun, Blockstun, Knockback
@@ -1196,41 +1188,6 @@ public class PlayerHurtboxArtist : HurtboxArtist
     {
         hbm.ClearAll(hurtboxObject);
         hbm.ClearAll(hitboxObject);
-    }
-
-    private IEnumerator DrawHurtboxAnimation(HurtboxAnimation anim, bool facingRight)
-    {
-        int flipMultiplier = facingRight ? 1 : -1;
-        for (int i = 0; i < anim.frames.Length; i++)
-        {
-            if (!spawnHitboxesThisImage) spawnHitboxesThisImage = true; // reset once previous image is done
-            if (stopThisRoutine)
-            {
-                stopThisRoutine = false;
-                yield break;
-            }
-            // Draw each hitbox per frame
-            HurtboxFrame frame = anim.frames[i];
-            foreach (Hurtbox hurtbox in frame.hurtboxes)
-            {
-                if (hurtbox.GetType() == typeof(Hitbox) && spawnHitboxesThisImage)
-                    hbm.CreateHitbox(hitboxObject, (Hitbox)hurtbox, flipMultiplier, anim.frameDurations[i]);
-                else
-                    hbm.CreateHurtbox(hurtboxObject, hurtbox, flipMultiplier, anim.frameDurations[i]);
-            }
-            yield return new WaitForSeconds(anim.frameDurations[i] / 60f);
-        }
-    }
-
-    public void PreventHitboxesThisImage()
-    {
-        spawnHitboxesThisImage = false;
-        hbm.ClearHitboxes();
-    }
-
-    public void StopCurrentRoutine()
-    {
-        stopThisRoutine = true;
     }
 
 }
