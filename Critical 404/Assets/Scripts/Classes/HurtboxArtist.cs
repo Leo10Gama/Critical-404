@@ -10,10 +10,18 @@ public abstract class HurtboxArtist
     private bool spawnHitboxesThisImage = true;
     private bool stopThisRoutine = false;
 
+    public HurtboxArtist(HitboxManager hbm, GameObject hurtboxObj, GameObject hitboxObj)
+    {
+        this.hbm = hbm;
+        this.hurtboxObject = hurtboxObj;
+        this.hitboxObject = hitboxObj;
+    }
+
     public abstract IEnumerator DrawIdle(bool facingRight);
     public abstract IEnumerator DrawCrouch(bool facingRight);
     public abstract IEnumerator DrawMoveForward(bool facingRight);
     public abstract IEnumerator DrawMoveBackward(bool facingRight);
+    public abstract IEnumerator DrawJump(bool facingRight);
     public abstract IEnumerator DrawJumpRise(bool facingRight);
     public abstract IEnumerator DrawJumpFall(bool facingRight);
 
@@ -37,8 +45,6 @@ public abstract class HurtboxArtist
     public abstract IEnumerator DrawJHK(bool facingRight);
 
     public abstract IEnumerator DrawHitstun(bool facingRight);
-
-    public abstract void StopDrawingAll();
 
     protected IEnumerator DrawHurtboxAnimation(HurtboxAnimation anim, bool facingRight)
     {
@@ -73,5 +79,11 @@ public abstract class HurtboxArtist
     public void StopCurrentRoutine()
     {
         stopThisRoutine = true;
+    }
+
+    public void StopDrawingAll()
+    {
+        hbm.ClearAll(hurtboxObject);
+        hbm.ClearAll(hitboxObject);
     }
 }

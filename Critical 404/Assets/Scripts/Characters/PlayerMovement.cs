@@ -75,12 +75,13 @@ public class PlayerMovement : MonoBehaviour
     private float dirX = 0f;
     private bool pressedJump = false;
     private bool pressedCrouch = false;
+    private bool hasJumped = false;
     private bool isGrounded = false;    // start off the ground
     private bool isCrouching = false;
     private bool inHitstun = false;
     private bool inBlockstun = false;
     private bool triggeredCollider = false;
-    private bool gotInputThisFrame = false;
+    private string gotInputThisFrame = "";
     private bool canCancelAttack = true;
     private bool[] blockState = new bool[] {false, false, false};
     private string currentAttack = "";
@@ -88,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine currentAttackCoroutine = null;
     private Coroutine currentHitboxCoroutine = null;
     private Queue<AttackInput> attackQueue = new Queue<AttackInput>();
+    private bool queueIsOpen = true;
 
     private Animator anim;
     private CharacterController controller;
@@ -176,12 +178,12 @@ public class PlayerMovement : MonoBehaviour
         // Use the proper hurtbox artist depending on the character selected
         switch (playerName)
         {
-            case "TAKER":
-                // hurtboxArtist = new TakerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
-                break;
-            case "MILA":
-                // hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
-                break;
+            // case "SPREAD":
+            //     // hurtboxArtist = new SpreadHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+            //     break;
+            // case "MILA":
+            //     // hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+            //     break;
             default:
                 hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
                 break;
@@ -218,9 +220,11 @@ public class PlayerMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         pressedJump = context.action.triggered && context.action.ReadValue<float>() != 0;
-        if (gotInputThisFrame || !pressedJump) return;  // prevent multi-input
-        attackQueue.Enqueue(new AttackInput(BufferableInput.jump));
-        StartCoroutine(ReceivedInputThisFrame());
+        if (gotInputThisFrame == "jump" || !pressedJump) return;  // prevent multi-input
+        AttackInput jumpInput = new AttackInput(BufferableInput.jump);
+        StartCoroutine(jumpInput.PassTime());
+        attackQueue.Enqueue(jumpInput);
+        StartCoroutine(ReceivedInputThisFrame("jump"));
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
@@ -239,7 +243,7 @@ public class PlayerMovement : MonoBehaviour
         IEnumerator jumpingRoutine
     ){
         // Blockers
-        if (gotInputThisFrame) return;  // don't get multiple inputs of the same button
+        if (gotInputThisFrame == attackButtonName) return;  // don't get multiple inputs of the same button
 
         // Decide which attack we're doing
         AttackInput newAttack = null;
@@ -263,12 +267,13 @@ public class PlayerMovement : MonoBehaviour
         }
         StartCoroutine(newAttack.PassTime());
         attackQueue.Enqueue(newAttack);
-        StartCoroutine(ReceivedInputThisFrame());
+        StartCoroutine(ReceivedInputThisFrame(attackButtonName));
     }
 
     private void CheckAttackQueue()
     {
         if (attackQueue.Count <= 0) return; // queue empty
+        if (!queueIsOpen) return;       // queue is closed
         if (!canCancelAttack) return;   // cannot do an attack
 
         do
@@ -289,6 +294,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     rb.velocity = new Vector3(rb.velocity.x, jumpMagnitude, 0f);
                     isGrounded = false;
+                    StartCoroutine(CloseQueueThisFrame());
                 }
                 return;
             }
@@ -318,6 +324,13 @@ public class PlayerMovement : MonoBehaviour
         } while (attackQueue.Count > 0);
     }
 
+    private IEnumerator CloseQueueThisFrame()
+    {
+        queueIsOpen = false;
+        yield return new WaitForSeconds(1f / 60f);
+        queueIsOpen = true;
+    }
+
     private IEnumerator ReturnToIdleAfterFrames(int framesToWait)
     {
         yield return new WaitForSeconds(framesToWait / 60f);    // duration of some move
@@ -339,11 +352,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator ReceivedInputThisFrame()
+    private IEnumerator ReceivedInputThisFrame(string buttonName)
     {
-        gotInputThisFrame = true;
+        gotInputThisFrame = buttonName;
         yield return new WaitForSeconds(1f / 60f);
-        gotInputThisFrame = false;
+        gotInputThisFrame = "";
     }
 
     // ========== ATTACKS ==========
@@ -527,6 +540,7 @@ public class PlayerMovement : MonoBehaviour
             if (rb.velocity.y < 0.01f && rb.velocity.y > -0.01f && !isGrounded) // landing
             {
                 isGrounded = true;
+                hasJumped = false;
                 int state = anim.GetInteger("State");
                 if (6 <= state && state <= 9)   // landed mid-attack, cancel it
                 {
@@ -713,10 +727,19 @@ public class PlayerMovement : MonoBehaviour
                 currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
                 return;
             case MovementState.jumping:
-                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
+                if (hasJumped)
+                {
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
+                }
+                else
+                {
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJump(isFacingRight));
+                    hasJumped = true;
+                }
                 return;
             case MovementState.falling:
                 currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
+                hasJumped = false;
                 return;
             case MovementState.crouching:
                 currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
