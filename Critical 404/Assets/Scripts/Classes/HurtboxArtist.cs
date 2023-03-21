@@ -10,6 +10,13 @@ public abstract class HurtboxArtist
     private bool spawnHitboxesThisImage = true;
     private bool stopThisRoutine = false;
 
+    public HurtboxArtist(HitboxManager hbm, GameObject hurtboxObj, GameObject hitboxObj)
+    {
+        this.hbm = hbm;
+        this.hurtboxObject = hurtboxObj;
+        this.hitboxObject = hitboxObj;
+    }
+
     public abstract IEnumerator DrawIdle(bool facingRight);
     public abstract IEnumerator DrawCrouch(bool facingRight);
     public abstract IEnumerator DrawMoveForward(bool facingRight);

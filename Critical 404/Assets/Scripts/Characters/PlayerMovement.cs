@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
     private bool inHitstun = false;
     private bool inBlockstun = false;
     private bool triggeredCollider = false;
-    private bool gotInputThisFrame = false;
+    private string gotInputThisFrame = "";
     private bool canCancelAttack = true;
     private bool[] blockState = new bool[] {false, false, false};
     private string currentAttack = "";
@@ -89,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine currentAttackCoroutine = null;
     private Coroutine currentHitboxCoroutine = null;
     private Queue<AttackInput> attackQueue = new Queue<AttackInput>();
+    private bool queueIsOpen = true;
 
     private Animator anim;
     private CharacterController controller;
@@ -219,9 +220,11 @@ public class PlayerMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         pressedJump = context.action.triggered && context.action.ReadValue<float>() != 0;
-        if (gotInputThisFrame || !pressedJump) return;  // prevent multi-input
-        attackQueue.Enqueue(new AttackInput(BufferableInput.jump));
-        StartCoroutine(ReceivedInputThisFrame());
+        if (gotInputThisFrame == "jump" || !pressedJump) return;  // prevent multi-input
+        AttackInput jumpInput = new AttackInput(BufferableInput.jump);
+        StartCoroutine(jumpInput.PassTime());
+        attackQueue.Enqueue(jumpInput);
+        StartCoroutine(ReceivedInputThisFrame("jump"));
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
@@ -240,7 +243,7 @@ public class PlayerMovement : MonoBehaviour
         IEnumerator jumpingRoutine
     ){
         // Blockers
-        if (gotInputThisFrame) return;  // don't get multiple inputs of the same button
+        if (gotInputThisFrame == attackButtonName) return;  // don't get multiple inputs of the same button
 
         // Decide which attack we're doing
         AttackInput newAttack = null;
@@ -264,12 +267,13 @@ public class PlayerMovement : MonoBehaviour
         }
         StartCoroutine(newAttack.PassTime());
         attackQueue.Enqueue(newAttack);
-        StartCoroutine(ReceivedInputThisFrame());
+        StartCoroutine(ReceivedInputThisFrame(attackButtonName));
     }
 
     private void CheckAttackQueue()
     {
         if (attackQueue.Count <= 0) return; // queue empty
+        if (!queueIsOpen) return;       // queue is closed
         if (!canCancelAttack) return;   // cannot do an attack
 
         do
@@ -290,6 +294,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     rb.velocity = new Vector3(rb.velocity.x, jumpMagnitude, 0f);
                     isGrounded = false;
+                    StartCoroutine(CloseQueueThisFrame());
                 }
                 return;
             }
@@ -319,6 +324,13 @@ public class PlayerMovement : MonoBehaviour
         } while (attackQueue.Count > 0);
     }
 
+    private IEnumerator CloseQueueThisFrame()
+    {
+        queueIsOpen = false;
+        yield return new WaitForSeconds(1f / 60f);
+        queueIsOpen = true;
+    }
+
     private IEnumerator ReturnToIdleAfterFrames(int framesToWait)
     {
         yield return new WaitForSeconds(framesToWait / 60f);    // duration of some move
@@ -340,11 +352,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator ReceivedInputThisFrame()
+    private IEnumerator ReceivedInputThisFrame(string buttonName)
     {
-        gotInputThisFrame = true;
+        gotInputThisFrame = buttonName;
         yield return new WaitForSeconds(1f / 60f);
-        gotInputThisFrame = false;
+        gotInputThisFrame = "";
     }
 
     // ========== ATTACKS ==========

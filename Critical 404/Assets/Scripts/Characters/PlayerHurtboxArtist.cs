@@ -1068,10 +1068,8 @@ public class PlayerHurtboxArtist : HurtboxArtist
     );
 
     public PlayerHurtboxArtist(HitboxManager hbm, GameObject hurtboxObj, GameObject hitboxObj)
+        : base(hbm, hurtboxObj, hitboxObj)
     {
-        this.hbm = hbm;
-        this.hurtboxObject = hurtboxObj;
-        this.hitboxObject = hitboxObj;
     }
 
     public override IEnumerator DrawIdle(bool facingRight)
