@@ -333,7 +333,9 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator ReturnToIdleAfterFrames(int framesToWait)
     {
+        Debug.Log(framesToWait);
         yield return new WaitForSeconds(framesToWait / 60f);    // duration of some move
+        Debug.Log("Done");
         currentAttack = "";
         SetAttackState();
         canCancelAttack = true;
@@ -701,10 +703,18 @@ public class PlayerMovement : MonoBehaviour
             currentAttack = "";
         }
 
+
         anim.SetInteger("State", (int)newState);
         anim.SetInteger("Positional State", (int)newPositionalState);
         anim.SetInteger("Attack State", (int)currentAttackState);
 
+        // if (currentHitboxCoroutine != null && currState != newState) 
+        // {
+        //     StopCurrentCoroutines();
+        // }
+
+        // Debug.Log(newState);
+        
         UpdateHurtboxes(newState);
     }
 
@@ -716,85 +726,79 @@ public class PlayerMovement : MonoBehaviour
         if (totalBoxes > 0) return;    // only draw once per frame
 
         bool isFacingRight = !sprite.flipX;
-        Coroutine newCoroutine = null;
 
         switch (state)
         {
             case MovementState.idle:
-                newCoroutine = StartCoroutine(hurtboxArtist.DrawIdle(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawIdle(isFacingRight));
                 break;
             case MovementState.movingForward:
-                newCoroutine = StartCoroutine(hurtboxArtist.DrawMoveForward(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawMoveForward(isFacingRight));
                 break;
             case MovementState.movingBackward:
-                newCoroutine = StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawMoveBackward(isFacingRight));
                 break;
             case MovementState.jumping:
                 if (hasJumped)
                 {
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpRise(isFacingRight));
                 }
                 else
                 {
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawJump(isFacingRight));
-                    hasJumped = true;
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJump(isFacingRight));
+                    StartCoroutine(FlipHasJumped());
                 }
                 break;
             case MovementState.falling:
-                newCoroutine = StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpFall(isFacingRight));
                 hasJumped = false;
                 break;
             case MovementState.crouching:
-                newCoroutine = StartCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCrouch(isFacingRight));
                 break;
             case MovementState.lightPunch:
                 if (isCrouching)        // c.LP
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawCLP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCLP(isFacingRight));
                 else if (isGrounded)    // s.LP
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSLP(isFacingRight));
                 else                    // j.LP
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawJLP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJLP(isFacingRight));
                 break;
             case MovementState.heavyPunch:
                 if (isCrouching)        // c.HP
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawCHP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCHP(isFacingRight));
                 else if (isGrounded)    // s.HP
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSHP(isFacingRight));
                 else                    // j.HP
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawJHP(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJHP(isFacingRight));
                 break;
             case MovementState.lightKick:
                 if (isCrouching)        // c.LK
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawCLK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCLK(isFacingRight));
                 else if (isGrounded)    // s.LK
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSLK(isFacingRight));
                 else                    // j.LK
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawJLK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJLK(isFacingRight));
                 break;
             case MovementState.heavyKick:
                 if (isCrouching)        // c.HK
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawCHK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCHK(isFacingRight));
                 else if (isGrounded)    // s.HK
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawSHK(isFacingRight));
                 else                    // j.HK
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawJHK(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJHK(isFacingRight));
                 break;
             case MovementState.hit:
-                newCoroutine = StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
+                currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawHitstun(isFacingRight));
                 break;
             case MovementState.block:
                 if (isCrouching)        // crouch block
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawCrouchingBlock(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawCrouchingBlock(isFacingRight));
                 else if (isGrounded)    // standing block
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawStandingBlock(isFacingRight));
                 else                    // jumping block
-                    newCoroutine = StartCoroutine(hurtboxArtist.DrawJumpingBlock(isFacingRight));
+                    currentHitboxCoroutine = StartCoroutine(hurtboxArtist.DrawJumpingBlock(isFacingRight));
                 break;
-        }
-        if (newCoroutine != null && newCoroutine != currentHitboxCoroutine && currentHitboxCoroutine != null)
-        {
-            StopCoroutine(currentHitboxCoroutine);
-            currentHitboxCoroutine = newCoroutine;
         }
     }
 
@@ -834,6 +838,12 @@ public class PlayerMovement : MonoBehaviour
         triggeredCollider = false;
     }
 
+    private IEnumerator FlipHasJumped()
+    {
+        yield return new WaitForSeconds(1f / 60f);
+        hasJumped = true;
+    }
+
     private IEnumerator TickAwayHitstun()
     {
         while (hitstun > 0)
@@ -861,6 +871,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (currentAttackCoroutine != null) StopCoroutine(currentAttackCoroutine);
         if (currentHitboxCoroutine != null) StopCoroutine(currentHitboxCoroutine);
+        hurtboxArtist.StopDrawingAll();
     }
 
     /// Tell whether or not the player is currently blocking against a type of attack
