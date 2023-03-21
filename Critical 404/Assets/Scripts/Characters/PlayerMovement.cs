@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject myPushboxesObject;
     private FightManager fightManager;
     private HitboxManager hbm;
-    private PlayerHurtboxArtist hurtboxArtist;
+    private HurtboxArtist hurtboxArtist;
 
     private InputActionAsset inputAsset;
     private InputActionMap player;
@@ -178,9 +178,9 @@ public class PlayerMovement : MonoBehaviour
         // Use the proper hurtbox artist depending on the character selected
         switch (playerName)
         {
-            // case "SPREAD":
-            //     // hurtboxArtist = new SpreadHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
-            //     break;
+            case "SPREAD":
+                hurtboxArtist = new SpreadHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+                break;
             // case "MILA":
             //     // hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
             //     break;
@@ -506,13 +506,13 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // Handle whether we can block
+        canBlock = (sprite.flipX ? dirX > 0.01f : dirX < -0.01f) && currentAttack == "" &&
+            hitstun <= 0 && blockstun <= 0;
+
         // Only do movement if not attacking and not in hitstun
         if ((currentAttack == "" || !isGrounded || (pressedJump && canCancelAttack)) && hitstun <= 0 && blockstun <= 0)
         {
-            // Handle whether we can block
-            // (presumably in this section, we can do actions freely)
-            canBlock = (sprite.flipX ? dirX > 0.01f : dirX < -0.01f) && currentAttack == "";
-
             // Handle crouching
             if (pressedCrouch && isGrounded)
             {
@@ -524,11 +524,6 @@ public class PlayerMovement : MonoBehaviour
                 isCrouching = false;
             }
 
-            // Launched into the air, set whether we're grounded
-            if (rb.velocity.y > 0.1f || rb.velocity.y < -0.1f && isGrounded)
-            {
-                isGrounded = false;
-            }
 
             // Handle horizontal movement
             if (isGrounded && !isCrouching) // if in the air, horizontal momentum is locked
@@ -578,6 +573,12 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        // Launched into the air, set whether we're grounded
+        if (rb.velocity.y > 0.1f || rb.velocity.y < -0.1f && isGrounded)
+        {
+            isGrounded = false;
+        }
+
         // Decrease hitstun timer
         if (hitstun > 0 && !inHitstun) 
         {
@@ -585,6 +586,7 @@ public class PlayerMovement : MonoBehaviour
             ResetPlayerToIdle(false);
             currentAttack = "";
             canCancelAttack = false;
+            isCrouching = false;
             // switch to be now in hitstun
             inHitstun = true;
             StartCoroutine(TickAwayHitstun());
@@ -834,6 +836,7 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(1f / 60f);
         }
         inHitstun = false;
+        ResetPlayerToIdle();
     }
 
     private IEnumerator TickAwayBlockstun()
@@ -844,6 +847,8 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(1f / 60f);
         }
         inBlockstun = false;
+        canCancelAttack = true;
+        currentAttackState = AttackState.none;
     }
 
     public void StopCurrentCoroutines()
