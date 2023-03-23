@@ -67,6 +67,7 @@ public abstract class HurtboxArtist
                     hbm.CreateHurtbox(hurtboxObject, hurtbox, flipMultiplier, anim.frameDurations[i]);
             }
             yield return new WaitForSeconds(anim.frameDurations[i] / 60f);
+            StopDrawingAll();
         }
     }
 
