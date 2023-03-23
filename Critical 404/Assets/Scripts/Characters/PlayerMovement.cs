@@ -333,9 +333,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator ReturnToIdleAfterFrames(int framesToWait)
     {
-        Debug.Log(framesToWait);
         yield return new WaitForSeconds(framesToWait / 60f);    // duration of some move
-        Debug.Log("Done");
         currentAttack = "";
         SetAttackState();
         canCancelAttack = true;
@@ -708,12 +706,10 @@ public class PlayerMovement : MonoBehaviour
         anim.SetInteger("Positional State", (int)newPositionalState);
         anim.SetInteger("Attack State", (int)currentAttackState);
 
-        // if (currentHitboxCoroutine != null && currState != newState) 
-        // {
-        //     StopCurrentCoroutines();
-        // }
-
-        // Debug.Log(newState);
+        if (currentHitboxCoroutine != null && currState != newState && currentAttackState == AttackState.none) 
+        {
+            StopCurrentCoroutines();
+        }
         
         UpdateHurtboxes(newState);
     }
