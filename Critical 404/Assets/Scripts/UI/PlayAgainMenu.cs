@@ -13,6 +13,7 @@ public class PlayAgainMenu : MonoBehaviour
     public Color deselected = new Color(1f, 1f, 1f);
     public Color selected = new Color(1f, 173/255f, 76/255f);
 
+    private bool canScroll = true;
     private TextMeshProUGUI playAgain;
     private TextMeshProUGUI quit;
 
@@ -55,7 +56,8 @@ public class PlayAgainMenu : MonoBehaviour
 
     public void Scroll()
     {
-        Debug.Log(quit);
+        if (!canScroll) return;
+
         if (curr == 0)
         {
             quit.color = selected;
@@ -67,5 +69,13 @@ public class PlayAgainMenu : MonoBehaviour
             quit.color = deselected;
         }
         curr = (curr + 1) % 2;
+        StartCoroutine(WaitToScroll());
+    }
+
+    private IEnumerator WaitToScroll()
+    {
+        canScroll = false;
+        yield return new WaitForSeconds(0.2f);  // dont accept input for this long
+        canScroll = true;
     }
 }
