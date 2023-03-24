@@ -18,13 +18,13 @@ public class SpreadHurtboxArtist : HurtboxArtist
         27, 8, 6, new Vector2(2, 1)
     );
     private static readonly AttackData SHK_DATA = new AttackData(
-        55, 10, 7, new Vector2(3, 20)
+        55, 10, 7, new Vector2(5, 20)
     );
     private static readonly AttackData CLP_DATA = new AttackData(
-        20, 6, 4, new Vector2(1, 0)
+        18, 6, 4, new Vector2(1, 0)
     );
     private static readonly AttackData CHP_DATA = new AttackData(
-        36, 8, 5, new Vector2(3, 0)
+        35, 8, 5, new Vector2(3, 0)
     );
     private static readonly AttackData CLK_DATA = new AttackData(
         25, 9, 7, new Vector2(1, 4), BlockState.low
@@ -32,40 +32,40 @@ public class SpreadHurtboxArtist : HurtboxArtist
     private static readonly AttackData[] CHK_DATA = 
     {
         new AttackData(
-            52, 11, 8, new Vector2(7, 5), BlockState.low
+            39, 11, 8, new Vector2(7, 5), BlockState.low
         ),
         new AttackData(
-            52, 11, 8, new Vector2(7, 5), BlockState.low
+            56, 11, 8, new Vector2(6, 5), BlockState.low
         )
     };
     private static readonly AttackData JLP_DATA = new AttackData(
-        11, 6, 3, new Vector2(1, -1), BlockState.high
+        19, 6, 3, new Vector2(1, -1), BlockState.high
     );
     private static readonly AttackData JHP_DATA = new AttackData(
-        29, 8, 4, new Vector2(3, -3), BlockState.high
+        32, 8, 4, new Vector2(3, -3), BlockState.high
     );
     private static readonly AttackData JLK_DATA = new AttackData(
-        18, 7, 5, new Vector2(3, 0)
+        22, 7, 5, new Vector2(3, 0)
     );
     private static readonly AttackData[] JHK_DATA = 
     {
         new AttackData(
-            43, 10, 6, new Vector2(10, 5)
+            12, 10, 6, new Vector2(-1, 3)
         ),
         new AttackData(
-            43, 10, 6, new Vector2(10, 5)
+            12, 10, 6, new Vector2(-1, 3)
         ),
         new AttackData(
-            43, 10, 6, new Vector2(10, 5)
+            12, 10, 6, new Vector2(-1, 3)
         ),
         new AttackData(
-            43, 10, 6, new Vector2(10, 5)
+            12, 10, 6, new Vector2(-1, 3)
         ),
         new AttackData(
-            43, 10, 6, new Vector2(10, 5)
+            12, 10, 6, new Vector2(-1, 3)
         ),
         new AttackData(
-            43, 10, 6, new Vector2(10, 5)
+            58, 10, 6, new Vector2(13, 7)
         )
     };
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
