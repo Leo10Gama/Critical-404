@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class HitboxManager : MonoBehaviour
 {
+
+    private List<BoxCollider2D> activeHurtboxes = new List<BoxCollider2D>();
+    private List<BoxCollider2D> activeHitboxes = new List<BoxCollider2D>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,7 @@ public class HitboxManager : MonoBehaviour
         col.isTrigger = true;
         col.offset = coords;
         col.size = scale;
+        activeHurtboxes.Add(col);
         StartCoroutine(DeleteColliderAfterLifespan(col, lifespan));
     }
 
@@ -39,6 +44,7 @@ public class HitboxManager : MonoBehaviour
         col.isTrigger = true;
         col.offset = new Vector2(hurtbox.offset.x * flipMultiplier, hurtbox.offset.y);
         col.size = hurtbox.scale;
+        activeHurtboxes.Add(col);
         StartCoroutine(DeleteColliderAfterLifespan(col, lifespan));
     }
 
@@ -57,6 +63,7 @@ public class HitboxManager : MonoBehaviour
             parent.transform.position.y + hitbox.offset.y
         );
         col.size = hitbox.scale;
+        activeHitboxes.Add(col);
         HitboxComponent hbc = hitboxObject.AddComponent<HitboxComponent>();
         hbc.hitbox = hitbox;
         StartCoroutine(DeleteGameObjectAfterLifespan(hitboxObject, lifespan));
@@ -66,6 +73,25 @@ public class HitboxManager : MonoBehaviour
     {
         yield return new WaitForSeconds(lifespan / 60f);
         Destroy(collider);
+    }
+
+    public void ClearColliders()
+    {
+        foreach (BoxCollider2D c in activeHurtboxes)
+        {
+            Destroy(c);
+        }
+        activeHurtboxes = new List<BoxCollider2D>();
+        ClearHitboxes();
+    }
+
+    public void ClearHitboxes()
+    {
+        foreach (BoxCollider2D c in activeHitboxes)
+        {
+            Destroy(c);
+        }
+        activeHitboxes = new List<BoxCollider2D>();
     }
 
     IEnumerator DeleteGameObjectAfterLifespan(GameObject obj, int lifespan)
@@ -79,9 +105,9 @@ public class HitboxManager : MonoBehaviour
      */
     public void ClearAll(GameObject parent)
     {
-        foreach (Transform hitbox in parent.transform)
+        foreach (BoxCollider2D hitbox in parent.transform.GetComponents<BoxCollider2D>())
         {
-            Destroy(hitbox.gameObject);
+            Destroy(hitbox);
         }
     }
 }

@@ -4,51 +4,46 @@ using UnityEngine;
 
 public class PlayerHurtboxArtist : HurtboxArtist
 {
-
-    private HitboxManager hbm;
-    private GameObject hurtboxObject;
-    private GameObject hitboxObject;
-
-    private bool spawnHitboxesThisImage = true;
-    private bool stopThisRoutine = false;
-
     // ~~~~~ Fun values to tweak ~~~~~
-    private const int SLP_DAMAGE = 22;
-    private const int SLP_HITSTUN = 13;
-    private const int SLP_BLOCKSTUN = 6;
-    private const int SHP_DAMAGE = 48;
-    private const int SHP_HITSTUN = 18;
-    private const int SHP_BLOCKSTUN = 9;
-    private const int SLK_DAMAGE = 27;
-    private const int SLK_HITSTUN = 15;
-    private const int SLK_BLOCKSTUN = 7;
-    private const int SHK_DAMAGE = 55;
-    private const int SHK_HITSTUN = 21;
-    private const int SHK_BLOCKSTUN = 10;
-    private const int CLP_DAMAGE = 20;
-    private const int CLP_HITSTUN = 13;
-    private const int CLP_BLOCKSTUN = 6;
-    private const int CHP_DAMAGE = 33;
-    private const int CHP_HITSTUN = 15;
-    private const int CHP_BLOCKSTUN = 8;
-    private const int CLK_DAMAGE = 25;
-    private const int CLK_HITSTUN = 17;
-    private const int CLK_BLOCKSTUN = 8;
-    private const int CHK_DAMAGE = 52;
-    private const int CHK_HITSTUN = 22;
-    private const int CHK_BLOCKSTUN = 11;
-    private const int JLP_DAMAGE = 11;
-    private const int JLP_HITSTUN = 13;
-    private const int JLP_BLOCKSTUN = 5;
-    private const int JHP_DAMAGE = 29;
-    private const int JHP_HITSTUN = 17;
-    private const int JHP_BLOCKSTUN = 8;
-    private const int JLK_DAMAGE = 18;
-    private const int JLK_HITSTUN = 15;
-    private const int JLK_BLOCKSTUN = 7;
-    private const int JHK_DAMAGE = 43;
-    private const int JHK_HITSTUN = 24;
-    private const int JHK_BLOCKSTUN = 13;
+    /* ATTACK DATA TAKES THESE PARAMS:
+     * Damage, Hitstun, Blockstun, Knockback
+     */
+    private static readonly AttackData SLP_DATA = new AttackData(
+        22, 6, 4, new Vector2(1, 0)
+    );
+    private static readonly AttackData SHP_DATA = new AttackData(
+        48, 9, 6, new Vector2(5, 0)
+    );
+    private static readonly AttackData SLK_DATA = new AttackData(
+        27, 8, 6, new Vector2(2, 1)
+    );
+    private static readonly AttackData SHK_DATA = new AttackData(
+        55, 10, 7, new Vector2(3, 20)
+    );
+    private static readonly AttackData CLP_DATA = new AttackData(
+        20, 6, 4, new Vector2(1, 0)
+    );
+    private static readonly AttackData CHP_DATA = new AttackData(
+        36, 8, 5, new Vector2(3, 0)
+    );
+    private static readonly AttackData CLK_DATA = new AttackData(
+        25, 9, 7, new Vector2(1, 4), BlockState.low
+    );
+    private static readonly AttackData CHK_DATA = new AttackData(
+        52, 11, 8, new Vector2(7, 5), BlockState.low
+    );
+    private static readonly AttackData JLP_DATA = new AttackData(
+        11, 6, 3, new Vector2(1, -1), BlockState.high
+    );
+    private static readonly AttackData JHP_DATA = new AttackData(
+        29, 8, 4, new Vector2(3, -3), BlockState.high
+    );
+    private static readonly AttackData JLK_DATA = new AttackData(
+        18, 7, 5, new Vector2(3, 0)
+    );
+    private static readonly AttackData JHK_DATA = new AttackData(
+        43, 10, 6, new Vector2(10, 5)
+    );
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // ########## MOVEMENT POSES ##########
@@ -277,8 +272,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    SLP_DAMAGE, SLP_HITSTUN, SLP_BLOCKSTUN,
-                    1
+                    SLP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.LP frame 2 =====
@@ -361,8 +355,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.5999374f, 0.1714107f),
                     new Vector2(1.039557f, 0.4725825f),
-                    SHP_DAMAGE, SHP_HITSTUN, SHP_BLOCKSTUN,
-                    1
+                    SHP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.HP frame 2 =====
@@ -392,7 +385,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
         {
             8,
             11-8,
-            19-10
+            19-11
         }
     );
     // === STANDING LIGHT KICK ===
@@ -445,8 +438,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    SLK_DAMAGE, SLK_HITSTUN, SLK_BLOCKSTUN,
-                    1
+                    SLK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.LK frame 2 =====
@@ -529,8 +521,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // leg
                     new Vector2(0.7120137f, -0.7186065f),
                     new Vector2(1.184596f, 0.5121388f),
-                    SHK_DAMAGE, SHK_HITSTUN, SHK_BLOCKSTUN,
-                    1
+                    SHK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ===== s.HK frame 2 =====
@@ -601,8 +592,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.4868078f, -0.2816531f),
                     new Vector2(0.8748207f, 0.3393322f),
-                    CLP_DAMAGE, CLP_HITSTUN, CLP_BLOCKSTUN,
-                    1
+                    CLP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 2 ====
@@ -635,7 +625,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
     private readonly HurtboxAnimation CHP_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[]
         {
-            new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 0 ====
+            new HurtboxFrame(new Hurtbox[] {    // ==== c.HP frame 0 ====
                 new Hurtbox(    // head and windup arm
                     new Vector2(-0.003477097f, 0.09388435f),
                     new Vector2(0.770505f, 0.8122313f)
@@ -649,7 +639,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                     new Vector2(0.8539577f, 0.5479641f)
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 1 ====
+            new HurtboxFrame(new Hurtbox[] {    // ==== c.HP frame 1 ====
                 new Hurtbox(    // head
                     new Vector2(0.04520369f, 0.04520363f),
                     new Vector2(0.6731434f, 0.8539574f)
@@ -669,11 +659,10 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // arm
                     new Vector2(0.4868078f, -0.2816531f),
                     new Vector2(0.8748207f, 0.3393322f),
-                    CHP_DAMAGE, CHP_HITSTUN, CHP_BLOCKSTUN,
-                    1
+                    CHP_DATA, 1
                 )
             }),
-            new HurtboxFrame(new Hurtbox[] {    // ==== c.LP frame 2 ====
+            new HurtboxFrame(new Hurtbox[] {    // ==== c.HP frame 2 ====
                 new Hurtbox(    // head
                     new Vector2(0.04520369f, 0.04520363f),
                     new Vector2(0.6731434f, 0.8539574f)
@@ -695,8 +684,8 @@ public class PlayerHurtboxArtist : HurtboxArtist
         new int[]
         {
             6,
-            9-6,
-            16-9
+            10-6,
+            16-10
         }
     );
     // === CROUCHING LIGHT KICK ===
@@ -729,8 +718,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.331454f, -0.9755297f),
                     new Vector2(0.9397349f, 0.495286f),
-                    CLK_DAMAGE, CLK_HITSTUN, CLK_BLOCKSTUN,
-                    1
+                    CLK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== c.LK frame 2 ====
@@ -789,8 +777,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.331454f, -0.9755297f),
                     new Vector2(0.9397349f, 0.495286f),
-                    CHK_DAMAGE, CHK_HITSTUN, CHK_BLOCKSTUN,
-                    1
+                    CHK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== c.LK frame 2 ====
@@ -853,8 +840,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // punching arm
                     new Vector2(0.4444499f, -0.0715639f),
                     new Vector2(0.8945379f, 0.6308806f),
-                    JLP_DAMAGE, JLP_HITSTUN, JLP_BLOCKSTUN,
-                    1
+                    JLP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.LP frame 2 ====
@@ -913,8 +899,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // punching arm
                     new Vector2(0.4444499f, -0.0715639f),
                     new Vector2(0.8945379f, 0.6308806f),
-                    JHP_DAMAGE, JHP_HITSTUN, JHP_BLOCKSTUN,
-                    1
+                    JHP_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HP frame 2 ====
@@ -981,8 +966,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.4896481f, -0.2711897f),
                     new Vector2(1.346522f, 0.3672238f),
-                    JLK_DAMAGE, JLK_HITSTUN, JLK_BLOCKSTUN,
-                    1
+                    JLK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.LK frame 2 ====
@@ -1053,8 +1037,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
                 new Hitbox(     // kicking leg
                     new Vector2(0.4896481f, -0.2711897f),
                     new Vector2(1.346522f, 0.3672238f),
-                    JHK_DAMAGE, JHK_HITSTUN, JHK_BLOCKSTUN,
-                    1
+                    JHK_DATA, 1
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 2 ====
@@ -1080,164 +1063,128 @@ public class PlayerHurtboxArtist : HurtboxArtist
         {
             11,
             18-11,
-            16-18
+            26-18
         }
     );
 
     public PlayerHurtboxArtist(HitboxManager hbm, GameObject hurtboxObj, GameObject hitboxObj)
+        : base(hbm, hurtboxObj, hitboxObj)
     {
-        this.hbm = hbm;
-        this.hurtboxObject = hurtboxObj;
-        this.hitboxObject = hitboxObj;
     }
 
     public override IEnumerator DrawIdle(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(IDLE_FRAMES, facingRight);
+        return DrawHurtboxAnimation(IDLE_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCrouch(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CROUCH_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CROUCH_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawMoveForward(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(FORWARD_FRAMES, facingRight);
+        return DrawHurtboxAnimation(FORWARD_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawMoveBackward(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(BACKWARD_FRAMES, facingRight);
+        return DrawHurtboxAnimation(BACKWARD_FRAMES, facingRight);
+    }
+
+    public override IEnumerator DrawJump(bool facingRight)
+    {
+        return DrawHurtboxAnimation(RISING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJumpRise(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(RISING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(RISING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJumpFall(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(FALLING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(FALLING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawStandingBlock(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SBLOCKING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SBLOCKING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCrouchingBlock(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CBLOCKING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CBLOCKING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJumpingBlock(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JBLOCKING_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JBLOCKING_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSLP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SLP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SLP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSHP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SHP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SHP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSLK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SLK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SLK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawSHK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(SHK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(SHK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCLP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CLP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CLP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCHP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CHP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CHP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCLK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CLK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CLK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawCHK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(CHK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(CHK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJLP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JLP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JLP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJHP(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JHP_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JHP_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJLK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JLK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JLK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawJHK(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(JHK_FRAMES, facingRight);
+        return DrawHurtboxAnimation(JHK_FRAMES, facingRight);
     }
 
     public override IEnumerator DrawHitstun(bool facingRight)
     {
-        yield return DrawHurtboxAnimation(HIT_FRAMES, facingRight);
-    }
-
-    public override void StopDrawingAll()
-    {
-        hbm.ClearAll(hurtboxObject);
-        hbm.ClearAll(hitboxObject);
-    }
-
-    private IEnumerator DrawHurtboxAnimation(HurtboxAnimation anim, bool facingRight)
-    {
-        int flipMultiplier = facingRight ? 1 : -1;
-        for (int i = 0; i < anim.frames.Length; i++)
-        {
-            if (!spawnHitboxesThisImage) spawnHitboxesThisImage = true; // reset once previous image is done
-            HurtboxFrame frame = anim.frames[i];
-            foreach (Hurtbox hurtbox in frame.hurtboxes)
-            {
-                if (stopThisRoutine)
-                {
-                    stopThisRoutine = false;
-                    yield break;
-                }
-                if (hurtbox.GetType() == typeof(Hitbox) && spawnHitboxesThisImage)
-                    hbm.CreateHitbox(hitboxObject, (Hitbox)hurtbox, flipMultiplier, anim.frameDurations[i]);
-                else
-                    hbm.CreateHurtbox(hurtboxObject, hurtbox, flipMultiplier, anim.frameDurations[i]);
-            }
-            yield return new WaitForSeconds(anim.frameDurations[i] / 60f);
-        }
-    }
-
-    public void PreventHitboxesThisImage()
-    {
-        spawnHitboxesThisImage = false;
-    }
-
-    public void StopCurrentRoutine()
-    {
-        stopThisRoutine = true;
+        return DrawHurtboxAnimation(HIT_FRAMES, facingRight);
     }
 
 }

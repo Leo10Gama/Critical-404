@@ -1,33 +1,46 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
- 
     public Image healthBar;
-    public float healthAmount = 1000f;
+    public PlayerMovement player;
+
+    public Toggle toggle;
+
+    private int maxHealth;
 
     void Start()
     {
-
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) //Only Temp. 
-        {
-            TakeDamage(20);
-        }
 
+        if (healthBar.fillAmount <= 0)
+        {
+            // activates the toggle component
+            toggle.isOn = true;
+        }
+        else
+        {
+            toggle.isOn = false;
+        }
+    }
+
+    public void SetMaxHealth(int maxHealth)
+    {
+        this.maxHealth = maxHealth;
     }
 
 
-    public void TakeDamage(float damage)
+    public void UpdateHealth()
     {
-        healthAmount -= damage;
-        healthBar.fillAmount = healthAmount / 1000f;
+        healthBar.fillAmount = Math.Max(player.hp, 0) / (float)maxHealth;
     }
 
 }

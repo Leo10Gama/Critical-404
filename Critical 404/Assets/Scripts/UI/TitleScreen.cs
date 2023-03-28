@@ -2,9 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class TitleScreen : MonoBehaviour
 {
+    public TextMeshProUGUI startText;
+
+    void Start()
+    {
+        startText = GameObject.Find("Canvas/MainMenu/StartButtonText").GetComponent<TextMeshProUGUI>();
+    }
 
     void Update()
     {
@@ -26,6 +33,7 @@ public class TitleScreen : MonoBehaviour
 
     public void PlayGame()
     {
+        startText.text = "Loading...";
         SceneManager.LoadScene("SampleScene");
     }
 

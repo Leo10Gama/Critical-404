@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using UnityEngine.UI;
+using TMPro;
+using System.Threading.Tasks;
+
 public class FightManager : MonoBehaviour
 {
 
@@ -17,6 +21,7 @@ public class FightManager : MonoBehaviour
     private GameObject p2;
     private PlayerMovement p1script;
     private PlayerMovement p2script;
+    private HealthBar[] healthbars;
 
     private bool[] registeringHit = {false, false};
     private GameObject turningPoint = null;
@@ -25,10 +30,13 @@ public class FightManager : MonoBehaviour
 
     private System.Random rng = new System.Random();
 
+    public TMP_Text Whowon;
+
     void Awake()
     {
         hitboxManager = transform.Find("HitboxManager").gameObject;
 
+        // Initialize local player references
         p1 = Instantiate(player1, new Vector3(-3f, 0f, 0f), Quaternion.identity);
         p2 = Instantiate(player2, new Vector3(3f, 0f, 0f), Quaternion.identity);
         p1script = p1.GetComponent<PlayerMovement>();
@@ -37,6 +45,18 @@ public class FightManager : MonoBehaviour
         p2script.SetFightManager(this.gameObject);
         p1script.playerId = 1;
         p2script.playerId = 2;
+
+        // Initialize health bars
+        healthbars = new HealthBar[] {
+            GameObject.Find("Canvas/P1Healthbar").GetComponent<HealthBar>(),
+            GameObject.Find("Canvas/P2Healthbar").GetComponent<HealthBar>()
+        };
+        healthbars[0].player = p1script;
+        healthbars[1].player = p2script;
+        healthbars[0].SetMaxHealth(p1script.hp);
+        healthbars[1].SetMaxHealth(p2script.hp);
+
+        // Initialize the "turning point" (point where characters flip around)
         turningPoint = transform.Find("TurningPoint").gameObject;
     }
 
@@ -72,6 +92,9 @@ public class FightManager : MonoBehaviour
      */
     public void LandedHit(int attackedId, Hitbox hitbox)
     {
+        // init
+        AttackData attack = hitbox.attackData;
+
         // Blocker
         if (attackedId != 1 && attackedId != 2)
             throw new Exception(String.Format("Unknown interaction: Attacked player's ID set to '{0}'!", attackedId));
@@ -95,6 +118,9 @@ public class FightManager : MonoBehaviour
         // Clear the attacking player's hitboxes (prevent double-hits)
         attackingPlayer.ClearHitboxesThisImage();
 
+        // Allow attacking player to cancel into another attack
+        attackingPlayer.SetCanCancelAttack(true);
+
         // Generate position for particle effect
         System.Random rng = new System.Random();
         float rand = (float)(rng.NextDouble() * 0.5f) - 0.25f;
@@ -109,10 +135,11 @@ public class FightManager : MonoBehaviour
             -1  // appear above characters
         );
 
-        // Check if player is blocking
-        if (hitPlayer.canBlock)
+        // Check if player can block (and is blocking) the attack
+        if (hitPlayer.canBlock && hitPlayer.IsBlockingAgainst(attack.hitsAt))
         {
-            hitPlayer.blockstun = hitbox.blockstun; // apply blockstun from attack
+            hitPlayer.blockstun = attack.blockstun; // apply blockstun from attack
+            hitPlayer.SetVelocity(attack.knockback * (hitPlayerFacingLeft ? Vector2.right : Vector2.left));
             GameObject blockParticle = Instantiate(
                 blockEffect, 
                 particlePos,
@@ -124,12 +151,14 @@ public class FightManager : MonoBehaviour
         }
 
         // Set hit player into hitstun and apply damage and other properties
-        hitPlayer.hp -= hitbox.damage;
-        hitPlayer.hitstun = hitbox.hitstun;
-        hitPlayer.SetVelocity(Vector2.zero);
-        hitPlayer.StopAllMyCoroutines();
-        // Screenshake and hitstop effects
-        // TODO
+        hitPlayer.hp -= attack.damage;
+        healthbars[attackedId - 1].UpdateHealth();
+        hitPlayer.hitstun = attack.hitstun;
+        hitPlayer.SetVelocity(new Vector2(
+            hitPlayerFacingLeft ? attack.knockback.x : -attack.knockback.x,
+            attack.knockback.y
+        ));
+        hitPlayer.StopCurrentCoroutines();
         // Particle effects
         GameObject hitParticle = Instantiate(
             hitEffect, 
@@ -137,8 +166,34 @@ public class FightManager : MonoBehaviour
             Quaternion.Euler(0, 0, NextSymmetricFloat(50))
         );
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
+        // Screenshake and hitstop effects
+        // TODO: screenshake
         StartCoroutine(DoHitstop(3));
-        Debug.Log("Player " + hitPlayer.playerId + " takes " + hitbox.damage + " damage!");
+        Debug.Log("Player " + hitPlayer.playerId + " takes " + attack.damage + " damage!");
+
+        // Check win condition
+        if (hitPlayer.hp <= 0)
+        {
+            PlayerHasWon(attackerId);
+        }        
+    }
+
+    public void PlayerHasWon(int winningPlayerId)
+    {
+        // TODO: Win condition stuff
+        Debug.Log("Player " + winningPlayerId + " wins!");
+
+        Whowon.text = ("Player ") + winningPlayerId + (" wins!");
+        StartCoroutine(EndGame());
+    }
+
+    public IEnumerator EndGame()
+    {
+        p1script.canMove = false;
+        p2script.canMove = false;
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("PlayAgain");
+
     }
 
     public HitboxManager GetHitboxManager()
@@ -155,6 +210,7 @@ public class FightManager : MonoBehaviour
     IEnumerator DoHitstop(float time)
     {
         float currTimescale = Time.timeScale;
+        if (currTimescale == 0.0f) yield break;
         Time.timeScale = 0.0f;
         yield return new WaitForSecondsRealtime(time / 60f);
         Time.timeScale = currTimescale;
