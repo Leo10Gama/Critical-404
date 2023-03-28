@@ -23,7 +23,7 @@ public class AttackInput
     public string attackButtonName;
     public IEnumerator regularRoutine;
     public IEnumerator jumpingRoutine;
-    private int lifespan = 3;   // frame buffer
+    private int lifespan = 4;   // frame buffer
 
     public AttackInput(BufferableInput input, string attackButtonName, IEnumerator regularRoutine, IEnumerator jumpingRoutine)
     {
