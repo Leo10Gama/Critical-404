@@ -548,10 +548,7 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = true;
                 hasJumped = false;
                 int state = anim.GetInteger("State");
-                if (6 <= state && state <= 9)   // landed mid-attack, cancel it
-                {
-                    ResetPlayerToIdle();
-                }
+                ResetPlayerToIdle();
             } // *NOTE* : logic for actually jumping => CheckAttackQueue()
 
             // If we're blocking, determine how much we're blocking
