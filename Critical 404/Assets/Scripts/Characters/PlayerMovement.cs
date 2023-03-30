@@ -531,16 +531,25 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2(dirX * horizontalSpeed, rb.velocity.y);
             }
 
+            // Handle aerial strafing
+            if (!isGrounded && currentAttack == "")
+            {
+                float aerialAcceleration = 0.1f;
+                float newVelocity = Math.Max(
+                    Math.Min(
+                        rb.velocity.x + (aerialAcceleration * dirX), horizontalSpeed
+                    ), -horizontalSpeed
+                );
+                rb.velocity = new Vector2(newVelocity, rb.velocity.y);
+            }
+
             // Handle jumping
             if (rb.velocity.y < 0.01f && rb.velocity.y > -0.01f && !isGrounded) // landing
             {
                 isGrounded = true;
                 hasJumped = false;
                 int state = anim.GetInteger("State");
-                if (6 <= state && state <= 9)   // landed mid-attack, cancel it
-                {
-                    ResetPlayerToIdle();
-                }
+                ResetPlayerToIdle();
             } // *NOTE* : logic for actually jumping => CheckAttackQueue()
 
             // If we're blocking, determine how much we're blocking
