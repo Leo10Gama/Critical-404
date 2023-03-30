@@ -532,15 +532,16 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // Handle aerial strafing
-            // if (!isGrounded && currentAttack == "")
-            // {
-            //     float newVel = Math.Min(Math.Abs(rb.velocity.x) + 1f, horizontalSpeed);
-            //     if (dirX >= 0.01f && dirX <= -0.01f) 
-            //     {
-            //         newVal *= dirX;
-            //     }
-            //     rb.velocity = new Vector2(newVel * (rb.velocity.x <= 0 ? -1 : 1), rb.velocity.y);
-            // }
+            if (!isGrounded && currentAttack == "")
+            {
+                float aerialAcceleration = 0.1f;
+                float newVelocity = Math.Max(
+                    Math.Min(
+                        rb.velocity.x + (aerialAcceleration * dirX), horizontalSpeed
+                    ), -horizontalSpeed
+                );
+                rb.velocity = new Vector2(newVelocity, rb.velocity.y);
+            }
 
             // Handle jumping
             if (rb.velocity.y < 0.01f && rb.velocity.y > -0.01f && !isGrounded) // landing
