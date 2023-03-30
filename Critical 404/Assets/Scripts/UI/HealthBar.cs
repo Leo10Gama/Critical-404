@@ -10,7 +10,8 @@ public class HealthBar : MonoBehaviour
     public Image healthBar;
     public PlayerMovement player;
 
-    public Toggle toggle;
+    public Toggle toggle1;
+    public Toggle toggle2;
 
     private int maxHealth;
 
@@ -24,12 +25,14 @@ public class HealthBar : MonoBehaviour
         if (healthBar.fillAmount <= 0)
         {
             // activates the toggle component
-            toggle.isOn = true;
+            toggle1.isOn = true;
         }
-        else
+
+        if (healthBar.fillAmount <= 0)
         {
-            toggle.isOn = false;
+            toggle2.isOn = true;
         }
+        
     }
 
     public void SetMaxHealth(int maxHealth)
