@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_JumpingLightPunch
+  m_Name: Player_SHK
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 3bed39fef47bd13418e8304c4742f910, type: 3}
-    - time: 0.1
-      value: {fileID: 21300000, guid: 543e9a68123fcb44eaa4bedfb6d42081, type: 3}
-    - time: 0.26666668
-      value: {fileID: 21300000, guid: eb79734b2cf4f9c4fba81804446e74f1, type: 3}
+      value: {fileID: 21300000, guid: 6223ffcb8040c6a4aa819789b8874979, type: 3}
+    - time: 0.13333334
+      value: {fileID: 21300000, guid: 6f47dccd6fc60ae4eaa123fb65f2187d, type: 3}
+    - time: 0.35
+      value: {fileID: 21300000, guid: ef48af49b8c3715428dd510cf50fc944, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +44,15 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 3bed39fef47bd13418e8304c4742f910, type: 3}
-    - {fileID: 21300000, guid: 543e9a68123fcb44eaa4bedfb6d42081, type: 3}
-    - {fileID: 21300000, guid: eb79734b2cf4f9c4fba81804446e74f1, type: 3}
+    - {fileID: 21300000, guid: 6223ffcb8040c6a4aa819789b8874979, type: 3}
+    - {fileID: 21300000, guid: 6f47dccd6fc60ae4eaa123fb65f2187d, type: 3}
+    - {fileID: 21300000, guid: ef48af49b8c3715428dd510cf50fc944, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.28333336
+    m_StopTime: 0.36666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

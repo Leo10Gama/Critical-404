@@ -134,29 +134,29 @@ public class PlayerMovement : MonoBehaviour
         {
             string name = ac.name;
             int clilpLength = (int)(ac.length * 60) - 1;
-            if (name.Contains("_LightPunch")) {
+            if (name.Contains("_SLP")) {
                 SLP_DURATION = clilpLength;
-            } else if (name.Contains("_LightKick")) {
+            } else if (name.Contains("_SLK")) {
                 SLK_DURATION = clilpLength;
-            } else if (name.Contains("_HeavyPunch")) {
+            } else if (name.Contains("_SHP")) {
                 SHP_DURATION = clilpLength;
-            } else if (name.Contains("_HeavyKick")) {
+            } else if (name.Contains("_SHK")) {
                 SHK_DURATION = clilpLength;
-            } else if (name.Contains("_CrouchingLightPunch")) {
+            } else if (name.Contains("_CLP")) {
                 CLP_DURATION = clilpLength;
-            } else if (name.Contains("_CrouchingLightKick")) {
+            } else if (name.Contains("_CLK")) {
                 CLK_DURATION = clilpLength;
-            } else if (name.Contains("_CrouchingHeavyPunch")) {
+            } else if (name.Contains("_CHP")) {
                 CHP_DURATION = clilpLength;
-            } else if (name.Contains("_CrouchingHeavyKick")) {
+            } else if (name.Contains("_CHK")) {
                 CHK_DURATION = clilpLength;
-            } else if (name.Contains("_JumpingLightPunch")) {
+            } else if (name.Contains("_JLP")) {
                 JLP_DURATION = clilpLength;
-            } else if (name.Contains("_JumpingLightKick")) {
+            } else if (name.Contains("_JLK")) {
                 JLK_DURATION = clilpLength;
-            } else if (name.Contains("_JumpingHeavyPunch")) {
+            } else if (name.Contains("_JHP")) {
                 JHP_DURATION = clilpLength;
-            } else if (name.Contains("_JumpingHeavyKick")) {
+            } else if (name.Contains("_JHK")) {
                 JHK_DURATION = clilpLength;
             }
         }

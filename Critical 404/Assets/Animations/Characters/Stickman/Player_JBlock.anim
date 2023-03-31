@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_JumpingLightKick
+  m_Name: Player_JBlock
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: ebdb5130d47a0d241a64ca7dcb7920d9, type: 3}
-    - time: 0.11666667
-      value: {fileID: 21300000, guid: 35a1136e2aff64c4db7307b4f83dae86, type: 3}
-    - time: 0.3
-      value: {fileID: 21300000, guid: eb79734b2cf4f9c4fba81804446e74f1, type: 3}
+      value: {fileID: 21300000, guid: 1947eb1ff4172d5428d608e7cd4409a3, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +40,13 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: ebdb5130d47a0d241a64ca7dcb7920d9, type: 3}
-    - {fileID: 21300000, guid: 35a1136e2aff64c4db7307b4f83dae86, type: 3}
-    - {fileID: 21300000, guid: eb79734b2cf4f9c4fba81804446e74f1, type: 3}
+    - {fileID: 21300000, guid: 1947eb1ff4172d5428d608e7cd4409a3, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.3166667
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

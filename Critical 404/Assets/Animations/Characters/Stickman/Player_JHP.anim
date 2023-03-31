@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_CrouchingHeavyKick
+  m_Name: Player_JHP
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 9039ba75c32336c4fb6e524e5c5788f7, type: 3}
-    - time: 0.11666667
-      value: {fileID: 21300000, guid: 4ace41b7a11edd5448065b91f89827c5, type: 3}
-    - time: 0.31666666
-      value: {fileID: 21300000, guid: e66276d34afffc3499e00d160a023751, type: 3}
+      value: {fileID: 21300000, guid: 3bed39fef47bd13418e8304c4742f910, type: 3}
+    - time: 0.15
+      value: {fileID: 21300000, guid: 543e9a68123fcb44eaa4bedfb6d42081, type: 3}
+    - time: 0.35
+      value: {fileID: 21300000, guid: eb79734b2cf4f9c4fba81804446e74f1, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +44,15 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 9039ba75c32336c4fb6e524e5c5788f7, type: 3}
-    - {fileID: 21300000, guid: 4ace41b7a11edd5448065b91f89827c5, type: 3}
-    - {fileID: 21300000, guid: e66276d34afffc3499e00d160a023751, type: 3}
+    - {fileID: 21300000, guid: 3bed39fef47bd13418e8304c4742f910, type: 3}
+    - {fileID: 21300000, guid: 543e9a68123fcb44eaa4bedfb6d42081, type: 3}
+    - {fileID: 21300000, guid: eb79734b2cf4f9c4fba81804446e74f1, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.33333334
+    m_StopTime: 0.36666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
