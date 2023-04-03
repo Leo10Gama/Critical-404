@@ -32,6 +32,12 @@ public class FightManager : MonoBehaviour
 
     public TMP_Text Whowon;
 
+    private Color[] spreadAltColor = new Color[] {
+        new Color(0.234514f, 0.5849056f, 0.234514f, 1f),        // body
+        new Color(0.5471698f, 0.4455226f, 0.2038982f, 1f),      // metal
+        new Color(0.01722144f, 0.04109688f, 0.08490568f, 1f)    // goop
+    };
+
     void Awake()
     {
         hitboxManager = transform.Find("HitboxManager").gameObject;
@@ -55,6 +61,17 @@ public class FightManager : MonoBehaviour
         healthbars[1].player = p2script;
         healthbars[0].SetMaxHealth(p1script.hp);
         healthbars[1].SetMaxHealth(p2script.hp);
+
+        // Recolour if necessary
+        if (p1script.playerName == "SPREAD" && p2script.playerName == "SPREAD")
+        {
+            // If both same character, recolour the second
+            // TODO: implement actual palettes lmao
+            Material mat = p2.GetComponent<Renderer>().material;
+            mat.SetColor("_BodyColorNew", spreadAltColor[0]);
+            mat.SetColor("_MetalColorNew", spreadAltColor[1]);
+            mat.SetColor("_GoopColorNew", spreadAltColor[2]);
+        }
 
         // Initialize the "turning point" (point where characters flip around)
         turningPoint = transform.Find("TurningPoint").gameObject;
