@@ -508,7 +508,7 @@ public class MilaHurtboxArtist : HurtboxArtist
     // ########## ATTACKS ##########
     // === STANDING LIGHT PUNCH ===
     private static readonly HurtboxFrame[] _SLP = new HurtboxFrame[] {
-        new HurtboxFrame(new Hurtbox[] {    // Standing/s.LP/1.png
+        new HurtboxFrame(new Hurtbox[] {    // Standing/s.LP/SLP1.png
             new Hurtbox(    // head and body
                 new Vector2(-0.01727223f, 0.3281648f),
                 new Vector2(0.6718345f, 1.777232f)
@@ -530,7 +530,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Vector2(0.4386644f, 0.7927379f)
             )
         }),
-        new HurtboxFrame(new Hurtbox[] {    // Standing/s.LP/2.png
+        new HurtboxFrame(new Hurtbox[] {    // Standing/s.LP/SLP2.png
             new Hurtbox(    // head and body
                 new Vector2(-0.01727223f, 0.3281648f),
                 new Vector2(0.6718345f, 1.777232f)
@@ -552,7 +552,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Vector2(0.4386644f, 0.7927379f)
             )
         }),
-        new HurtboxFrame(new Hurtbox[] {    // Standing/s.LP/3.png
+        new HurtboxFrame(new Hurtbox[] {    // Standing/s.LP/SLP3.png
             new Hurtbox(    // head and body
                 new Vector2(-0.01727223f, 0.3281648f),
                 new Vector2(0.6718345f, 1.777232f)
