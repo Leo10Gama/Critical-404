@@ -206,9 +206,10 @@ public class FightManager : MonoBehaviour
 
     public IEnumerator EndGame()
     {
+        
         p1script.canMove = false;
         p2script.canMove = false;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene("PlayAgain");
 
     }
