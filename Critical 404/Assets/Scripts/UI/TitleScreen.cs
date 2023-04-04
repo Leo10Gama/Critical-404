@@ -10,7 +10,11 @@ public class TitleScreen : MonoBehaviour
 
     void Start()
     {
-        startText = GameObject.Find("Canvas/MainMenu/StartButtonText").GetComponent<TextMeshProUGUI>();
+        try 
+        {
+            startText = GameObject.Find("Canvas/MainMenu/StartButtonText").GetComponent<TextMeshProUGUI>();
+        }
+        catch {}
     }
 
     void Update()
@@ -35,7 +39,8 @@ public class TitleScreen : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        // SceneManager.LoadScene("SampleScene");
+        Mainmenu();
     }
 
     public void Title()
