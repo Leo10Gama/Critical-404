@@ -508,7 +508,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Handle whether we can block
         canBlock = (sprite.flipX ? dirX > 0.01f : dirX < -0.01f) && currentAttack == "" &&
-            hitstun <= 0 && blockstun <= 0;
+            hitstun <= 0;
 
         // Only do movement if not attacking and not in hitstun
         if ((currentAttack == "" || !isGrounded || (pressedJump && canCancelAttack)) && hitstun <= 0 && blockstun <= 0)
