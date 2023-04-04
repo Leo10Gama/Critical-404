@@ -51,6 +51,10 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void ClickBack() 
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
     public void ClickPlay()
     {
         SceneManager.LoadScene("SampleScene");
@@ -58,7 +62,7 @@ public class MainMenu : MonoBehaviour
 
     public void ClickSettings()
     {
-        // SceneManager.LoadScene("Settings");
+        SceneManager.LoadScene("Setting");
     }
 
     public void ClickQuit()
