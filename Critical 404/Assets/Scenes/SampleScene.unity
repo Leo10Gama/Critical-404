@@ -2701,9 +2701,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7513497409890082206, guid: 211259b40c7517641934c4896c6030ce, type: 3}
     - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a3d480bde968d944ba141ab4492f2b73, type: 3}
+    - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
+      propertyPath: hitWhiff
+      value: 
+      objectReference: {fileID: 8300000, guid: 82ced510115afc34382a3b8f85c97d72, type: 3}
+    - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
       propertyPath: hitEffect
       value: 
       objectReference: {fileID: 6959866846345803969, guid: be2781954891c9a4ca8fb1cce3e6172d, type: 3}
+    - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
+      propertyPath: blockSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 464e2a76a8d94544bb0368ea2c12a6b4, type: 3}
     - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
       propertyPath: p1r1Toggle
       value: 
