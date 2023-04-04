@@ -14,6 +14,10 @@ public class FightManager : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
 
+    public AudioClip hitSound;
+    public AudioClip hitWhiff;
+    public AudioClip blockSound;
+    
     public GameObject hitEffect;
     public GameObject blockEffect;
 
@@ -162,6 +166,7 @@ public class FightManager : MonoBehaviour
                 particlePos,
                 Quaternion.identity
             );
+            AudioSource.PlayClipAtPoint(blockSound, Camera.main.transform.position);
             blockParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
             StartCoroutine(DoHitstop(3));
             return;
@@ -182,6 +187,7 @@ public class FightManager : MonoBehaviour
             particlePos,
             Quaternion.Euler(0, 0, NextSymmetricFloat(50))
         );
+        AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
         // Screenshake and hitstop effects
         // TODO: screenshake
