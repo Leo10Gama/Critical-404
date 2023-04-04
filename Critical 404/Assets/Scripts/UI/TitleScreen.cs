@@ -27,6 +27,7 @@ public class TitleScreen : MonoBehaviour
 
     public void Mainmenu()
     {
+        if (!startText) return;
         startText.text = "Loading...";
         //yield return new WaitForSeconds(2);
         SceneManager.LoadScene("MainMenu");
