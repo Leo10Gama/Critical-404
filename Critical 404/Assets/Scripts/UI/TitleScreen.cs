@@ -23,6 +23,8 @@ public class TitleScreen : MonoBehaviour
 
     public void Mainmenu()
     {
+        startText.text = "Loading...";
+        //yield return new WaitForSeconds(2);
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -33,7 +35,6 @@ public class TitleScreen : MonoBehaviour
 
     public void PlayGame()
     {
-        startText.text = "Loading...";
         SceneManager.LoadScene("SampleScene");
     }
 
