@@ -38,6 +38,11 @@ public class TitleScreen : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
+    public void Title()
+    {
+        SceneManager.LoadScene("TitleScreen");
+    }
+
     public void ExitGame()
     {
         Application.Quit();
