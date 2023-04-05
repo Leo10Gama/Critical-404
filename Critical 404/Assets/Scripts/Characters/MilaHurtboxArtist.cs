@@ -543,7 +543,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                     SHP_DATA, 2
                 )
             }),
-            _SLP[2]                             // ===== s.HP frame 3 =====
+            _SLP[2],                            // ===== s.HP frame 3 =====
             _SLP[1],                            // ===== s.HP frame 4 =====
             _SLP[0],                            // ===== s.HP frame 5 =====
         },
