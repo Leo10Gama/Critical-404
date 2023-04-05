@@ -6,7 +6,7 @@ public class PlayerHurtboxArtist : HurtboxArtist
 {
     // ~~~~~ Fun values to tweak ~~~~~
     /* ATTACK DATA TAKES THESE PARAMS:
-     * Damage, Hitstun, Blockstun, Knockback
+     * Damage, Hitstun, Blockstun, Knockback, (BlockState)
      */
     private static readonly AttackData SLP_DATA = new AttackData(
         22, 6, 4, new Vector2(1, 0)

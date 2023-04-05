@@ -33,7 +33,7 @@ public class MilaHurtboxArtist : HurtboxArtist
 
     // ~~~~~ Fun values to tweak ~~~~~
     /* ATTACK DATA TAKES THESE PARAMS:
-     * Damage, Hitstun, Blockstun, Knockback
+     * Damage, Hitstun, Blockstun, Knockback, (BlockState)
      */
     private static readonly AttackData SLP_DATA = new AttackData(
         22, 10, 4, new Vector2(1, 0)
@@ -56,15 +56,9 @@ public class MilaHurtboxArtist : HurtboxArtist
     private static readonly AttackData CLK_DATA = new AttackData(
         25, 9, 7, new Vector2(1, 4), BlockState.low
     );
-    private static readonly AttackData[] CHK_DATA = 
-    {
-        new AttackData(
-            39, 20, 8, new Vector2(-3, 4), BlockState.low
-        ),
-        new AttackData(
-            56, 20, 8, new Vector2(2, 17), BlockState.low
-        )
-    };
+    private static readonly AttackData CHK_DATA = new AttackData(
+        39, 20, 8, new Vector2(-3, 4), BlockState.low
+    );
     private static readonly AttackData JLP_DATA = new AttackData(
         19, 9, 3, new Vector2(2, 1), BlockState.high
     );
@@ -74,27 +68,9 @@ public class MilaHurtboxArtist : HurtboxArtist
     private static readonly AttackData JLK_DATA = new AttackData(
         22, 9, 5, new Vector2(3, -1)
     );
-    private static readonly AttackData[] JHK_DATA = 
-    {
-        new AttackData(
-            12, 10, 6, new Vector2(-1, 1)
-        ),
-        new AttackData(
-            12, 10, 6, new Vector2(-1, 1)
-        ),
-        new AttackData(
-            12, 10, 6, new Vector2(-1, 1)
-        ),
-        new AttackData(
-            12, 10, 6, new Vector2(-1, 1)
-        ),
-        new AttackData(
-            12, 10, 6, new Vector2(-1, 1)
-        ),
-        new AttackData(
-            58, 20, 6, new Vector2(13, 7)
-        )
-    };
+    private static readonly AttackData JHK_DATA = new AttackData(
+        58, 20, 6, new Vector2(13, 7)
+    );
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // ########## MOVEMENT POSES ##########
@@ -1259,7 +1235,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Hitbox(     // drill
                     new Vector2(0.5189764f, -0.4036482f),
                     new Vector2(1.115327f, 1.038443f),
-                    JHK_DATA[0], 3
+                    JHK_DATA, 3
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 4 ====
@@ -1270,7 +1246,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Hitbox(     // drill
                     new Vector2(0.5189764f, -0.4036482f),
                     new Vector2(1.115327f, 1.038443f),
-                    JHK_DATA[1], 4
+                    JHK_DATA, 4
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 5 ====
@@ -1281,7 +1257,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Hitbox(     // drill
                     new Vector2(0.5189764f, -0.4036482f),
                     new Vector2(1.115327f, 1.038443f),
-                    JHK_DATA[2], 5
+                    JHK_DATA, 5
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 6 ====
@@ -1292,7 +1268,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Hitbox(     // drill
                     new Vector2(0.5189764f, -0.4036482f),
                     new Vector2(1.115327f, 1.038443f),
-                    JHK_DATA[3], 6
+                    JHK_DATA, 6
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 7 ====
@@ -1303,7 +1279,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Hitbox(     // drill
                     new Vector2(0.5189764f, -0.4036482f),
                     new Vector2(1.115327f, 1.038443f),
-                    JHK_DATA[4], 7
+                    JHK_DATA, 7
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 8 ====
@@ -1314,7 +1290,7 @@ public class MilaHurtboxArtist : HurtboxArtist
                 new Hitbox(     // drill
                     new Vector2(0.5189764f, -0.4036482f),
                     new Vector2(1.115327f, 1.038443f),
-                    JHK_DATA[5], 8
+                    JHK_DATA, 8
                 )
             }),
             new HurtboxFrame(new Hurtbox[] {    // ==== j.HK frame 9 ====
