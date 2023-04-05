@@ -10,6 +10,11 @@ public class MilaHurtboxArtist : HurtboxArtist
      *  ANIMATION HITBOXES I ALREADY MADE
 
      standing idle
+     crouching idle
+     walk forward
+     walk backward
+
+     s.LP
 
      */
 
@@ -106,222 +111,137 @@ public class MilaHurtboxArtist : HurtboxArtist
     // === CROUCHING IDLE ===
     private readonly HurtboxAnimation CROUCH_FRAMES = new HurtboxAnimation(new HurtboxFrame(new Hurtbox[] {
         new Hurtbox(    // head
-            new Vector2(-0.03135753f, 0.3553846f),
-            new Vector2(0.7700458f, 0.7491404f)
-        ),
-        new Hurtbox(    // outward arm
-            new Vector2(0.6898639f, 0.01045266f),
-            new Vector2(0.7909513f, 0.8118553f)
+            new Vector2(0.04458857f, 0.3009722f),
+            new Vector2(0.7919207f, 0.8885288f)
         ),
         new Hurtbox(    // body
-            new Vector2(-0.2195024f, -0.8257464f),
-            new Vector2(1.271766f, 1.898914f)
+            new Vector2(-0.05573535f, -0.5907971f),
+            new Vector2(0.8885293f, 0.9925687f)
+        ),
+        new Hurtbox(    // raised leg
+            new Vector2(0.1932168f, -1.203888f),
+            new Vector2(1.178354f, 1.10404f)
+        ),
+        new Hurtbox(    // back leg
+            new Vector2(-0.5239141f, -1.612616f),
+            new Vector2(0.9033923f, 0.286585f)
         )
     }));
+    // === MOVING ===
+    private static readonly HurtboxFrame[] _WALK = new HurtboxFrame[] {
+        new HurtboxFrame(new Hurtbox[] {    // Mila/Standing/walk_1.png
+            new Hurtbox(    // body
+                new Vector2(0.02229428f, -0.1746383f),
+                new Vector2(0.7770591f, 3.236855f)
+            ),
+            new Hurtbox(    // arms
+                new Vector2(-0.04087257f, -0.1597754f),
+                new Vector2(1.453318f, 0.8142148f)
+            )
+        }),
+        new HurtboxFrame(new Hurtbox[] {    // Mila/Standing/walk_2.png
+            new Hurtbox(    // head and body
+                new Vector2(0.007431507f, 0.3864332f),
+                new Vector2(0.7027454f, 1.995809f)
+            ),
+            new Hurtbox(    // arms
+                new Vector2(0.06688285f, -0.08174568f),
+                new Vector2(1.222944f, 1.089177f)
+            ),
+            new Hurtbox(    // legs
+                new Vector2(0.08917737f, -1.137006f),
+                new Vector2(0.702745f, 1.222942f)
+            ),
+        }),
+        new HurtboxFrame(new Hurtbox[] {    // Mila/Standing/walk_3.png
+            new Hurtbox(    // body
+                new Vector2(-0.04087234f, -0.1783543f),
+                new Vector2(0.8142161f, 3.21456f)
+            ),
+            new Hurtbox(    // leg
+                new Vector2(-0.4904728f, -1.226183f),
+                new Vector2(0.5838423f, 0.5838408f)
+            )
+        }),
+        new HurtboxFrame(new Hurtbox[] {    // Mila/Standing/walk_4.png
+            new Hurtbox(    // body
+                new Vector2(-0.003715515f, -0.2192767f),
+                new Vector2(0.7993536f, 3.132914f)
+            ),
+            new Hurtbox(    // leg
+                new Vector2(-0.5313458f, -1.296831f),
+                new Vector2(0.6209993f, 0.665686f)
+            )
+        }),
+        new HurtboxFrame(new Hurtbox[] {    // Mila/Standing/walk_5.png
+            new Hurtbox(    // body
+                new Vector2(0.003715754f, 0.3455107f),
+                new Vector2(0.9033933f, 2.092516f)
+            ),
+            new Hurtbox(    // front leg
+                new Vector2(0.3269823f, -1.036731f),
+                new Vector2(0.5095286f, 1.379101f)
+            ),
+            new Hurtbox(    // back leg
+                new Vector2(-0.4979043f, -1.066457f),
+                new Vector2(0.8810987f, 1.052119f)
+            )
+        }),
+        new HurtboxFrame(new Hurtbox[] {    // Mila/Standing/walk_6.png
+            new Hurtbox(    // body
+                new Vector2(0.01114726f, -0.1784036f),
+                new Vector2(0.739902f, 3.21466f)
+            ),
+            new Hurtbox(    // front leg
+                new Vector2(0.4198749f, -0.7840636f),
+                new Vector2(0.3683314f, 1.141296f)
+            ),
+            new Hurtbox(    // back arm
+                new Vector2(-0.4533157f, 0.0556858f),
+                new Vector2(0.5541162f, 0.992668f)
+            )
+        }),
+    };
     // === MOVING FORWARD ===
     private readonly HurtboxAnimation FORWARD_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[]
         {
-            new HurtboxFrame(new Hurtbox[] {    // === forward frame 0 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.2090497f, -0.9302712f),
-                    new Vector2(1.75258f, 1.355385f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5226245f, 0.627149f),
-                    new Vector2(1.041811f, 0.5819006f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === forward frame 1 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.522624f, -0.9093663f),
-                    new Vector2(1.041811f, 1.648054f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.3031225f, 0.4390043f),
-                    new Vector2(0.7282362f, 0.4564707f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === forward frame 2 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.3971941f, -0.9511764f),
-                    new Vector2(1.45991f, 1.606244f)
-                ),
-                new Hurtbox(    // backward arm
-                    new Vector2(-0.7003162f, 0.3449318f),
-                    new Vector2(0.8118558f, 0.8954752f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === forward frame 3 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.2717645f, -0.9302714f),
-                    new Vector2(1.668959f, 1.689864f)
-                ),
-                new Hurtbox(    // backward arm
-                    new Vector2(-0.7003162f, 0.3449318f),
-                    new Vector2(0.8118558f, 0.8954752f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5017195f, 0.4180992f),
-                    new Vector2(1.459909f, 0.4564707f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === forward frame 4 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.5330765f, -0.9511764f),
-                    new Vector2(0.8536649f, 1.606244f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5226245f, 0.627149f),
-                    new Vector2(1.041811f, 0.5819006f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === forward frame 5 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.3449316f, -0.8884615f),
-                    new Vector2(1.564434f, 1.731674f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5226245f, 0.627149f),
-                    new Vector2(1.041811f, 0.5819006f)
-                )
-            })
+            _WALK[3],   // === forward frame 0 ===
+            _WALK[2],   // === forward frame 1 ===
+            _WALK[1],   // === forward frame 2 ===
+            _WALK[0],   // === forward frame 3 ===
+            _WALK[5],   // === forward frame 4 ===
+            _WALK[4]    // === forward frame 5 ===
         },
         new int[]
         {
-            6,
-            11-6,
-            16-11,
-            23-16,
-            27-23,
-            29-27
+            8,
+            11-8,
+            18-11,
+            24-18,
+            28-24,
+            30-28
         }
     );
     // === MOVING BACKWARD ===
     private readonly HurtboxAnimation BACKWARD_FRAMES = new HurtboxAnimation(
         new HurtboxFrame[]
         {
-            new HurtboxFrame(new Hurtbox[] {    // === backward frame 0 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.2090497f, -0.9302712f),
-                    new Vector2(1.75258f, 1.355385f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5226245f, 0.627149f),
-                    new Vector2(1.041811f, 0.5819006f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === backward frame 1 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.5330765f, -0.9511764f),
-                    new Vector2(0.8536649f, 1.606244f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5226245f, 0.627149f),
-                    new Vector2(1.041811f, 0.5819006f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === backward frame 2 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.2717645f, -0.9302714f),
-                    new Vector2(1.668959f, 1.689864f)
-                ),
-                new Hurtbox(    // backward arm
-                    new Vector2(-0.7003162f, 0.3449318f),
-                    new Vector2(0.8118558f, 0.8954752f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5017195f, 0.4180992f),
-                    new Vector2(1.459909f, 0.4564707f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === backward frame 3 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.3971941f, -0.9511764f),
-                    new Vector2(1.45991f, 1.606244f)
-                ),
-                new Hurtbox(    // backward arm
-                    new Vector2(-0.7003162f, 0.3449318f),
-                    new Vector2(0.8118558f, 0.8954752f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === backward frame 4 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.522624f, -0.9093663f),
-                    new Vector2(1.041811f, 1.648054f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.3031225f, 0.4390043f),
-                    new Vector2(0.7282362f, 0.4564707f)
-                )
-            }),
-            new HurtboxFrame(new Hurtbox[] {    // === backward frame 5 ===
-                new Hurtbox(    // head and body
-                    new Vector2(-0.1149776f, 0.6689591f),
-                    new Vector2(0.7282357f, 1.919819f)
-                ),
-                new Hurtbox(    // legs
-                    new Vector2(-0.3449316f, -0.8884615f),
-                    new Vector2(1.564434f, 1.731674f)
-                ),
-                new Hurtbox(    // outward arm
-                    new Vector2(0.5226245f, 0.627149f),
-                    new Vector2(1.041811f, 0.5819006f)
-                )
-            })
+            _WALK[0],   // === backward frame 0 ===
+            _WALK[1],   // === backward frame 1 ===
+            _WALK[2],   // === backward frame 2 ===
+            _WALK[3],   // === backward frame 3 ===
+            _WALK[4],   // === backward frame 4 ===
+            _WALK[5]    // === backward frame 5 ===
         },
         new int[]
         {
-            3,
-            11-3,
-            16-11,
-            20-16,
-            28-20,
-            30-28
+            4,
+            12-4,
+            18-12,
+            25-18,
+            30-25,
+            33-30
         }
     );
     // === JUMP ===
@@ -598,12 +518,12 @@ public class MilaHurtboxArtist : HurtboxArtist
         },
         new int[]
         {
-            5,
-            7-5,
-            9-7,
-            13-9,
-            17-13,
-            20-17
+            4,
+            6-4,
+            8-6,
+            16-6,
+            21-16,
+            24-21
         }
     );
     // === STANDING HEAVY PUNCH ===

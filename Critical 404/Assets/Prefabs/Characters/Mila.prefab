@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc5590bd1656d549b1671ec6757d832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalSpeed: 6
+  horizontalSpeed: 5
   jumpMagnitude: 20
   playerName: MILA
   playerId: 0
