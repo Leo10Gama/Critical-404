@@ -2193,7 +2193,7 @@ PrefabInstance:
     - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
       propertyPath: player2
       value: 
-      objectReference: {fileID: 7513497409890082206, guid: 211259b40c7517641934c4896c6030ce, type: 3}
+      objectReference: {fileID: 7513497409890082206, guid: 045a0e2d0b019f9408ead8796f60360a, type: 3}
     - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
       propertyPath: hitSound
       value: 
