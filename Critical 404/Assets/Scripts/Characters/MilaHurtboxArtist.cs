@@ -6,43 +6,43 @@ public class MilaHurtboxArtist : HurtboxArtist
 {
     // ~~~~~ Fun values to tweak ~~~~~
     /* ATTACK DATA TAKES THESE PARAMS:
-     * Damage, Hitstun, Blockstun, Knockback, (BlockState)
+     * Damage, Hitstun, Blockstun, Hitstop, Knockback, (BlockState)
      */
     private static readonly AttackData SLP_DATA = new AttackData(
-        22, 10, 4, new Vector2(1, 0)
+        22, 10, 4, 3, new Vector2(1, 0)
     );
     private static readonly AttackData SHP_DATA = new AttackData(
-        48, 16, 6, new Vector2(5, 0)
+        48, 16, 6, 10, new Vector2(5, 0)
     );
     private static readonly AttackData SLK_DATA = new AttackData(
-        27, 8, 6, new Vector2(2, 1)
+        27, 8, 6, 5, new Vector2(2, 1)
     );
     private static readonly AttackData SHK_DATA = new AttackData(
-        55, 22, 7, new Vector2(4, 20)
+        55, 22, 7, 10, new Vector2(4, 20)
     );
     private static readonly AttackData CLP_DATA = new AttackData(
-        18, 8, 4, new Vector2(1, 0)
+        18, 8, 4, 5, new Vector2(1, 0)
     );
     private static readonly AttackData CHP_DATA = new AttackData(
-        35, 18, 5, new Vector2(4, 1)
+        35, 18, 5, 9, new Vector2(4, 1)
     );
     private static readonly AttackData CLK_DATA = new AttackData(
-        25, 9, 7, new Vector2(1, 4), BlockState.low
+        25, 9, 7, 4, new Vector2(1, 4), BlockState.low
     );
     private static readonly AttackData CHK_DATA = new AttackData(
-        39, 20, 8, new Vector2(-3, 4), BlockState.low
+        39, 20, 8, 10, new Vector2(-3, 4), BlockState.low
     );
     private static readonly AttackData JLP_DATA = new AttackData(
-        19, 9, 3, new Vector2(2, 1), BlockState.high
+        19, 9, 3, 6, new Vector2(2, 1), BlockState.high
     );
     private static readonly AttackData JHP_DATA = new AttackData(
-        32, 17, 4, new Vector2(4, 0), BlockState.high
+        32, 17, 4, 10, new Vector2(4, 0), BlockState.high
     );
     private static readonly AttackData JLK_DATA = new AttackData(
-        22, 9, 5, new Vector2(3, -1)
+        22, 9, 5, 7, new Vector2(3, -1)
     );
     private static readonly AttackData JHK_DATA = new AttackData(
-        58, 20, 6, new Vector2(13, 7)
+        58, 20, 6, 10, new Vector2(13, 7)
     );
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

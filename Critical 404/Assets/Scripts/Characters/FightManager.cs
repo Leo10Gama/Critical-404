@@ -116,6 +116,9 @@ public class FightManager : MonoBehaviour
      */
     public void LandedHit(int attackedId, Hitbox hitbox)
     {
+        // static consts
+        const float SCREENSHAKE_DAMPENER = 1000f;
+
         // init
         AttackData attack = hitbox.attackData;
 
@@ -171,8 +174,8 @@ public class FightManager : MonoBehaviour
             );
             AudioSource.PlayClipAtPoint(blockSound, Camera.main.transform.position);
             blockParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
-            StartCoroutine(DoHitstop(3f));
-            screenShaker.StartShake(3f, 1f);
+            StartCoroutine(DoHitstop(attack.hitstop));
+            screenShaker.StartShake(attack.hitstop, attack.damage / (SCREENSHAKE_DAMPENER * 3));
             return;
         }
 
@@ -194,10 +197,8 @@ public class FightManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
         // Screenshake and hitstop effects
-        float hitstopFrames = 3f;
-        float shakeStrength = 1f;
-        StartCoroutine(DoHitstop(hitstopFrames));
-        screenShaker.StartShake(hitstopFrames, attack.damage / 250f);
+        StartCoroutine(DoHitstop(attack.hitstop));
+        screenShaker.StartShake(attack.hitstop, attack.damage / SCREENSHAKE_DAMPENER);
         
         // Check win condition
         if (hitPlayer.hp <= 0)
@@ -209,8 +210,6 @@ public class FightManager : MonoBehaviour
     public void PlayerHasWon(int winningPlayerId)
     {
         // TODO: Win condition stuff
-        Debug.Log("Player " + winningPlayerId + " wins!");
-
         Whowon.text = ("Player ") + winningPlayerId + (" wins!");
         StartCoroutine(EndGame());
     }
