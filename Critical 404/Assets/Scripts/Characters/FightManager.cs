@@ -43,6 +43,14 @@ public class FightManager : MonoBehaviour
         new Color(0.01722144f, 0.04109688f, 0.08490568f, 1f)    // goop
     };
 
+    private Color[] milaAltColor = new Color[] {
+        new Color(0.8773585f, 0.6166341f, 0.7505007f, 1f),  // hair
+        new Color(0.8962264f, 0.7893565f, 0.7228996f, 1f),  // skin
+        new Color(0.5377358f, 0.3420638f, 0.2866233f, 1f),  // sweater
+        new Color(0.2706924f, 0.298107f, 0.7264151f, 1f),   // shorts
+        new Color(0.2075472f, 0.1168823f, 0.06559274f, 1f)  // boots
+    };
+
     void Awake()
     {
         // Get objects
@@ -78,6 +86,15 @@ public class FightManager : MonoBehaviour
             mat.SetColor("_BodyColorNew", spreadAltColor[0]);
             mat.SetColor("_MetalColorNew", spreadAltColor[1]);
             mat.SetColor("_GoopColorNew", spreadAltColor[2]);
+        }
+        else if (p1script.playerName == "MILA" && p2script.playerName == "MILA")
+        {
+            Material mat = p2.GetComponent<Renderer>().material;
+            mat.SetColor("_HairColorNew", milaAltColor[0]);
+            mat.SetColor("_SkinColorNew", milaAltColor[1]);
+            mat.SetColor("_SweaterColorNew", milaAltColor[2]);
+            mat.SetColor("_ShortsColorNew", milaAltColor[3]);
+            mat.SetColor("_BootsColorNew", milaAltColor[4]);
         }
 
         // Initialize the "turning point" (point where characters flip around)
