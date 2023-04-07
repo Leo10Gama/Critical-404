@@ -31,6 +31,7 @@ public class FightManager : MonoBehaviour
     private GameObject turningPoint = null;
 
     private GameObject hitboxManager;
+    private ScreenShakeController screenShaker;
 
     private System.Random rng = new System.Random();
 
@@ -44,7 +45,9 @@ public class FightManager : MonoBehaviour
 
     void Awake()
     {
+        // Get objects
         hitboxManager = transform.Find("HitboxManager").gameObject;
+        screenShaker = GetComponent<ScreenShakeController>();
 
         // Initialize local player references
         p1 = Instantiate(player1, new Vector3(-3f, 0f, 0f), Quaternion.identity);
@@ -113,6 +116,9 @@ public class FightManager : MonoBehaviour
      */
     public void LandedHit(int attackedId, Hitbox hitbox)
     {
+        // static consts
+        const float SCREENSHAKE_DAMPENER = 1000f;
+
         // init
         AttackData attack = hitbox.attackData;
 
@@ -168,7 +174,8 @@ public class FightManager : MonoBehaviour
             );
             AudioSource.PlayClipAtPoint(blockSound, Camera.main.transform.position);
             blockParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
-            StartCoroutine(DoHitstop(3));
+            StartCoroutine(DoHitstop(attack.hitstop));
+            screenShaker.StartShake(attack.hitstop, attack.damage / (SCREENSHAKE_DAMPENER * 3));
             return;
         }
 
@@ -190,10 +197,9 @@ public class FightManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
         // Screenshake and hitstop effects
-        // TODO: screenshake
-        StartCoroutine(DoHitstop(3));
-        Debug.Log("Player " + hitPlayer.playerId + " takes " + attack.damage + " damage!");
-
+        StartCoroutine(DoHitstop(attack.hitstop));
+        screenShaker.StartShake(attack.hitstop, attack.damage / SCREENSHAKE_DAMPENER);
+        
         // Check win condition
         if (hitPlayer.hp <= 0)
         {
@@ -204,8 +210,6 @@ public class FightManager : MonoBehaviour
     public void PlayerHasWon(int winningPlayerId)
     {
         // TODO: Win condition stuff
-        Debug.Log("Player " + winningPlayerId + " wins!");
-
         Whowon.text = ("Player ") + winningPlayerId + (" wins!");
         StartCoroutine(EndGame());
     }
