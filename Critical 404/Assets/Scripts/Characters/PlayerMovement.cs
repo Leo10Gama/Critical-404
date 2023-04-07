@@ -181,9 +181,9 @@ public class PlayerMovement : MonoBehaviour
             case "SPREAD":
                 hurtboxArtist = new SpreadHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
                 break;
-            // case "MILA":
-            //     // hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
-            //     break;
+            case "MILA":
+                hurtboxArtist = new MilaHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
+                break;
             default:
                 hurtboxArtist = new PlayerHurtboxArtist(hbm, myHurtboxesObject, myHitboxesObject);
                 break;
