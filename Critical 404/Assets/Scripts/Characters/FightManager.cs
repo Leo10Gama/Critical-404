@@ -31,6 +31,7 @@ public class FightManager : MonoBehaviour
     private GameObject turningPoint = null;
 
     private GameObject hitboxManager;
+    private ScreenShakeController screenShaker;
 
     private System.Random rng = new System.Random();
 
@@ -44,7 +45,9 @@ public class FightManager : MonoBehaviour
 
     void Awake()
     {
+        // Get objects
         hitboxManager = transform.Find("HitboxManager").gameObject;
+        screenShaker = GetComponent<ScreenShakeController>();
 
         // Initialize local player references
         p1 = Instantiate(player1, new Vector3(-3f, 0f, 0f), Quaternion.identity);
@@ -168,7 +171,8 @@ public class FightManager : MonoBehaviour
             );
             AudioSource.PlayClipAtPoint(blockSound, Camera.main.transform.position);
             blockParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
-            StartCoroutine(DoHitstop(3));
+            StartCoroutine(DoHitstop(3f));
+            screenShaker.StartShake(3f, 1f);
             return;
         }
 
@@ -190,10 +194,11 @@ public class FightManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
         // Screenshake and hitstop effects
-        // TODO: screenshake
-        StartCoroutine(DoHitstop(3));
-        Debug.Log("Player " + hitPlayer.playerId + " takes " + attack.damage + " damage!");
-
+        float hitstopFrames = 3f;
+        float shakeStrength = 1f;
+        StartCoroutine(DoHitstop(hitstopFrames));
+        screenShaker.StartShake(hitstopFrames, attack.damage / 250f);
+        
         // Check win condition
         if (hitPlayer.hp <= 0)
         {
