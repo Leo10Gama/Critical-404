@@ -548,7 +548,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 isGrounded = true;
                 hasJumped = false;
-                int state = anim.GetInteger("State");
                 ResetPlayerToIdle();
             } // *NOTE* : logic for actually jumping => CheckAttackQueue()
 
