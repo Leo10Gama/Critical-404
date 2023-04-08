@@ -10,7 +10,11 @@ public class TitleScreen : MonoBehaviour
 
     void Start()
     {
-        startText = GameObject.Find("Canvas/MainMenu/StartButtonText").GetComponent<TextMeshProUGUI>();
+        try 
+        {
+            startText = GameObject.Find("Canvas/MainMenu/StartButtonText").GetComponent<TextMeshProUGUI>();
+        }
+        catch {}
     }
 
     void Update()
@@ -23,6 +27,9 @@ public class TitleScreen : MonoBehaviour
 
     public void Mainmenu()
     {
+        if (!startText) return;
+        startText.text = "Loading...";
+        //yield return new WaitForSeconds(2);
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -33,8 +40,13 @@ public class TitleScreen : MonoBehaviour
 
     public void PlayGame()
     {
-        startText.text = "Loading...";
-        SceneManager.LoadScene("SampleScene");
+        // SceneManager.LoadScene("SampleScene");
+        Mainmenu();
+    }
+
+    public void Title()
+    {
+        SceneManager.LoadScene("TitleScreen");
     }
 
     public void ExitGame()

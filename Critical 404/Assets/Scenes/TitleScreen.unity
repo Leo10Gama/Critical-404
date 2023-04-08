@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e8c0c2f05bc2493b8207b05ef48130f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startText: {fileID: 0}
 --- !u!222 &304734565
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1009,7 +1010,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f7eb204fc24599547b1a08c1e895110a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c581c9c310a3c8540a6c6603bdb0f62c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

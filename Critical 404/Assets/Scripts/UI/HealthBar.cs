@@ -10,7 +10,8 @@ public class HealthBar : MonoBehaviour
     public Image healthBar;
     public PlayerMovement player;
 
-    public Toggle toggle;
+    public Toggle r1Toggle;
+    public Toggle r2Toggle;
 
     private int maxHealth;
 
@@ -18,17 +19,27 @@ public class HealthBar : MonoBehaviour
     {
     }
 
+
     void Update()
     {
+    }
 
-        if (healthBar.fillAmount <= 0)
+    public void UpdateRoundsWon(int roundNumber)
+    {
+        if (roundNumber >= 2)
         {
-            // activates the toggle component
-            toggle.isOn = true;
+            r1Toggle.isOn = true;
+            r2Toggle.isOn = true;
+        }
+        else if (roundNumber >= 1)
+        {
+            r1Toggle.isOn = true;
+            r2Toggle.isOn = false;
         }
         else
         {
-            toggle.isOn = false;
+            r1Toggle.isOn = false;
+            r2Toggle.isOn = false;
         }
     }
 
@@ -42,5 +53,6 @@ public class HealthBar : MonoBehaviour
     {
         healthBar.fillAmount = Math.Max(player.hp, 0) / (float)maxHealth;
     }
+
 
 }
