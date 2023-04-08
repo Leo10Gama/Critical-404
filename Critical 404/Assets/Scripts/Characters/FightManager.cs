@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using UnityEngine.UI;
 using TMPro;
-using System.Threading.Tasks;
 
 public class FightManager : MonoBehaviour
 {
@@ -76,6 +74,8 @@ public class FightManager : MonoBehaviour
         healthbars[1].player = p2script;
         healthbars[0].SetMaxHealth(p1script.hp);
         healthbars[1].SetMaxHealth(p2script.hp);
+        healthbars[0].UpdateRoundsWon(RoundManager.p1roundsWon);
+        healthbars[1].UpdateRoundsWon(RoundManager.p2roundsWon);
 
         // Recolour if necessary
         if (p1script.playerName == "SPREAD" && p2script.playerName == "SPREAD")
@@ -226,18 +226,28 @@ public class FightManager : MonoBehaviour
 
     public void PlayerHasWon(int winningPlayerId)
     {
-        // TODO: Win condition stuff
         Whowon.text = ("Player ") + winningPlayerId + (" wins!");
+        RoundManager.UpdateRound(winningPlayerId);
+        healthbars[0].UpdateRoundsWon(RoundManager.p1roundsWon);
+        healthbars[1].UpdateRoundsWon(RoundManager.p2roundsWon);
         StartCoroutine(EndGame());
     }
 
     public IEnumerator EndGame()
     {
-        
         p1script.canMove = false;
         p2script.canMove = false;
         yield return new WaitForSeconds(3);
-        SceneManager.LoadScene("PlayAgain");
+
+        if (RoundManager.gameOver)
+        {
+            RoundManager.ResetRounds();
+            SceneManager.LoadScene("PlayAgain");
+        }
+        else
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
 
     }
 
