@@ -22,16 +22,25 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
+    }
 
-
-        if (healthBar.fillAmount <= 0)
+    public void UpdateRoundsWon(int roundNumber)
+    {
+        if (roundNumber >= 2)
         {
-            //activates the toggle component
+            r1Toggle.isOn = true;
+            r2Toggle.isOn = true;
+        }
+        else if (roundNumber >= 1)
+        {
             r1Toggle.isOn = true;
             r2Toggle.isOn = false;
-       
         }
-
+        else
+        {
+            r1Toggle.isOn = false;
+            r2Toggle.isOn = false;
+        }
     }
 
     public void SetMaxHealth(int maxHealth)
