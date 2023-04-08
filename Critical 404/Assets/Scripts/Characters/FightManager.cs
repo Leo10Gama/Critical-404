@@ -24,6 +24,7 @@ public class FightManager : MonoBehaviour
     private PlayerMovement p1script;
     private PlayerMovement p2script;
     private HealthBar[] healthbars;
+    private CountDownTimer timer;
 
     private bool[] registeringHit = {false, false};
     private GameObject turningPoint = null;
@@ -110,6 +111,7 @@ public class FightManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Handle the turning point
         float newPos = 0f;
         float p1x = p1.transform.position.x;
         float p2x = p2.transform.position.x;
@@ -222,6 +224,11 @@ public class FightManager : MonoBehaviour
         {
             PlayerHasWon(attackerId);
         }        
+    }
+
+    public void TimeUp()
+    {
+        PlayerHasWon(p1script.hp >= p2script.hp ? p1script.playerId : p2script.playerId);
     }
 
     public void PlayerHasWon(int winningPlayerId)
