@@ -342,7 +342,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -373,7 +373,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -404,7 +404,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -460,7 +460,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -1480,7 +1480,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -2034,7 +2034,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -2208,7 +2208,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -3285,7 +3285,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -3852,7 +3852,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -5115,7 +5115,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -5146,7 +5146,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -5422,7 +5422,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -5698,7 +5698,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -5869,7 +5869,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -5900,7 +5900,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -6068,7 +6068,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Positional State
     m_EventTreshold: 0
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: Attack State
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
