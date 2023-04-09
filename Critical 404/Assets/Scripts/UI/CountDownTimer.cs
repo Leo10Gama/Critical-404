@@ -7,11 +7,10 @@ using TMPro;
 
 public class CountDownTimer : MonoBehaviour
 {
-    
-    public float currentTime = 99f;  // time that starts on the counter
-
     public TMP_Text countdownText;
     public GameObject fightManagerObject;
+
+    private float currentTime = 99f;  // time that starts on the counter
     private FightManager fm;
 
     private bool timeHasExpired = false;
