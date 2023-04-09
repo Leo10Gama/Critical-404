@@ -11,60 +11,36 @@ public class HealthBar : MonoBehaviour
     public PlayerMovement player;
 
     public Toggle r1Toggle;
-    public Toggle round2Toggle;
-
-    public int numRound = 2;
-
-    private int currentRound = 0;
+    public Toggle r2Toggle;
 
     private int maxHealth;
 
     void Start()
     {
-        StartRound();
     }
 
 
-    void StartRound()
+    void Update()
     {
-        currentRound++;
+    }
 
-        //SetMaxHealth(currentRound);
-
-
-        if (healthBar.fillAmount <= 0)
+    public void UpdateRoundsWon(int roundNumber)
+    {
+        if (roundNumber >= 2)
         {
-            //activates the toggle component
             r1Toggle.isOn = true;
-            round2Toggle.isOn = false;
-            OnRoundComplete();
-
+            r2Toggle.isOn = true;
         }
-
-    }
-
-    void OnRoundComplete()
-    {
-        // If the current round is the final round, end the game
-        if (currentRound == numRound)
+        else if (roundNumber >= 1)
         {
-            EndGame();
+            r1Toggle.isOn = true;
+            r2Toggle.isOn = false;
         }
         else
         {
-            // Otherwise, start a new round
-            StartRound();
-
-
+            r1Toggle.isOn = false;
+            r2Toggle.isOn = false;
         }
-    }
-
-    void EndGame()
-    {
-
-        // Reset the round count and start a new game
-        currentRound = 0;
-        StartRound();
     }
 
     public void SetMaxHealth(int maxHealth)

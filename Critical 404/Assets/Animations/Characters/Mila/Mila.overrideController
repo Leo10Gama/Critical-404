@@ -11,3 +11,47 @@ AnimatorOverrideController:
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 869406d84857fbe4eb8a0900d61fe2ac, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: af957b50bc8206146accf0e21792a278, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 76eb738903c2eb34d8cc28b811444d47, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 212a91611107f4d4db655dabf3ab52cd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9103160ec4bdbc04fbcbda0884a5a3ba, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 37f194aa59f4fe34a8ab65187a852604, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e89c83f6b8934224a856e6156578838a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1fd5da8269e832947a399b338793baf4, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 883b01d9cdea22747be482312d38c594, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e98f0090b156de648b581f422182d343, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 1fd3c1193ddbfa945adc21e0ee50902f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4e671ade090807643be6d5ee2537afe7, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 06bd8a084305d8143a3bd976aad9b832, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 995f79ca4577e724db2b64d247ae80d7, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 3d9c3db59dfb0634b9a07eb980913fe8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 72d2251a75910604c8f5f06d6c645f6c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 807856bfd949af54094bb493416c1b68, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cae78a23598566147bf3f9b293f40caa, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 985b7578fbd502b428217c029af76994, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2498f67b9891db14b83b799cb3dc497e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b3075d5f26d9d234a93808d351a882cd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2ada0f07e09e7374ca1119146d1e110e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 1ba6debfdee789f4e8397200958aaed3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 41dbb9edd56e98345aca83768458a72a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5aed88a243a1eb14284bdefc43e70e4c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 07cdfa671cc53794bade9f74164d42d6, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fe47ee7c1298baa4b8a9d0bca6083db7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f3dc745a98ee85049ba0a4d452e7b2a2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 70866f67f0c1e7d4e9a18ee073e4dc15, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1cd2f1c2e27abaa48b6b9662b5d8052b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 667e2ef8dbed769478a624d9b3828978, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3cbde76470aca834eb6528c4f902629b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0ae5756da05481f40bb421a538e03c36, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9183a4068112cf049a1e2b83444ce2cd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: be21a495c03753b4fa836d0d355e5622, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 88423b8893bc7034dbe7ed912ec656f0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 29d4865728221e445a239962a1051d58, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5b0b1f37a17b1be4e9ad682c93b18cf7, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b77fdb00825150c4aa96fff24f7f3667, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 0ad99433127ffb0468f9b99cc8585d86, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8b4c23b0e0c1d6c4aa5cf10e6f5d043e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7bf098b8a2f510640a2f35781711af0c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 76f32b6770e60c146aee9a8ce347185f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4fd75bfecf4e43e4689b5df997e6ee40, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9bae1b66f45b4c343b28801198658fb5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 18d2b007f488d5445b0b5a3b5fc4d98f, type: 2}

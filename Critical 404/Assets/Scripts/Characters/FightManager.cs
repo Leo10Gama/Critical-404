@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using UnityEngine.UI;
 using TMPro;
-using System.Threading.Tasks;
 
 public class FightManager : MonoBehaviour
 {
@@ -26,11 +24,13 @@ public class FightManager : MonoBehaviour
     private PlayerMovement p1script;
     private PlayerMovement p2script;
     private HealthBar[] healthbars;
+    private CountDownTimer timer;
 
     private bool[] registeringHit = {false, false};
     private GameObject turningPoint = null;
 
     private GameObject hitboxManager;
+    private ScreenShakeController screenShaker;
 
     private System.Random rng = new System.Random();
 
@@ -42,9 +42,19 @@ public class FightManager : MonoBehaviour
         new Color(0.01722144f, 0.04109688f, 0.08490568f, 1f)    // goop
     };
 
+    private Color[] milaAltColor = new Color[] {
+        new Color(0.8773585f, 0.6166341f, 0.7505007f, 1f),  // hair
+        new Color(0.8962264f, 0.7893565f, 0.7228996f, 1f),  // skin
+        new Color(0.5377358f, 0.3420638f, 0.2866233f, 1f),  // sweater
+        new Color(0.2706924f, 0.298107f, 0.7264151f, 1f),   // shorts
+        new Color(0.2075472f, 0.1168823f, 0.06559274f, 1f)  // boots
+    };
+
     void Awake()
     {
+        // Get objects
         hitboxManager = transform.Find("HitboxManager").gameObject;
+        screenShaker = GetComponent<ScreenShakeController>();
 
         // Initialize local player references
         p1 = Instantiate(player1, new Vector3(-3f, 0f, 0f), Quaternion.identity);
@@ -65,6 +75,8 @@ public class FightManager : MonoBehaviour
         healthbars[1].player = p2script;
         healthbars[0].SetMaxHealth(p1script.hp);
         healthbars[1].SetMaxHealth(p2script.hp);
+        healthbars[0].UpdateRoundsWon(RoundManager.p1roundsWon);
+        healthbars[1].UpdateRoundsWon(RoundManager.p2roundsWon);
 
         // Recolour if necessary
         if (p1script.playerName == "SPREAD" && p2script.playerName == "SPREAD")
@@ -75,6 +87,15 @@ public class FightManager : MonoBehaviour
             mat.SetColor("_BodyColorNew", spreadAltColor[0]);
             mat.SetColor("_MetalColorNew", spreadAltColor[1]);
             mat.SetColor("_GoopColorNew", spreadAltColor[2]);
+        }
+        else if (p1script.playerName == "MILA" && p2script.playerName == "MILA")
+        {
+            Material mat = p2.GetComponent<Renderer>().material;
+            mat.SetColor("_HairColorNew", milaAltColor[0]);
+            mat.SetColor("_SkinColorNew", milaAltColor[1]);
+            mat.SetColor("_SweaterColorNew", milaAltColor[2]);
+            mat.SetColor("_ShortsColorNew", milaAltColor[3]);
+            mat.SetColor("_BootsColorNew", milaAltColor[4]);
         }
 
         // Initialize the "turning point" (point where characters flip around)
@@ -90,6 +111,7 @@ public class FightManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Handle the turning point
         float newPos = 0f;
         float p1x = p1.transform.position.x;
         float p2x = p2.transform.position.x;
@@ -113,6 +135,9 @@ public class FightManager : MonoBehaviour
      */
     public void LandedHit(int attackedId, Hitbox hitbox)
     {
+        // static consts
+        const float SCREENSHAKE_DAMPENER = 1000f;
+
         // init
         AttackData attack = hitbox.attackData;
 
@@ -168,7 +193,8 @@ public class FightManager : MonoBehaviour
             );
             AudioSource.PlayClipAtPoint(blockSound, Camera.main.transform.position);
             blockParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
-            StartCoroutine(DoHitstop(3));
+            StartCoroutine(DoHitstop(attack.hitstop));
+            screenShaker.StartShake(attack.hitstop, attack.damage / (SCREENSHAKE_DAMPENER * 3));
             return;
         }
 
@@ -190,10 +216,9 @@ public class FightManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
         hitParticle.GetComponent<SpriteRenderer>().flipX = hitPlayerFacingLeft;
         // Screenshake and hitstop effects
-        // TODO: screenshake
-        StartCoroutine(DoHitstop(3));
-        Debug.Log("Player " + hitPlayer.playerId + " takes " + attack.damage + " damage!");
-
+        StartCoroutine(DoHitstop(attack.hitstop));
+        screenShaker.StartShake(attack.hitstop, attack.damage / SCREENSHAKE_DAMPENER);
+        
         // Check win condition
         if (hitPlayer.hp <= 0)
         {
@@ -201,22 +226,35 @@ public class FightManager : MonoBehaviour
         }        
     }
 
+    public void TimeUp()
+    {
+        PlayerHasWon(p1script.hp >= p2script.hp ? p1script.playerId : p2script.playerId);
+    }
+
     public void PlayerHasWon(int winningPlayerId)
     {
-        // TODO: Win condition stuff
-        Debug.Log("Player " + winningPlayerId + " wins!");
-
         Whowon.text = ("Player ") + winningPlayerId + (" wins!");
+        RoundManager.UpdateRound(winningPlayerId);
+        healthbars[0].UpdateRoundsWon(RoundManager.p1roundsWon);
+        healthbars[1].UpdateRoundsWon(RoundManager.p2roundsWon);
         StartCoroutine(EndGame());
     }
 
     public IEnumerator EndGame()
     {
-        
         p1script.canMove = false;
         p2script.canMove = false;
         yield return new WaitForSeconds(3);
-        SceneManager.LoadScene("PlayAgain");
+
+        if (RoundManager.gameOver)
+        {
+            RoundManager.ResetRounds();
+            SceneManager.LoadScene("PlayAgain");
+        }
+        else
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
 
     }
 

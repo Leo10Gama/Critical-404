@@ -226,7 +226,7 @@ RectTransform:
   m_GameObject: {fileID: 184149588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0177, y: 1.0177, z: 1.0177}
+  m_LocalScale: {x: 1.1555084, y: 1.1555084, z: 1.1555084}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1265535793}
@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 205752695}
   - component: {fileID: 205752694}
   - component: {fileID: 205752693}
+  - component: {fileID: 205752696}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -359,6 +360,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &205752696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205752692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &291138110
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,8 +460,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4290624965
-  m_fontColor: {r: 0.7735849, g: 0.74074405, b: 0.74074405, a: 1}
+    rgba: 4294944747
+  m_fontColor: {r: 0.92174107, g: 0.6556604, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -561,8 +595,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292598747
-  m_fontColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
+    rgba: 4294947309
+  m_fontColor: {r: 0.9303174, g: 0.6933962, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -656,7 +690,7 @@ RectTransform:
   m_GameObject: {fileID: 485498419}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4260058, y: 1.4260058, z: 1.4260058}
+  m_LocalScale: {x: 1.8720556, y: 1.8720556, z: 1.8720556}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1265535793}
@@ -664,7 +698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -571, y: 419}
+  m_AnchoredPosition: {x: -617, y: 439}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485498421
@@ -698,9 +732,9 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901921
-  m_fontColor: {r: 0.63194036, g: 0, b: 1, a: 1}
-  m_enableVertexGradient: 1
+    rgba: 4294901922
+  m_fontColor: {r: 0.63529396, g: 0, b: 1, a: 1}
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.7495071, g: 0.108134575, b: 0.8490566, a: 1}
@@ -722,11 +756,11 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 4.1
+  m_characterSpacing: 5.65
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -793,16 +827,16 @@ RectTransform:
   m_GameObject: {fileID: 580478692}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.97628385, y: 0.33836284, z: 0.75028306}
+  m_LocalScale: {x: 0.96259785, y: 0.32278186, z: 0.75028306}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1265535793}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2, y: 356}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 1, y: -224}
+  m_SizeDelta: {x: 1822, y: 1138}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &580478694
 MonoBehaviour:
@@ -817,7 +851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.2901961}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -854,7 +888,6 @@ GameObject:
   - component: {fileID: 708139248}
   - component: {fileID: 708139247}
   - component: {fileID: 708139246}
-  - component: {fileID: 708139245}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -883,19 +916,6 @@ RectTransform:
   m_AnchoredPosition: {x: 32, y: -223}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &708139245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708139243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8c0c2f05bc2493b8207b05ef48130f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startText: {fileID: 0}
 --- !u!114 &708139246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,12 +955,12 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 708139247}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 708139245}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TitleScreen, Assembly-CSharp
         m_MethodName: setting
         m_Mode: 1
@@ -1080,7 +1100,6 @@ GameObject:
   - component: {fileID: 805195449}
   - component: {fileID: 805195448}
   - component: {fileID: 805195447}
-  - component: {fileID: 805195446}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -1109,19 +1128,6 @@ RectTransform:
   m_AnchoredPosition: {x: 32, y: -404}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &805195446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805195444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8c0c2f05bc2493b8207b05ef48130f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startText: {fileID: 0}
 --- !u!114 &805195447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,12 +1167,12 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 805195448}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 805195446}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TitleScreen, Assembly-CSharp
         m_MethodName: Title
         m_Mode: 1
@@ -1228,6 +1234,8 @@ GameObject:
   - component: {fileID: 1265535792}
   - component: {fileID: 1265535791}
   - component: {fileID: 1265535790}
+  - component: {fileID: 1265535795}
+  - component: {fileID: 1265535794}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1323,6 +1331,153 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1265535794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265535789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: e6000d83608e2d94db59d732a43ef73c, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 471cacd9-189c-4e9a-9c9a-b4ecf026e2ba
+    m_ActionName: Player/Movement[/Keyboard/leftArrow,/Keyboard/rightArrow,/SwitchProControllerHID/leftStick/left,/SwitchProControllerHID/leftStick/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1265535795}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ScrollUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 27f51951-00e1-48f7-9ecf-332831d635a3
+    m_ActionName: Player/Jump[/Keyboard/upArrow,/SwitchProControllerHID/leftStick/up]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1265535795}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ScrollDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a88acb36-2996-41b3-bf67-5162e3d0b461
+    m_ActionName: Player/Crouch[/Keyboard/downArrow,/SwitchProControllerHID/leftStick/down]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1265535795}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: SelectOption
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1c9ec74d-e13a-4fe1-aa0a-90cc61b8eb8b
+    m_ActionName: Player/Light Punch[/Keyboard/a,/SwitchProControllerHID/buttonWest]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1265535795}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: SelectOption
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 92b38b99-6c09-476b-97b0-0187bd7f5382
+    m_ActionName: Player/Heavy Punch[/Keyboard/s,/SwitchProControllerHID/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1265535795}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: SelectOption
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1ce950d4-0607-44ed-b058-33a1affc9d0d
+    m_ActionName: Player/Light Kick[/Keyboard/z,/SwitchProControllerHID/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1265535795}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: SelectOption
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b213e394-8607-4b32-9ead-b40db2d05a8f
+    m_ActionName: Player/Heavy Kick[/Keyboard/x,/SwitchProControllerHID/buttonEast]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &1265535795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265535789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54073f52847df4245a0ad7e6451d4df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playButton: {fileID: 1277946469}
+  settingsButton: {fileID: 355093457}
+  quitButton: {fileID: 291138110}
+  deselected: {r: 1, g: 1, b: 1, a: 1}
+  selected: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1277946469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,8 +1545,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294177779
-  m_fontColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
+    rgba: 4294947822
+  m_fontColor: {r: 0.93240845, g: 0.7028302, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1598,7 +1753,6 @@ GameObject:
   - component: {fileID: 2056634080}
   - component: {fileID: 2056634079}
   - component: {fileID: 2056634078}
-  - component: {fileID: 2056634081}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -1648,8 +1802,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 0.39607844}
+    m_NormalColor: {r: 0.7803922, g: 0.6, b: 0.8352942, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 0, b: 0, a: 0.65882355}
     m_SelectedColor: {r: 1, g: 0, b: 0, a: 0.38431373}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1666,12 +1820,12 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2056634079}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2056634081}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TitleScreen, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
@@ -1721,16 +1875,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056634076}
   m_CullTransparentMesh: 1
---- !u!114 &2056634081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056634076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8c0c2f05bc2493b8207b05ef48130f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startText: {fileID: 0}
