@@ -35,6 +35,8 @@ public class FightManager : MonoBehaviour
     private System.Random rng = new System.Random();
 
     public TMP_Text Whowon;
+    public TMP_Text p1text;
+    public TMP_Text p2text;
 
     private Color[] spreadAltColor = new Color[] {
         new Color(0.234514f, 0.5849056f, 0.234514f, 1f),        // body
@@ -56,6 +58,10 @@ public class FightManager : MonoBehaviour
         hitboxManager = transform.Find("HitboxManager").gameObject;
         screenShaker = GetComponent<ScreenShakeController>();
 
+        // Get players
+        player1 = CharacterManager.p1Character;
+        player2 = CharacterManager.p2Character;
+
         // Initialize local player references
         p1 = Instantiate(player1, new Vector3(-3f, 0f, 0f), Quaternion.identity);
         p2 = Instantiate(player2, new Vector3(3f, 0f, 0f), Quaternion.identity);
@@ -65,6 +71,8 @@ public class FightManager : MonoBehaviour
         p2script.SetFightManager(this.gameObject);
         p1script.playerId = 1;
         p2script.playerId = 2;
+        p1text.text = p1script.playerName;
+        p2text.text = p2script.playerName;
 
         // Initialize health bars
         healthbars = new HealthBar[] {

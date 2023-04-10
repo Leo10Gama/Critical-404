@@ -2952,6 +2952,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 462922225}
     - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
+      propertyPath: p1text
+      value: 
+      objectReference: {fileID: 2108788954}
+    - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
+      propertyPath: p2text
+      value: 
+      objectReference: {fileID: 32097274}
+    - target: {fileID: 3023027368797034157, guid: 5d687c47af66bb74fabaf427a174174d, type: 3}
       propertyPath: player1
       value: 
       objectReference: {fileID: 7513497409890082206, guid: 211259b40c7517641934c4896c6030ce, type: 3}
