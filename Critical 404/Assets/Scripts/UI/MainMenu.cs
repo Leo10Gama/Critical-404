@@ -57,7 +57,7 @@ public class MainMenu : MonoBehaviour
     }
     public void ClickPlay()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("CharacterSelectScreen");
     }
 
     public void ClickSettings()
@@ -88,8 +88,6 @@ public class MainMenu : MonoBehaviour
 
     private void Scroll()
     {
-        // if (!canScroll) return;
-
         if (curr == 0)
         {
             play.color = selected;
@@ -108,8 +106,6 @@ public class MainMenu : MonoBehaviour
             play.color = deselected;
             settings.color = deselected;
         }
-        // curr = (curr + 1) % 3;
-        // StartCoroutine(WaitToScroll());
     }
 
     private IEnumerator WaitToScroll()

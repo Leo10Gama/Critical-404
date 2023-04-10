@@ -14,15 +14,19 @@ public class ButtonClick : MonoBehaviour
 
     public string characterName;
 
-    public void OnClick()
+    public void OnClick(int playerNum)
     {
         Image sourceImage = GetComponent<Image>();
-        Player1pick.sprite = sourceImage.sprite;
-        Player1Pick.text = characterName;
 
-        Player2pick.sprite = sourceImage.sprite;
-        Player2Pick.text = characterName;
-        
-        Debug.Log("Button clicked!");
+        if (playerNum == 1)
+        {
+            Player1pick.sprite = sourceImage.sprite;
+            Player1Pick.text = characterName;
+        }
+        else if (playerNum == 2)
+        {
+            Player2pick.sprite = sourceImage.sprite;
+            Player2Pick.text = characterName;
+        }
     }
 }
