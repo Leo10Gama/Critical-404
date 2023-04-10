@@ -28,29 +28,34 @@ The game requires two players. Control schemes include keyboard, as well as game
 
 ## Credits
 
-**== GAMEPLAY ==**
+### GAMEPLAY
 
-Leonardo Gama (Programming lead, hitboxes)
-Raju Sivanantham (UI)
-Ian Hayward (Level design, balancing)
+- Leonardo Gama (Programming lead, hitboxes)
 
-**== ART AND GRAPHICS ==**
+- Raju Sivanantham (UI)
 
-**Character Art**
+- Ian Hayward (Level design, balancing)
 
-Paola Garcia (Mila)
-Sairus Pradhan (Spread)
+### ART AND GRAPHICS
 
-**Additional Art**
+#### Character Art
 
-Ian Hayward (Background art)
-Sairus Pradhan (Key art, particle effects)
+- Paola Garcia (Mila)
 
-**== MUSIC ==**
+- Sairus Pradhan (Spread)
 
-Jason Nguyen (Music, SFX)
+#### Additional Art
 
-**== USER INTERFACE ==**
+- Ian Hayward (Background art)
 
-Raju Sivanantham (Layout, programming)
-Leonardo Gama (Programming)
+- Sairus Pradhan (Key art, particle effects)
+
+### MUSIC
+
+- Jason Nguyen (Music, SFX)
+
+### USER INTERFACE
+
+- Raju Sivanantham (Layout, programming)
+
+- Leonardo Gama (Programming)
