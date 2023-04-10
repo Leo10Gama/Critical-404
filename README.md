@@ -8,6 +8,8 @@ You can play the game for yourself by downloading it [here](https://rajusivanant
 
 The main gameplay features two characters in an open stage fighting against each other. Each character has light and heavy punch and kick attacks, and has standing, crouching, and jumping variations. Some attacks will knock your opponent back, and some will simply leave them in hitstun. Blocking attacks can be done by holding back on the controller.
 
+![image](https://user-images.githubusercontent.com/51037424/230944108-cc9a6968-1858-43fb-9f8a-05c3d2d158b2.png)
+
 ## Controls
 
 The game requires two players. Control schemes include keyboard, as well as game controller (Xbox, PlayStation, Nintendo Switch, etc.). Note that, due to controllers not having consistent face button namings, face buttons are referred to by their cardinal direction relative to each other.
